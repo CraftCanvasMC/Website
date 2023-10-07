@@ -1,0 +1,230 @@
+		body {
+            background-color: #d6d6d6; /* Light background color */
+            color: #333; /* Light text color */
+            margin: 0;
+            padding: 0;
+			zoom: 1.20; /* Set the default zoom level to 115% */
+			transition: zoom 0.1s ease; /* Add a transition effect */
+			overflow-x: hidden;
+        }
+		
+		.container {
+			align-items: center;
+			justify-content: center;
+			width: 35px;
+            height: 35px;
+            margin-left: 10px; /* Add some spacing between the logo and text */
+            vertical-align: middle;
+            margin-right: auto;
+			z-index: 5;
+		}
+		
+		img {
+			width: 35px;
+            height: 35px;
+            margin-left: 10px; /* Add some spacing between the logo and text */
+            vertical-align: middle;
+            margin-right: auto;
+			z-index: 5;
+		  }
+		  
+		  .text {
+			
+		  }
+		
+		@font-face {
+			font-family: 'CanvasNatBeauty';
+			src: url('fonts/global/topBar/nat_beauty.ttf') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+		
+		.bubble {
+            width: 200px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #3498db, #ffffff); /* Default gradient background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .bubble a {
+            text-decoration: none;
+            color: #000000; /* Default link color */
+        }
+
+        .bubble .text1 {
+            font-weight: bold;
+        }
+
+        .bubble .text3 {
+            text-decoration: underline;
+        }
+
+        .latest {
+            background: linear-gradient(to right, #ff0000, #ffffff); /* Red gradient background for 'latest' */
+        }
+		
+		.downloadable {
+			background-color: white;
+			border-radius: 20px;
+			border-color: black;
+			height: 40px;
+			border: solid;
+			border-width: thin;
+		}
+		
+		.downloadbutton {
+			width: 30px;
+			height: 30px;
+			right: 10px;
+			margin-left: 8px;
+			margin-top: -10px;
+		}
+		
+		.downloadable_button {
+			background-color: 'red';
+			color: 'white';
+			font-family: 'minecraft';
+			font-size: 17px;
+		}
+		
+		.button-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .download-button {
+            border: white;
+            background-color: #ff0202;
+            border-radius: 28px;
+            margin-top: -11px;
+            height: 42px;
+            width: 134px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px; /* Add padding to the left for the image */
+        }
+		
+		@font-face {
+			font-family: 'Minecraft';
+			src: url('../fonts/global/normal/minecraft.ttf') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+        .download-button img {
+			vertical-align: middle;
+            max-height: 100%;
+        }
+				
+		.dropdown {
+			width: 35px;
+            height: 35px;
+            margin-left: 10px; /* Add some spacing between the logo and text */
+            vertical-align: middle;
+            margin-right: auto;
+			z-index: 5;
+        }
+
+        .dropdown-content {
+			left: 7px;
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			min-width: 150px;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			z-index: 1000;
+			border-radius: 10px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* You can customize the dropdown content styles */
+        .dropdown-content a {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+			z-index: 1000;
+            font-size: 14px; /* Adjust text size as needed */
+        }
+
+		.sticky-bar {
+			z-index: 0;
+			position: relative; /* Add relative positioning */
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			background-color: #f2f2f2; /* Light background color for the sticky bar */
+			box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Light shadow effect */
+			padding: 10px 43px 10px 0; /* Add spacing on the right */
+			overflow: hidden; /* Hide overflow */
+		}
+
+		.sticky-bar::before {
+			content: "";
+			position: absolute; /* Absolute positioning */
+			top: 0;
+			right: 0; /* Start at the farthest right side */
+			bottom: 0;
+			width: calc(100% - 490px); /* End 150px away from the right side */
+			background-image: url('assets/sidebar_color_detail.png'); /* Image URL */
+			background-size: cover;
+			background-position: right; /* Start from the right */
+			opacity: 0; /* Fully translucent initially */
+			z-index: -1; /* Position behind other elements */
+			animation: fade-in 1.5s linear forwards; /* Adjust duration as needed */
+		}
+
+		@keyframes fade-in {
+			0% {
+				opacity: 0; /* Start fully translucent */
+			}
+			100% {
+				opacity: 1; /* End with full opacity */
+			}
+		}
+
+        .logo {
+            width: 35px;
+            height: 35px;
+            margin-left: 10px; /* Add some spacing between the logo and text */
+            vertical-align: middle;
+            margin-right: auto;
+			z-index: 5;
+        }
+		
+		.fonted_custom_logo {
+            width: 90px;
+            height: 35px;
+            margin-left: 10px; /* Add some spacing between the logo and text */
+            vertical-align: middle;
+            margin-right: auto;
+			z-index: 5;
+        }
+
+        .discord {
+            width: 20px;
+            height: 20px;
+            margin-right: 0px; /* Add some spacing between the logo and text */
+            vertical-align: middle;
+			z-index: 5;
+        }
+
+        .github {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px; /* Add some spacing between the logo and text */
+            vertical-align: middle;
+			z-index: 5;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
