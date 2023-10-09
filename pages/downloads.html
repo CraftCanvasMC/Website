@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Canvas - Downloads</title>
+	<link rel="icon" href="../assets/canvas_mini_logo.png" type="image/x-icon">
+	<link rel="stylesheet" href="../global.css">
+	<style>
+	@font-face {
+			font-family: 'Minecraft';
+			src: url('../fonts/global/normal/minecraft.ttf') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+	}
+	body {
+            background-color: #e7e3e3; /* Light background color */
+            color: #333; /* Light text color */
+            margin: 0;
+            padding: 0;
+			zoom: 1.20; /* Set the default zoom level to 115% */
+			transition: zoom 0.1s ease; /* Add a transition effect */
+			overflow-x: hidden;
+        }
+		.pageLabel {
+			margin-left:28px;
+			font-family:Minecraft;
+		}
+
+		.tab-bar {
+            display: flex;
+            overflow-x: auto;
+            width: 100%;
+            white-space: nowrap;
+        }
+
+        .tab-button {
+            flex: 1;
+            text-align: center;
+            padding: 5px 0;
+			margin-bottom: 10px;
+            cursor: pointer;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+			font-family: system-ui;
+        }
+
+        .tab-button.active {
+            background-color: #ddd;
+        }
+
+        /* Add CSS styles for the releases container */
+        #releases {
+            background-color: #f2f2f2;
+            margin-top: -16px;
+            padding: 10px;
+        }
+
+        .downloadable {
+            display: none;
+        }
+
+        /* Add CSS styles to show a maximum of 5 releases */
+        .downloadable:nth-child(-n+5) {
+            display: block;
+        }
+		.normalBody {
+			background-image: linear-gradient(270deg, white, transparent);
+		}
+		</style>
+</head>
+<body>
+<div class="sticky-bar" style="
+    position: sticky;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+">
+    <div class="container">
+        <div class="image">
+            <img src="../assets/canvas_mini_logo.png" alt="Logo" class="logo">
+        </div>
+        <div class="text" style="
+            position: fixed;
+            left: 60px;
+            font-family: system-ui;
+            top: 16px;
+            font-size: 14px;
+            text-wrap: nowrap;
+        ">
+            <div class="dropdown">
+                <span style=
+                              font-family: 'Minecraft';>Pages</span>
+                <div class="dropdown-content">
+                    <a href="../pages/about.html"style="
+                    font-size: 13px;
+                ">About</a>
+                    <a href="../pages/install-guide.html"style="
+                    font-size: 13px;
+                ">Install guide</a>
+                    <a href="../pages/javadocs.html"style="
+                    font-size: 13px;
+                ">Javadocs</a>
+                    <a href="../pages/features.html"style="
+                    font-size: 13px;
+                ">Features</a>
+                    <a href="../pages/contributors.html"style="
+                    font-size: 13px;
+                ">Contributors/Contribute</a>
+                    <a href="../pages/blog.html"style="
+                    font-size: 13px;
+                ">Blog/News</a>
+                    <a href="../pages/gallery.html"style="
+                    font-size: 13px;
+                ">Gallery/Screenshots</a>
+                    <a href="../pages/downloads.html"style="
+                    font-size: 13px;
+                ">Download Archives</a>
+                    <a href="../pages/support.html"style="
+                    font-size: 13px;
+                ">Support/Donate/Contact</a>
+                    <a href="../pages/changelog.html"style="
+                    font-size: 13px;
+                ">Changelog</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ::before pseudo-element creates the fading image effect -->
+    <a href="https://discord.com/invite/RKmQnU6SRt" style="
+        margin-left: 10px;
+    " alt="discord" rel="noreferrer" target="_blank" class="inline-block h-min w-min rounded-full p-2 transition-colors hover:bg-gray-800/20 dark:hover:bg-gray-400/20 leading-0" aria-label="Discord">
+        <svg xmlns="http://www.w3.org/2000/svg" class="discord" viewBox="0 0 640 512"><path d="M524.531 69.836a1.5 1.5 0 0 0-.764-.7A485.065 485.065 0 0 0 404.081 32.03a1.816 1.816 0 0 0-1.923.91 337.461 337.461 0 0 0-14.9 30.6 447.848 447.848 0 0 0-134.426 0 309.541 309.541 0 0 0-15.135-30.6 1.89 1.89 0 0 0-1.924-.91 483.689 483.689 0 0 0-119.688 37.107 1.712 1.712 0 0 0-.788.676C39.068 183.651 18.186 294.69 28.43 404.354a2.016 2.016 0 0 0 .765 1.375 487.666 487.666 0 0 0 146.825 74.189 1.9 1.9 0 0 0 2.063-.676A348.2 348.2 0 0 0 208.12 430.4a1.86 1.86 0 0 0-1.019-2.588 321.173 321.173 0 0 1-45.868-21.853 1.885 1.885 0 0 1-.185-3.126 251.047 251.047 0 0 0 9.109-7.137 1.819 1.819 0 0 1 1.9-.256c96.229 43.917 200.41 43.917 295.5 0a1.812 1.812 0 0 1 1.924.233 234.533 234.533 0 0 0 9.132 7.16 1.884 1.884 0 0 1-.162 3.126 301.407 301.407 0 0 1-45.89 21.83 1.875 1.875 0 0 0-1 2.611 391.055 391.055 0 0 0 30.014 48.815 1.864 1.864 0 0 0 2.063.7A486.048 486.048 0 0 0 610.7 405.729a1.882 1.882 0 0 0 .765-1.352c12.264-126.783-20.532-236.912-86.934-334.541ZM222.491 337.58c-28.972 0-52.844-26.587-52.844-59.239s23.409-59.241 52.844-59.241c29.665 0 53.306 26.82 52.843 59.239 0 32.654-23.41 59.241-52.843 59.241Zm195.38 0c-28.971 0-52.843-26.587-52.843-59.239s23.409-59.241 52.843-59.241c29.667 0 53.307 26.82 52.844 59.239 0 32.654-23.177 59.241-52.844 59.241Z"></path></svg>
+    </a>
+    <a href="https://github.com/Dueris/Canvas" style="
+        margin-left: 10px;
+    " rel="noreferrer" alt="github" target="_blank" class="inline-block h-min w-min rounded-full p-2 transition-colors hover:bg-gray-800/20 dark:hover:bg-gray-400/20 leading-0" aria-label="GitHub">
+        <svg xmlns="http://www.w3.org/2000/svg" class="github" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+    </a>
+</div>
+
+	<div class="normalBody">
+		<br>
+		<p><h1 class="pageLabel">Downloads</h1><h3 style="font-family:system-ui; margin-left:26px; margin-top:-14px;">Canvas downloads/archives page</h3>
+		</p>
+		<br>
+	</div>
+	
+	<div class="tab-bar">
+        <div class="tab-button" data-version="1.20.2">1.20.2</div>
+    </div>
+
+<div id="releases" style="background-color:#f2f2f2; margin-top:-10px;">
+    <!-- Release information will be dynamically added here -->
+</div>
+
+    <script>
+        // GitHub repository details
+        const owner = 'Dueris';
+        const repo = 'Canvas';
+
+        // GitHub API endpoint to fetch releases
+        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/releases`;
+
+        // Fetch releases from GitHub API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(releases => {
+                // Iterate through releases
+                releases.forEach(release => {
+                    // Create a new div element for each release
+                    const releaseDiv = document.createElement('div');
+                    releaseDiv.classList.add('downloadable'); // Add CSS class for styling
+
+                    // Extract artifact name, changes, and commit hash from the description using regular expressions
+                    const description = release.body;
+
+                    const artifactRegex = /\["artifact_name"\s*=\s*([^,\]]+)/;
+                    const artifactMatch = description.match(artifactRegex);
+
+                    const changesRegex = /\["changes"\s*=\s*([^,\]]+)/;
+                    const changesMatch = description.match(changesRegex);
+
+                    const commitRegex = /\["commit_hash"\s*=\s*([^,\]]+)/;
+                    const commitMatch = description.match(commitRegex);
+
+                    const versionRegex = /\["version"\s*=\s*([^,\]]+)/;
+                    const versionMatch = description.match(versionRegex);
+
+                    if (artifactMatch && changesMatch && commitMatch && versionMatch) {
+                        const artifactName = artifactMatch[1];
+                        const changesText = changesMatch[1];
+                        const commitHash = commitMatch[1].substring(0, 6);
+                        const versionType = versionMatch[1];
+
+                        // Set the HTML content for the release information
+                        releaseDiv.innerHTML = `
+                            <div class="button-container">
+                                <button class="download-button">
+                                    <div class="downloadable_button">
+                                        <p>
+                                            <span>${versionType}</span>
+                                            <img src="../assets/download_button.png" class="downloadbutton">
+                                        </p>
+                                    </div>
+                                </button>
+                                <button style="
+                                    font-size: 18px;
+                                    font-family: monospace;
+                                    margin-left: 3px;
+                                    border: none;
+                                    background: white;
+                                    margin-top: -7px;
+                                    vertical-align: middle;
+                                ">
+                                    <span>#${commitHash}</span>
+                                </button>
+                                <p style="
+                                    margin-top: 7px;
+                                    font-size: 16px;
+                                    font-family: system-ui;
+                                    margin-left: 4px;
+                                    vertical-align: middle;
+                                ">: <span>${changesText}</span></p>
+                            </div>
+                            <hr>
+                        `;
+
+                        const asset = release.assets.find(asset => asset.name.includes(artifactName));
+                        if (asset) {
+                            const downloadButton = releaseDiv.querySelector('.download-button');
+                            downloadButton.onclick = function () {
+                                window.location.href = asset.browser_download_url;
+                            };
+                        } else {
+                            console.error(`Asset "${artifactName}" not found in this release.`);
+                        }
+
+                        document.getElementById('releases').appendChild(releaseDiv);
+						
+						filterReleasesByVersion('1.20.2');
+                    } else {
+                        console.error('Artifact name, changes, version, or commit hash information not found in the description.');
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching releases:', error);
+            });
+			
+        function filterReleasesByVersion(version) {
+            const releaseDivs = document.querySelectorAll('.downloadable');
+            releaseDivs.forEach(releaseDiv => {
+                const releaseVersion = releaseDiv.querySelector('.download-button span').textContent.replace(/[^0-9.]/g, '');
+                if (releaseVersion === version) {
+                    releaseDiv.style.display = 'block';
+                } else {
+                    releaseDiv.style.display = 'none';
+                }
+            });
+        }
+
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(tabButton => {
+            tabButton.addEventListener('click', () => {
+                tabButtons.forEach(button => {
+                    button.classList.remove('active');
+                });
+
+                tabButton.classList.add('active');
+
+                const version = tabButton.getAttribute('data-version');
+
+				console.log(version)
+                filterReleasesByVersion(version);
+            });
+        });
+    </script>
+</body>
+</html>
