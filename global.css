@@ -86,10 +86,9 @@
 		}
 		
 		.downloadable_button {
-			background-color: 'red';
-			color: 'white';
 			font-family: 'minecraft';
 			font-size: 17px;
+			margin-right: -6px;
 		}
 		
 		.button-container {
@@ -98,15 +97,15 @@
         }
 
         .download-button {
-            border: white;
-            background-color: #ff0202;
-            border-radius: 28px;
-            margin-top: -5px;
-            height: 42px;
-            width: 134px;
-            display: flex;
-            align-items: center;
-            padding-left: 10px; /* Add padding to the left for the image */
+			border: white;
+			background-color: #ff0202;
+			border-radius: 28px;
+			margin-top: -5px;
+			height: 42px;
+			width: 134px;
+			display: flex;
+			align-items: center;
+			padding-left: 10px;
         }
 		
 		@font-face {
