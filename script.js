@@ -1,3 +1,3 @@
 if (window.history && window.history.pushState) {
-    window.history.pushState("", "", "");
+    window.history.pushState("", "", "page");
 }
