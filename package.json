@@ -20,7 +20,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^11.0.25",
     "lru-cache": "^11.0.2",
-    "lucide-react": "^0.482.0",
+    "lucide-react": "^0.545.0",
     "next": "15.2.2",
     "next-plausible": "^3.12.4",
     "react": "^19.0.0",
