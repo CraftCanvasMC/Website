@@ -21,7 +21,7 @@
     "framer-motion": "^11.0.25",
     "lru-cache": "^11.0.2",
     "lucide-react": "^0.545.0",
-    "next": "15.2.2",
+    "next": "15.4.7",
     "next-plausible": "^3.12.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
