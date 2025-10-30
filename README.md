@@ -27,7 +27,7 @@ The official website for CanvasMC, built with modern web technologies.
 > bun run format:fix
 > bun run check
 > bun run check:fix
-> bun run typecheck 
+> bun run typecheck
 ```
 
 ## Contributors

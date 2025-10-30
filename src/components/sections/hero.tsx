@@ -5,20 +5,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '~/components/ui/button';
 import { Card } from '~/components/ui/card';
-import { useTranslation } from '~/lib/use-translation';
 
 export function Hero() {
-  const { t } = useTranslation();
   return (
     <section className="relative isolate">
       <div className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 lg:py-22">
         <div className="flex flex-col items-center text-center gap-12 lg:flex-row lg:justify-center lg:items-center lg:text-left">
           <Card className="max-w-xl p-8 border border-white/10 backdrop-blur-sm bg-white/5 transition-all">
             <h1 className="font-bold text-4xl leading-tight lg:text-5xl bg-gradient-to-r from-white via-neutral-300 to-white bg-clip-text text-transparent">
-              {t.hero.title}
+              High performance Minecraft server software
             </h1>
             <p className="mt-7 text-2xl bg-gradient-to-r from-neutral-100 via-neutral-400 to-neutral-100 bg-clip-text text-transparent">
-              {t.hero.description}
+              CanvasMC is a fork of the Folia Minecraft server software that fixes gameplay
+              inconsistencies, bugs, and introduces further performance enhancements to the
+              dedicated server
             </p>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row justify-center lg:justify-start">
@@ -27,7 +27,7 @@ export function Hero() {
                 size="lg"
                 className="gap-2 transform transition-transform duration-200 hover:scale-105"
               >
-                <Link href="/downloads">{t.hero.downloadButton}</Link>
+                <Link href="/downloads">Download Canvas</Link>
               </Button>
               <Button asChild variant="secondary" size="lg">
                 <a
@@ -36,7 +36,7 @@ export function Hero() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 transform transition-transform duration-200 hover:scale-105"
                 >
-                  {t.hero.documentationButton}
+                  Documentation
                   <ArrowRight className="size-4" />
                 </a>
               </Button>

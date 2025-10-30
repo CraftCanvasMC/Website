@@ -5,26 +5,23 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { jenkinsConfig } from '~/config/jenkins';
 import { siteConfig } from '~/config/site';
-import { useTranslation } from '~/lib/use-translation';
 import { DiscordIcon, GithubIcon } from './icons';
 
-function getLinks(t: any) {
-  return {
-    [t.footer.sections.projectDevelopment]: [
-      { href: siteConfig.links.github.repo, label: t.footer.links.githubRepo },
-      { href: jenkinsConfig.baseUrl, label: t.footer.links.jenkins },
-      { href: '/downloads', label: t.footer.links.downloads },
-      { href: 'https://github.com/CraftCanvasMC/Website/blob/main/docs/API.md', label: t.footer.links.apiDocs },
-    ],
-    [t.footer.sections.getInvolved]: [
-      { href: `${siteConfig.links.github.repo}/issues`, label: t.footer.links.githubIssues },
-      { href: siteConfig.links.donate, label: t.footer.links.donate },
-    ],
-    [t.footer.sections.aboutCanvas]: [
-      { href: `${siteConfig.links.github.repo}/blob/master/LICENSE`, label: t.footer.links.license },
-    ],
-  } as const;
-}
+const LINKS = {
+  'Project & Development': [
+    { href: siteConfig.links.github.repo, label: 'GitHub Repository' },
+    { href: jenkinsConfig.baseUrl, label: 'Jenkins CI' },
+    { href: '/downloads', label: 'Downloads' },
+    { href: 'https://github.com/CraftCanvasMC/Website/blob/main/docs/API.md', label: 'API Documentation' },
+  ],
+  'Get Involved': [
+    { href: `${siteConfig.links.github.repo}/issues`, label: 'GitHub Issues' },
+    { href: siteConfig.links.donate, label: 'Donate' },
+  ],
+  'About Canvas': [
+    { href: `${siteConfig.links.github.repo}/blob/master/LICENSE`, label: 'License' },
+  ],
+} as const;
 
 const SOCIALS = [
   { href: siteConfig.links.github.org, Icon: GithubIcon, label: 'GitHub' },
@@ -32,8 +29,6 @@ const SOCIALS = [
 ] as const;
 
 export function Footer() {
-  const { t, language } = useTranslation();
-  const LINKS = getLinks(t);
   return (
     <footer className='mt-10 border-neutral-800/80 border-t lg:mt-14 bg-background'>
       <div className='container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8'>
@@ -88,25 +83,10 @@ export function Footer() {
             &copy; {new Date().getFullYear()} {siteConfig.name}
           </p>
           <div className='flex items-center gap-1 text-neutral-400'>
-            {language === 'tr' ? (
-              <>
-                <p className='underline underline-offset-2 hover:text-neutral-200'>
-                  {siteConfig.name} {t.footer.teamLabel}
-                </p>
-                {t.footer.builtWithLoveSuffix}
-                <Heart className='size-3' fill='currentColor' />
-                {t.footer.builtWithLovePrefix}
-              </>
-            ) : (
-              <>
-                {t.footer.builtWithLovePrefix}
-                <Heart className='size-3' fill='currentColor' />
-                {t.footer.builtWithLoveSuffix}
-                <p className='underline underline-offset-2 hover:text-neutral-200'>
-                  {siteConfig.name} {t.footer.teamLabel}
-                </p>
-              </>
-            )}
+            Built with <Heart className='size-3' fill='currentColor' /> by the
+            <p className='underline underline-offset-2 hover:text-neutral-200'>
+              {siteConfig.name} Team
+            </p>
           </div>
         </div>
       </div>
