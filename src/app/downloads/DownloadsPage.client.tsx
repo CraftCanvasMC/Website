@@ -247,9 +247,11 @@ BuildsList.displayName = 'BuildsList';
 export default function DownloadsPage({
   buildsByVersion,
   versions,
+  usingCache = false,
 }: {
   buildsByVersion: Record<string, Build[]>;
   versions: string[];
+  usingCache?: boolean;
 }) {
   const [selectedVersion, setSelectedVersion] = useState(versions[0]);
   const [showNewTab, setShowNewTab] = useState(false);

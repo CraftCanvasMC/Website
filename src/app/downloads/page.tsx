@@ -1,10 +1,24 @@
 import DownloadsPage from './DownloadsPage.client';
 import { getAllBuilds } from '~/lib/jenkins';
+import { hasCachedBuilds } from '~/lib/cache';
 
 export const dynamic = 'force-dynamic';
 
 export default async function DownloadsServerPage() {
-  const builds = await getAllBuilds({ includeExperimental: true });
+  let usingCache = false;
+  let builds = [];
+
+  try {
+    builds = await getAllBuilds({ includeExperimental: true });
+  } catch (error) {
+    usingCache = hasCachedBuilds();
+    
+    if (!usingCache) {
+      throw error;
+    }
+    
+    builds = await getAllBuilds({ includeExperimental: true });
+  }
 
   const filteredBuilds = builds.filter(b => b.minecraftVersion !== 'unknown');
 
@@ -16,5 +30,5 @@ export default async function DownloadsServerPage() {
 
   const versions = Object.keys(buildsByVersion).sort().reverse();
 
-  return <DownloadsPage buildsByVersion={buildsByVersion} versions={versions} />;
+  return <DownloadsPage buildsByVersion={buildsByVersion} versions={versions} usingCache={usingCache} />;
 }
