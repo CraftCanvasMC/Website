@@ -5,39 +5,39 @@ import { Button } from '~/components/ui/button';
 import { Card } from '~/components/ui/card';
 import { jenkinsConfig } from '~/config/jenkins';
 import { siteConfig } from '~/config/site';
-
-const COMMUNITIES = [
-  {
-    title: 'Discord',
-    description:
-      'Join our Discord community to get support, share your experiences, and connect with other Canvas users.',
-    icon: MessageCircle,
-    buttonText: 'Join Discord',
-    href: siteConfig.links.discord,
-  },
-  {
-    title: 'GitHub',
-    description: 'Contribute to Canvas development, report issues, and explore our open source codebase on GitHub.',
-    icon: Github,
-    buttonText: 'View GitHub',
-    href: siteConfig.links.github.org,
-  },
-  {
-    title: 'Jenkins',
-    description: 'Access our latest builds, development versions, and track our continuous integration progress.',
-    icon: CircuitBoard,
-    buttonText: 'Visit Jenkins',
-    href: jenkinsConfig.baseUrl,
-  },
-] as const;
+import { useTranslation } from '~/lib/use-translation';
 
 export function Community() {
+  const { t } = useTranslation();
+  const COMMUNITIES = [
+    {
+      title: t.community.items.discord.title,
+      description: t.community.items.discord.description,
+      icon: MessageCircle,
+      buttonText: t.community.items.discord.buttonText,
+      href: siteConfig.links.discord,
+    },
+    {
+      title: t.community.items.github.title,
+      description: t.community.items.github.description,
+      icon: Github,
+      buttonText: t.community.items.github.buttonText,
+      href: siteConfig.links.github.org,
+    },
+    {
+      title: t.community.items.jenkins.title,
+      description: t.community.items.jenkins.description,
+      icon: CircuitBoard,
+      buttonText: t.community.items.jenkins.buttonText,
+      href: jenkinsConfig.baseUrl,
+    },
+  ] as const;
   return (
     <section className='mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 lg:py-28'>
       <header className='max-w-2xl text-center mx-auto'>
-        <h2 className='font-semibold text-3xl text-white'>Join our community</h2>
+        <h2 className='font-semibold text-3xl text-white'>{t.community.title}</h2>
         <p className='mt-3 text-lg text-neutral-300'>
-          Connect with the Canvas community, contribute to development, and stay up to date.
+          {t.community.subtitle}
         </p>
       </header>
 

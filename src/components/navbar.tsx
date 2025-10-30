@@ -7,7 +7,9 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { siteConfig } from '~/config/site';
 import { cn } from '~/lib/utils';
+import { useTranslation } from '~/lib/use-translation';
 import { DiscordIcon, GithubIcon, DonateIcon } from './icons';
+import { LanguageSelector } from './language-selector';
 import { Redirecting } from './redirecting';
 
 interface NavbarItem {
@@ -16,17 +18,21 @@ interface NavbarItem {
   icon?: React.ComponentType<{ className?: string }>;
 }
 
-const LINKS: NavbarItem[] = [
-  { href: '/downloads', label: 'Downloads' },
-  { href: 'https://docs.canvasmc.io', label: 'Docs' },
-  { href: 'https://maven.canvasmc.io', label: 'Maven' },
-];
+function getLinks(t: any) {
+  return [
+    { href: '/downloads', label: t.navbar.downloads },
+    { href: 'https://docs.canvasmc.io', label: t.navbar.docs },
+    { href: 'https://maven.canvasmc.io', label: t.navbar.maven },
+  ];
+}
 
-const SOCIAL: NavbarItem[] = [
-  { href: siteConfig.links.github.org, label: 'GitHub', icon: GithubIcon },
-  { href: siteConfig.links.discord, label: 'Discord', icon: DiscordIcon },
-  { href: siteConfig.links.donate, label: 'Donate', icon: DonateIcon },
-];
+function getSocial(t: any) {
+  return [
+    { href: siteConfig.links.github.org, label: t.navbar.github, icon: GithubIcon },
+    { href: siteConfig.links.discord, label: t.navbar.discord, icon: DiscordIcon },
+    { href: siteConfig.links.donate, label: t.navbar.donate, icon: DonateIcon },
+  ];
+}
 
 function NavbarLink({
   href,
@@ -72,16 +78,22 @@ function NavbarLink({
 function MobileMenu({
   isOpen,
   onExternalRedirect,
+  links,
+  social,
+  language,
 }: {
   isOpen: boolean;
   onExternalRedirect: (url: string) => void;
+  links: NavbarItem[];
+  social: NavbarItem[];
+  language: any;
 }) {
   if (!isOpen) return null;
 
   return (
     <div className="absolute top-15 right-0 left-0 border-neutral-800 border-y bg-background pt-5 md:hidden">
       <div className="space-y-1 px-2 pb-3">
-        {LINKS.map((link) => (
+        {links.map((link) => (
           <NavbarLink
             key={link.href}
             {...link}
@@ -92,7 +104,7 @@ function MobileMenu({
         <div className="-mx-4 pt-3">
           <div className="border-neutral-800 border-t">
             <div className="flex gap-2 px-6 pt-3">
-              {SOCIAL.map((link) => (
+              {social.map((link) => (
                 <NavbarLink
                   key={link.href}
                   {...link}
@@ -100,6 +112,9 @@ function MobileMenu({
                   onExternalRedirect={onExternalRedirect}
                 />
               ))}
+              <div className="ml-auto">
+                <LanguageSelector currentLanguage={language} />
+              </div>
             </div>
           </div>
         </div>
@@ -112,6 +127,10 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [redirectTarget, setRedirectTarget] = useState<string>();
+  const { t, language } = useTranslation();
+
+  const links = getLinks(t);
+  const social = getSocial(t);
 
   const handleExternalRedirect = (url: string) => {
     setRedirectTarget(new URL(url).hostname.replace(/^www\./, ''));
@@ -147,14 +166,15 @@ export function Navbar() {
                 </Link>
 
                 <div className="hidden md:flex md:space-x-4">
-                  {LINKS.map((link) => (
+                  {links.map((link) => (
                     <NavbarLink key={link.href} {...link} onExternalRedirect={handleExternalRedirect} />
                   ))}
                 </div>
               </div>
 
               <div className="hidden md:flex md:items-center md:space-x-5">
-                {SOCIAL.map((link) => (
+                <LanguageSelector currentLanguage={language} />
+                {social.map((link) => (
                   <NavbarLink key={link.href} {...link} onExternalRedirect={handleExternalRedirect} />
                 ))}
               </div>
@@ -171,7 +191,13 @@ export function Navbar() {
             </div>
           </div>
 
-          <MobileMenu isOpen={isOpen} onExternalRedirect={handleExternalRedirect} />
+          <MobileMenu 
+            isOpen={isOpen} 
+            onExternalRedirect={handleExternalRedirect}
+            links={links}
+            social={social}
+            language={language}
+          />
         </div>
       </nav>
 
