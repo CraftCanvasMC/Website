@@ -2,47 +2,54 @@
 
 import { Cpu, Lightbulb, CircleGauge, FileSliders, Zap, ChevronsUp } from 'lucide-react';
 import { Card } from '~/components/ui/card';
-import { useTranslation } from '~/lib/use-translation';
+
+const FEATURES = [
+  {
+    title: 'Rewritten Scheduler',
+    description:
+      'Canvas is primarily based on a rewritten scheduler for Folia, which makes Canvas one of the fastest Folia forks out there.',
+    icon: Cpu,
+  },
+  {
+    title: 'Optimized Chunk Generation',
+    description:
+      'With fixed linear scaling by rewriting the chunk system executor, chunk performance is unparalleled compared to other forks.',
+    icon: Zap,
+  },
+  {
+    title: 'Extensive Configuration',
+    description:
+      'Fine-tune every aspect of your server with documented configuration options and performance settings.',
+    icon: FileSliders,
+  },
+  {
+    title: 'Your Ideas, Our Code',
+    description:
+      'Canvas grows with its community — share the features you’d love to see, and we’ll work to bring them to life.',
+    icon: Lightbulb,
+  },
+  {
+    title: 'Proper Region Profiling',
+    description:
+      'Canvas introduces a genuine Spark profiler compatible with region threading, replacing the Folia profiling engine.',
+    icon: CircleGauge,
+  },
+  {
+    title: 'Powerful and Optimized',
+    description:
+      'Fixing multiple Folia bugs and crashes, Canvas is both fast and stable',
+    icon: ChevronsUp,
+  }
+] as const;
 
 export function Features() {
-  const { t } = useTranslation();
-  const FEATURES = [
-    {
-      title: t.features.items.scheduler.title,
-      description: t.features.items.scheduler.description,
-      icon: Cpu,
-    },
-    {
-      title: t.features.items.chunkGeneration.title,
-      description: t.features.items.chunkGeneration.description,
-      icon: Zap,
-    },
-    {
-      title: t.features.items.configuration.title,
-      description: t.features.items.configuration.description,
-      icon: FileSliders,
-    },
-    {
-      title: t.features.items.community.title,
-      description: t.features.items.community.description,
-      icon: Lightbulb,
-    },
-    {
-      title: t.features.items.profiling.title,
-      description: t.features.items.profiling.description,
-      icon: CircleGauge,
-    },
-    {
-      title: t.features.items.performance.title,
-      description: t.features.items.performance.description,
-      icon: ChevronsUp,
-    }
-  ] as const;
   return (
     <section className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 lg:py-0">
       <header className="max-w-2xl mt-24 text-center mx-auto">
-        <h2 className="font-semibold text-3xl text-white">{t.features.title}</h2>
-        <p className="mt-3 text-lg text-neutral-300">{t.features.subtitle}</p>
+        <h2 className="font-semibold text-3xl text-white">What makes Canvas special?</h2>
+        <p className="mt-3 text-lg text-neutral-300">
+          Find out what makes Canvas different from other Minecraft server software.
+        </p>
       </header>
 
       <div
