@@ -8,7 +8,7 @@ export default function DownloadsLayout({ children }: { children: React.ReactNod
       <GradientBackground/>
 
       <div className='mx-auto max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12'>
-        <header className='mx-auto max-w-3xl text-center'>
+        <header className='mx-auto max-w-3xl text-center pt-8'>
           <h1 className='font-bold text-3xl sm:text-4xl lg:text-5xl'>Downloads</h1>
           <p className='mt-4 text-neutral-300 sm:text-lg'>
             Get the latest builds of CanvasMC for your Minecraft server.

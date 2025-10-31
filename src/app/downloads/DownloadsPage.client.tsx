@@ -176,7 +176,7 @@ const BuildRow = memo(({ build, isLatest }: { build: Build; isLatest: boolean })
 
 BuildRow.displayName = 'BuildRow';
 
-const SculptorContent = memo(({ selectedVersion }: { selectedVersion: string }) => (
+const SculptorContent = memo(({ selectedVersion, jenkinsDown }: { selectedVersion: string; jenkinsDown: boolean }) => (
   <div className="text-center sm:text-left animate-fade-in">
     <h2 className="text-xl font-semibold mb-2 text-center">Sculptor Launcher</h2>
     <p className="text-sm text-neutral-400 max-w-2xl mx-auto">
@@ -186,14 +186,22 @@ const SculptorContent = memo(({ selectedVersion }: { selectedVersion: string }) 
     </p>
 
     <div className="mt-6 text-center">
-      <Button asChild className="inline-flex items-center gap-2 px-6 py-2">
-        <a
-          href="https://jenkins.canvasmc.io/job/Sculptor/lastSuccessfulBuild/artifact/build/libs/Sculptor-1.0.0-SNAPSHOT.jar"
-          download
-        >
-          <Download className="size-4" />
-          Download Sculptor
-        </a>
+      <Button 
+        asChild={!jenkinsDown}
+        disabled={jenkinsDown}
+        className="inline-flex items-center gap-2 px-6 py-2"
+      >
+        {jenkinsDown ? (
+          <span className="inline-flex items-center gap-2">
+            <Download className="size-4" />
+            Unavailable
+          </span>
+        ) : (
+          <a href="https://jenkins.canvasmc.io/job/Sculptor/lastSuccessfulBuild/artifact/build/libs/Sculptor-1.0.0-SNAPSHOT.jar" download>
+            <Download className="size-4" />
+            Download Sculptor
+          </a>
+        )}
       </Button>
     </div>
 
@@ -252,10 +260,12 @@ export default function DownloadsPage({
   buildsByVersion,
   versions,
   usingCache = false,
+  jenkinsDown = false,
 }: {
   buildsByVersion: Record<string, Build[]>;
   versions: string[];
   usingCache?: boolean;
+  jenkinsDown?: boolean;
 }) {
   const [selectedVersion, setSelectedVersion] = useState(versions[0]);
   const [showNewTab, setShowNewTab] = useState(false);
@@ -302,7 +312,58 @@ export default function DownloadsPage({
         .animate-fade-in {
           animation: fadeIn 0.3s ease-out;
         }
+
+        @keyframes slideIn {
+          from {
+            opacity: 0;
+            transform: translateX(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .jenkins-notification {
+          animation: slideIn 0.4s ease-out;
+        }
       `}</style>
+
+      {jenkinsDown && (
+        <div className="jenkins-notification fixed top-4 right-4 z-50 bg-red-500/90 backdrop-blur-sm text-white px-4 py-3 rounded-lg shadow-lg border border-red-400/50 max-w-sm">
+          <div className="flex items-start gap-3">
+            <div className="shrink-0 mt-0.5">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-semibold text-sm">Jenkins is Down</p>
+              <p className="text-xs mt-0.5 text-white/90">
+                {usingCache ? 'Showing cached builds. Downloads may be unavailable.' : 'Unable to fetch builds at this time.'}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {!jenkinsDown && usingCache && (
+        <div className="jenkins-notification fixed top-4 right-4 z-50 bg-yellow-500/90 backdrop-blur-sm text-white px-4 py-3 rounded-lg shadow-lg border border-yellow-400/50 max-w-sm">
+          <div className="flex items-start gap-3">
+            <div className="shrink-0 mt-0.5">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-semibold text-sm">Showing Cached Builds</p>
+              <p className="text-xs mt-0.5 text-white/90">
+                Jenkins is currently building. Showing recent builds from cache. Downloads are still available.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Redirecting show={redirecting} target="Javadocs" />
       <Card className="p-6 overflow-hidden">
@@ -351,22 +412,27 @@ export default function DownloadsPage({
 
         <div key={contentKey}>
           {showNewTab ? (
-            <SculptorContent selectedVersion={selectedVersion} />
-          ) : (
-            <BuildsList builds={builds} />
-          )}
+            <SculptorContent selectedVersion={selectedVersion} jenkinsDown={jenkinsDown} />
+          ) : jenkinsDown && builds.length === 0 ? (
+            <div className="text-center py-16 animate-fade-in">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 mb-4">
+                <svg className="w-8 h-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-neutral-100 mb-2">Downloads Unavailable</h3>
+              <p className="text-neutral-400 max-w-md mx-auto">
+                Our Jenkins server is currently unreachable. Please check back later.
+              </p>
+            </div>
+          ) : ( <BuildsList builds={builds} /> )}
         </div>
 
-        <div className="mt-8 text-center animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          <a
-            href="https://jenkins.canvasmc.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-neutral-400 text-sm hover:text-neutral-300 transition-colors"
-          >
-            Looking for older builds? Check out our Jenkins server →
-          </a>
-        </div>
+        {!jenkinsDown && (
+          <div className="mt-8 text-center animate-fade-in" style={{ animationDelay: '0.3s' }}>
+            <a href="https://jenkins.canvasmc.io" target="_blank" rel="noopener noreferrer" className="text-neutral-400 text-sm hover:text-neutral-300 transition-colors">Looking for older builds? Check out our Jenkins server →</a>
+          </div>
+        )}
       </Card>
     </section>
   );

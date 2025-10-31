@@ -75,6 +75,9 @@ type BuildOptions = {
 };
 
 export async function getAllBuilds(options?: BuildOptions): Promise<Build[]> {
+
+  // throw new JenkinsError('Simulated catalog fetch failure');
+  
   try {
     const url = new URL(`job/${jenkinsConfig.job}/api/json?tree=${encodeURIComponent(jenkinsConfig.treeQuery)}`,jenkinsConfig.baseUrl);
 
@@ -99,12 +102,12 @@ export async function getAllBuilds(options?: BuildOptions): Promise<Build[]> {
 
     const allBuilds = parseResult.data.allBuilds.filter(b => !b.building).map(parseBuild);
 
-    setCachedBuilds(allBuilds);
+    await setCachedBuilds(allBuilds);
 
     return allBuilds.filter(
       b => (!options?.minecraftVersion || b.minecraftVersion === options.minecraftVersion) && (!b.isExperimental || options?.includeExperimental === true));
   } catch (error) {
-    const cachedBuilds = getCachedBuilds();
+    const cachedBuilds = await getCachedBuilds(true);
     
     if (cachedBuilds && cachedBuilds.length > 0) {
       return cachedBuilds.filter(
