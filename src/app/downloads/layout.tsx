@@ -5,7 +5,7 @@ import { siteConfig } from '~/config/site';
 export default function DownloadsLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className='relative isolate min-h-screen'>
-      <GradientBackground frozen />
+      <GradientBackground/>
 
       <div className='mx-auto max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12'>
         <header className='mx-auto max-w-3xl text-center'>

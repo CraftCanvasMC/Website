@@ -21,13 +21,13 @@ export function Redirecting({ show, target }: { show: boolean; target?: string }
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center
                      bg-black/70 backdrop-blur-sm text-white"
         >
-          <div class="flex flex-row gap-2">
-            <div class="w-4 h-4 rounded-full bg-white animate-bounce"></div>
+          <div className="flex flex-row gap-2">
+            <div className="w-4 h-4 rounded-full bg-white animate-bounce"></div>
             <div
-              class="w-4 h-4 rounded-full bg-white animate-bounce [animation-delay:-.3s]"
+              className="w-4 h-4 rounded-full bg-white animate-bounce [animation-delay:-.3s]"
             ></div>
             <div
-              class="w-4 h-4 rounded-full bg-white animate-bounce [animation-delay:-.5s]"
+              className="w-4 h-4 rounded-full bg-white animate-bounce [animation-delay:-.5s]"
             ></div>
           </div>
 
