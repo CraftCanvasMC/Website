@@ -101,3 +101,26 @@
   animation: heartbeat 1.8s ease-in-out infinite;
   z-index: 10;
 }
+
+button,
+a,
+.group {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+[class*="hover:scale"] {
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  [class*="hover:scale"]:not(:hover) {
+    will-change: auto;
+  }
+}
+
+[class*="hover:shadow"] {
+  isolation: isolate;
+}
+

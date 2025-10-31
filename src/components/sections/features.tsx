@@ -76,9 +76,9 @@ export function Features() {
               hover:bg-white/10
               transition-all
               gap-2
-              transform
+              transform-gpu
               duration-200
-              hover:scale-105
+              hover:scale-[1.02]
             "
           >
             <div className="flex gap-4">

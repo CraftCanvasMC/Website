@@ -65,6 +65,8 @@ export function GradientBackground({
   const animationRef = useRef<number | undefined>(undefined);
   const lastFrameTime = useRef(0);
   const frameInterval = 1000 / 30;
+  const isScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     globalState.gradientColors = gradientColorsRef.current;
@@ -78,6 +80,17 @@ export function GradientBackground({
     if (!innerDiv) return;
 
     let lastTime = performance.now();
+    const handleScroll = () => {
+      isScrollingRef.current = true;
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        isScrollingRef.current = false;
+        lastTime = performance.now();
+        lastFrameTime.current = lastTime;
+      }, 150);
+    };
 
     const handleVisibilityChange = () => {
       if (!document.hidden) {
@@ -86,10 +99,14 @@ export function GradientBackground({
       }
     };
 
+    window.addEventListener('scroll', handleScroll, { passive: true });
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const animate = (time: number) => {
       animationRef.current = requestAnimationFrame(animate);
+      if (isScrollingRef.current) {
+        return;
+      }
 
       const deltaSinceLastFrame = time - lastFrameTime.current;
       if (deltaSinceLastFrame < frameInterval) return;
@@ -128,6 +145,10 @@ export function GradientBackground({
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+      window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [speed, pulseSpeed, frozen, frameInterval]);
@@ -144,7 +165,7 @@ export function GradientBackground({
         className
       )}
       style={{
-        willChange: 'transform, opacity',
+        willChange: 'auto',
         contain: 'layout style paint',
       }}
       {...props}

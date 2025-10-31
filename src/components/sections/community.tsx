@@ -43,7 +43,7 @@ export function Community() {
 
       <div className='mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
         {COMMUNITIES.map(({ title, description, icon: Icon, buttonText, href }) => (
-          <Card key={title} className='flex flex-col p-6 bg-white/5 hover:bg-white/10 transition-all duration-200 hover:ring-neutral-600/60 gap-2 transform transition-transform duration-200 hover:scale-105'>
+          <Card key={title} className='flex flex-col p-6 bg-white/5 hover:bg-white/10 transition-all duration-200 hover:ring-neutral-600/60 gap-2 transform-gpu transition-transform duration-200 hover:scale-[1.02]'>
             <div className='flex gap-4'>
               <div className='shrink-0'>
                 <div className='rounded-lg bg-neutral-700/50 p-2.5'>
