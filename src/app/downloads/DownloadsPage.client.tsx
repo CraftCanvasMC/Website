@@ -124,19 +124,15 @@ const BuildRow = memo(({ build, isLatest }: { build: Build; isLatest: boolean })
 
   return (
     <div
-      className="group relative flex flex-col justify-between gap-4 border-neutral-800 border-t py-4 px-4 sm:px-6 sm:flex-row sm:items-center"
+      className="group relative flex flex-col justify-between gap-4 border border-neutral-800 border-t py-4 px-4 sm:px-6 sm:flex-row sm:items-center rounded-lg
+                 transition-all duration-200 ease-out
+                 hover:border-white/20 hover:scale-[1.008]"
       style={{ 
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
+        transform: 'translate3d(0, 0, 0)',
+        willChange: 'transform',
       }}
     >
-      <div 
-        className="absolute inset-x-0 -top-px bottom-0 border border-white/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
-        style={{
-          transform: 'translateZ(0)',
-        }}
-      />
-      <div className="flex min-w-0 flex-1 flex-col sm:flex-row sm:items-center relative z-10">
+      <div className="flex min-w-0 flex-1 flex-col sm:flex-row sm:items-center">
         <div className="flex flex-col justify-center pr-6 sm:pr-8 border-r border-white/10 min-w-[120px] sm:min-w-[140px]">
           <div className="flex items-center gap-2">
             <span className="text-lg font-semibold text-neutral-100">#{buildNumber}</span>
@@ -160,7 +156,7 @@ const BuildRow = memo(({ build, isLatest }: { build: Build; isLatest: boolean })
         variant={isLatest ? 'default' : 'secondary'}
         asChild={!!build.downloadUrl}
         disabled={!build.downloadUrl}
-        className="w-full shrink-0 sm:w-auto relative z-10"
+        className="w-full shrink-0 sm:w-auto"
       >
         {build.downloadUrl ? (
           <a href={build.downloadUrl} download className="inline-flex items-center gap-2">
