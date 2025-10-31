@@ -267,7 +267,7 @@ export default function DownloadsPage({
   usingCache?: boolean;
   jenkinsDown?: boolean;
 }) {
-  const [selectedVersion, setSelectedVersion] = useState(versions[0] || '1.21.1');
+  const [selectedVersion, setSelectedVersion] = useState(versions[0]);
   const [showNewTab, setShowNewTab] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [contentKey, setContentKey] = useState(0);
