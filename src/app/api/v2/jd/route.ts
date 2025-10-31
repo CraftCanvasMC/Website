@@ -10,7 +10,7 @@ export async function GET(request: Request) {
 
     const build = await getLatestBuild(!experimentalParam);
 
-    const mcVer = versionParam ?? build.minecraftVersion;
+    const mcVer = versionParam ?? build?.minecraftVersion;
 
     const jdUrl = `https://maven.canvasmc.io/javadoc/snapshots/io/canvasmc/canvas/canvas-api/${mcVer}-R0.1-SNAPSHOT`;
 

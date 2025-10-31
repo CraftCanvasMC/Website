@@ -124,9 +124,13 @@ const BuildRow = memo(({ build, isLatest }: { build: Build; isLatest: boolean })
 
   return (
     <div
-      className="group flex flex-col justify-between gap-4 border-neutral-800 border-t py-4 px-4 sm:px-6 sm:flex-row sm:items-center
+      className="group relative flex flex-col justify-between gap-4 border border-neutral-800 border-t py-4 px-4 sm:px-6 sm:flex-row sm:items-center rounded-lg
                  transition-all duration-200 ease-out
-                 hover:scale-[1.01] hover:shadow-lg hover:border hover:border-white/20 hover:rounded-lg will-change-transform"
+                 hover:border-white/20 hover:scale-[1.008]"
+      style={{ 
+        transform: 'translate3d(0, 0, 0)',
+        willChange: 'transform',
+      }}
     >
       <div className="flex min-w-0 flex-1 flex-col sm:flex-row sm:items-center">
         <div className="flex flex-col justify-center pr-6 sm:pr-8 border-r border-white/10 min-w-[120px] sm:min-w-[140px]">

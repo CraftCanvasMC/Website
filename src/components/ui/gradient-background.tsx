@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '~/lib/utils';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import type { HTMLAttributes } from 'react';
 
 const globalState = {
@@ -49,7 +49,7 @@ function generatePoints(count: number, variance: number) {
 
 export function GradientBackground({
   layers = 2,
-  points = 20,
+  points = 16,
   variance = 5,
   speed = 0.00002,
   pulseSpeed = 0.0002,
@@ -57,27 +57,40 @@ export function GradientBackground({
   className,
   ...props
 }: GradientBackgroundProps) {
-  const [gradientColors, setGradientColors] = useState(
-    () => globalState.gradientColors ?? createGradients(layers)
-  );
-  const [polyPoints, setPolyPoints] = useState(
-    () => globalState.polyPoints ?? generatePoints(points, variance)
-  );
-  const [pulse, setPulse] = useState(0.85);
+  const gradientColorsRef = useRef(globalState.gradientColors ?? createGradients(layers));
+  const polyPointsRef = useRef(globalState.polyPoints ?? generatePoints(points, variance));
+  const elementRef = useRef<HTMLDivElement>(null);
+  const innerDivRef = useRef<HTMLDivElement>(null);
 
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
   const lastFrameTime = useRef(0);
   const frameInterval = 1000 / 30;
+  const isScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
-    globalState.gradientColors = gradientColors;
-    globalState.polyPoints = polyPoints;
-  }, [gradientColors, polyPoints]);
+    globalState.gradientColors = gradientColorsRef.current;
+    globalState.polyPoints = polyPointsRef.current;
+  }, []);
 
   useEffect(() => {
     if (frozen) return;
 
+    const innerDiv = innerDivRef.current;
+    if (!innerDiv) return;
+
     let lastTime = performance.now();
+    const handleScroll = () => {
+      isScrollingRef.current = true;
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        isScrollingRef.current = false;
+        lastTime = performance.now();
+        lastFrameTime.current = lastTime;
+      }, 150);
+    };
 
     const handleVisibilityChange = () => {
       if (!document.hidden) {
@@ -86,73 +99,85 @@ export function GradientBackground({
       }
     };
 
+    window.addEventListener('scroll', handleScroll, { passive: true });
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const animate = (time: number) => {
       animationRef.current = requestAnimationFrame(animate);
+      if (isScrollingRef.current) {
+        return;
+      }
 
-      let deltaSinceLastFrame = time - lastFrameTime.current;
+      const deltaSinceLastFrame = time - lastFrameTime.current;
       if (deltaSinceLastFrame < frameInterval) return;
 
       const delta = Math.min(time - lastTime, 50);
       lastTime = time;
       lastFrameTime.current = time;
 
-      setGradientColors((prev) =>
-        prev.map((g) => ({
-          ...g,
-          angle: (g.angle + delta * speed * 0.1) % 360,
-        }))
-      );
+      gradientColorsRef.current = gradientColorsRef.current.map((g) => ({
+        ...g,
+        angle: (g.angle + delta * speed * 0.1) % 360,
+      }));
 
-      setPolyPoints((prev) =>
-        prev.map((p) => {
-          let { x, y, xTarget, yTarget } = p;
-          x = lerp(x, xTarget, speed * delta);
-          y = lerp(y, yTarget, speed * delta);
+      polyPointsRef.current = polyPointsRef.current.map((p) => {
+        let { x, y, xTarget, yTarget } = p;
+        x = lerp(x, xTarget, speed * delta);
+        y = lerp(y, yTarget, speed * delta);
 
-          if (Math.abs(x - xTarget) < 0.5) xTarget = Math.random() * 100;
-          if (Math.abs(y - yTarget) < 0.5) yTarget = Math.random() * 100;
+        if (Math.abs(x - xTarget) < 0.5) xTarget = Math.random() * 100;
+        if (Math.abs(y - yTarget) < 0.5) yTarget = Math.random() * 100;
 
-          return { x, y, xTarget, yTarget };
-        })
-      );
+        return { x, y, xTarget, yTarget };
+      });
 
-      setPulse(Math.sin(time * pulseSpeed) * 0.15 + 0.85);
+      const pulse = Math.sin(time * pulseSpeed) * 0.15 + 0.85;
+      const gradientStyle = gradientColorsRef.current.map((g) => `linear-gradient(${g.angle}deg, hsl(${g.from.h},${g.from.s}%,${g.from.l}%) 0%, hsl(${g.via.h},${g.via.s}%,${g.via.l}%) 50%, hsl(${g.to.h},${g.to.s}%,${g.to.l}%) 100%)`).join(', ');
+      const polygonString = polyPointsRef.current.map((p) => `${p.x.toFixed(1)}% ${p.y.toFixed(1)}%`).join(', ');
+      innerDiv.style.background = gradientStyle;
+      innerDiv.style.clipPath = `polygon(${polygonString})`;
+      innerDiv.style.opacity = pulse.toString();
     };
 
     animationRef.current = requestAnimationFrame(animate);
 
     return () => {
-      cancelAnimationFrame(animationRef.current!);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+      window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [speed, pulseSpeed, frozen]);
+  }, [speed, pulseSpeed, frozen, frameInterval]);
+  const initialGradientStyle = useMemo(() => gradientColorsRef.current.map((g) => `linear-gradient(${g.angle}deg, hsl(${g.from.h},${g.from.s}%,${g.from.l}%) 0%, hsl(${g.via.h},${g.via.s}%,${g.via.l}%) 50%, hsl(${g.to.h},${g.to.s}%,${g.to.l}%) 100%)`).join(', '), []);
 
-  const gradientStyle = gradientColors
-    .map(
-      (g) =>
-        `linear-gradient(${g.angle}deg, hsl(${g.from.h},${g.from.s}%,${g.from.l}%) 0%, hsl(${g.via.h},${g.via.s}%,${g.via.l}%) 50%, hsl(${g.to.h},${g.to.s}%,${g.to.l}%) 100%)`
-    )
-    .join(', ');
-
-  const polygonString = polyPoints.map((p) => `${p.x.toFixed(1)}% ${p.y.toFixed(1)}%`).join(', ');
+  const initialPolygonString = useMemo(() => polyPointsRef.current.map((p) => `${p.x.toFixed(1)}% ${p.y.toFixed(1)}%`).join(', '), []);
 
   return (
     <div
+      ref={elementRef}
       aria-hidden="true"
       className={cn(
         'fixed inset-0 -z-10 transform-gpu overflow-hidden opacity-36 blur-3xl',
         className
       )}
+      style={{
+        willChange: 'auto',
+        contain: 'layout style paint',
+      }}
       {...props}
     >
       <div
-        className="w-full h-full absolute opacity-36 transition-opacity duration-700"
+        ref={innerDivRef}
+        className="w-full h-full absolute opacity-36"
         style={{
-          background: gradientStyle,
-          clipPath: `polygon(${polygonString})`,
-          opacity: frozen ? 0.85 : pulse,
+          background: initialGradientStyle,
+          clipPath: `polygon(${initialPolygonString})`,
+          opacity: frozen ? 0.85 : 0.85,
+          willChange: 'opacity, clip-path',
         }}
       />
     </div>
