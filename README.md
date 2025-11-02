@@ -8,26 +8,21 @@ The official website for CanvasMC, built with modern web technologies.
 
 ## Tech Stack
 
-- [Next.js 15](https://nextjs.org/)
-- [Next-Plausible](https://next-plausible.vercel.app/)
-- [Tailwind CSS v4](https://tailwindcss.com/)
-- [Radix UI Primitives](https://www.radix-ui.com/primitives)
-- [Lucide Icons](https://lucide.dev/)
-- [Zod](https://zod.dev/)
+- **Framework**: [Astro](https://astro.build)
+- **UI**: [Svelte](https://svelte.dev)
+- **CSS**: [Tailwind CSS](https://tailwindcss.com)
+- **Animation**: [GSAP](https://gsap.com)
+- **Runtime**: [Bun](https://bun.sh)
+- **Icons**: [Lucide Icons](https://lucide.dev/)
+- **Validation**: [Zod](https://zod.dev/)
 
 ## Available Scripts
 
 ```sh
-> bun run dev
-> bun run build
-> bun run start
-> bun run lint
-> bun run lint:fix
-> bun run format
-> bun run format:fix
-> bun run check
-> bun run check:fix
-> bun run typecheck
+> bun install       # Install dependencies
+> bun run dev       # Start dev server at localhost:4321
+> bun run build     # Build production site to ./dist/
+> bun run preview   # Preview production build locally
 ```
 
 ## Contributors

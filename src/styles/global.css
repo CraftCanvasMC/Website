@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0f0f0f;
+  --foreground: #ededed;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  25% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  60% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+}
+
+@keyframes ripple-on-card {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.35;
+  }
+  60% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+.heartbeat-container {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heartbeat-container::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(180, 180, 255, 0.08) 10%,
+    rgba(150, 150, 255, 0.04) 100%,
+    transparent 80%
+  );
+  animation: ripple-on-card 1.8s ease-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heartbeat-container svg {
+  animation: heartbeat 1.8s ease-in-out infinite;
+  z-index: 10;
+}
+
+button,
+a,
+.group {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+[class*="hover:scale"] {
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  [class*="hover:scale"]:not(:hover) {
+    will-change: auto;
+  }
+}
+
+[class*="hover:shadow"] {
+  isolation: isolate;
+}
