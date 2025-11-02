@@ -9,9 +9,9 @@
 
   let { show = $bindable(false), target }: Props = $props();
   let mounted = $state(false);
-  let overlayElement: HTMLDivElement | undefined;
+  let overlayElement = $state<HTMLDivElement | undefined>(undefined);
   let dotElements: HTMLDivElement[] = [];
-  let textElement: HTMLParagraphElement | undefined;
+  let textElement = $state<HTMLParagraphElement | undefined>(undefined);
 
   onMount(() => {
     mounted = true;

@@ -29,7 +29,7 @@
   let isOpen = $state(false);
   let redirecting = $state(false);
   let redirectTarget = $state<string | undefined>(undefined);
-  let mobileMenuElement: HTMLDivElement | undefined;
+  let mobileMenuElement = $state<HTMLDivElement | undefined>(undefined);
 
   let currentPath = $state('');
   
