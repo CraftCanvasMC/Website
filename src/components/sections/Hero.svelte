@@ -8,7 +8,7 @@
 <section class="relative isolate">
   <div class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 lg:py-22">
     <div class="flex flex-col items-center text-center gap-12 lg:flex-row lg:justify-center lg:items-center lg:text-left">
-      <div use:entrance={{ type: 'slideUp', delay: 0.2 }}>
+      <div use:entrance={{ type: 'fadeIn', delay: 0.1 }}>
         <Card class="max-w-xl p-8 border border-white/10 backdrop-blur-sm bg-white/5 transition-all">
           <h1 class="font-bold text-4xl leading-tight lg:text-5xl bg-gradient-to-r from-white via-neutral-300 to-white bg-clip-text text-transparent">
           High performance Minecraft server software
@@ -44,7 +44,7 @@
         </Card>
       </div>
 
-      <div use:entrance={{ type: 'fadeIn', delay: 0.3, duration: 0.3 }} class="hidden lg:flex justify-center relative shrink-0">
+      <div use:entrance={{ type: 'fadeIn', delay: 0.1 }} class="hidden lg:flex justify-center relative shrink-0">
         <div class="absolute inset-0 flex justify-center items-center">
           <img
             src="/logo_big.webp"

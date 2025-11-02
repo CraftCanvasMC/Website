@@ -23,18 +23,17 @@ export const HOVER_ANIMATIONS = {
 } as const;
 
 export const ENTRANCE_ANIMATIONS = {
-  fadeIn: { opacity: 0, duration: 0.6, ease: 'power2.out' },
-  slideUp: { y: 20, opacity: 0, duration: 0.6, ease: 'power2.out' },
-  slideDown: { y: -20, opacity: 0, duration: 0.6, ease: 'power2.out' },
-  scaleIn: { scale: 0, opacity: 0, duration: 0.6, ease: 'back.out(1.7)' },
-  slideLeft: { x: -20, opacity: 0, duration: 0.6, ease: 'power2.out' },
-  slideRight: { x: 20, opacity: 0, duration: 0.6, ease: 'power2.out' },
+  fadeIn: { opacity: 0, duration: 0.8, ease: 'power2.out' },
+  slideUp: { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out' },
+  slideDown: { y: -30, opacity: 0, duration: 0.8, ease: 'power2.out' },
+  scaleIn: { scale: 0.95, opacity: 0, duration: 0.8, ease: 'power2.out' },
+  slideLeft: { x: -30, opacity: 0, duration: 0.8, ease: 'power2.out' },
+  slideRight: { x: 30, opacity: 0, duration: 0.8, ease: 'power2.out' },
 } as const;
 
 export function hoverScale(node: HTMLElement, intensity: 'small' | 'medium' | 'large' = 'medium') {
   const config = HOVER_ANIMATIONS.scale[intensity];
-  
-  // Set will-change only during hover for better performance
+
   const handleMouseEnter = () => {
     node.style.willChange = 'transform';
     gsap.to(node, { 
@@ -123,11 +122,28 @@ export function entrance(
 ) {
   const config = ENTRANCE_ANIMATIONS[type];
   const animConfig = duration !== undefined ? { ...config, duration } : config;
-  gsap.from(node, { 
-    ...animConfig, 
+  
+  gsap.set(node, { 
+    opacity: 0,
+    y: type === 'slideUp' ? 30 : type === 'slideDown' ? -30 : 0,
+    x: type === 'slideLeft' ? -30 : type === 'slideRight' ? 30 : 0,
+    scale: type === 'scaleIn' ? 0.95 : 1,
+    visibility: 'visible',
+  });
+  
+  gsap.to(node, { 
+    opacity: 1,
+    y: 0,
+    x: 0,
+    scale: 1,
+    duration: animConfig.duration,
     delay,
+    ease: animConfig.ease,
     force3D: true,
-    overwrite: 'auto'
+    overwrite: 'auto',
+    onComplete: () => {
+      gsap.set(node, { clearProps: 'transform,opacity' });
+    }
   });
 
   return {
@@ -148,11 +164,27 @@ export function staggerEntrance(
   const config = ENTRANCE_ANIMATIONS[type];
   const children = node.querySelectorAll(selector);
   
-  gsap.from(children, {
-    ...config,
+  gsap.set(children, { 
+    opacity: 0,
+    y: type === 'slideUp' ? 30 : type === 'slideDown' ? -30 : 0,
+    x: type === 'slideLeft' ? -30 : type === 'slideRight' ? 30 : 0,
+    scale: type === 'scaleIn' ? 0.95 : 1,
+    visibility: 'visible',
+  });
+  
+  gsap.to(children, {
+    opacity: 1,
+    y: 0,
+    x: 0,
+    scale: 1,
+    duration: config.duration,
     stagger,
+    ease: config.ease,
     force3D: true,
-    overwrite: 'auto'
+    overwrite: 'auto',
+    onComplete: () => {
+      gsap.set(children, { clearProps: 'transform,opacity' });
+    }
   });
 
   return {

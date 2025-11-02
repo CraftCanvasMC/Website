@@ -11,8 +11,8 @@ import Community from '../components/sections/Community.svelte';
 <Layout>
 	<Navbar slot="navbar" client:load />
 	<GradientBackground client:load />
-	<Hero client:load />
-	<Features client:load />
-	<Community client:load />
-	<Footer slot="footer" client:load />
+	<Hero client:idle />
+	<Features client:idle />
+	<Community client:idle />
+	<Footer slot="footer" client:idle />
 </Layout>
