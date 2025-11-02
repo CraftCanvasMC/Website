@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 :root {
+  --font-family-sans: "Geist Sans", system-ui, -apple-system, sans-serif;
+  --font-family-mono: "Geist Mono", ui-monospace, monospace;
   --background: #0f0f0f;
   --foreground: #ededed;
 }

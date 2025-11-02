@@ -11,11 +11,16 @@
   "dependencies": {
     "@astrojs/check": "^0.9.5",
     "@astrojs/svelte": "^7.2.1",
+    "@fontsource/geist-mono": "^5.2.7",
+    "@fontsource/geist-sans": "^5.2.5",
     "@tailwindcss/vite": "^4.1.16",
     "astro": "^5.15.3",
+    "clsx": "^2.1.1",
     "gsap": "^3.13.0",
+    "lru-cache": "^11.2.2",
     "lucide-svelte": "^0.552.0",
     "svelte": "^5.43.2",
+    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.16",
     "typescript": "^5.9.3",
     "zod": "^4.1.12"

@@ -3,63 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.svelte';
 import Footer from '../../components/Footer.svelte';
 import GradientBackground from '../../components/ui/GradientBackground.svelte';
-import DownloadsPage from '../../components/DownloadsPage.svelte';
-import { getAllBuilds } from '../../lib/jenkins';
-import { getCachedBuilds } from '../../lib/cache';
-import { jenkinsConfig } from '../../config/jenkins';
-import type { Build } from '../../lib/schemas/jenkins';
-
-async function isJenkinsReachable(): Promise<boolean> {
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
-    
-    const response = await fetch(jenkinsConfig.baseUrl, {
-      method: 'HEAD',
-      signal: controller.signal,
-      cache: 'no-store',
-    });
-    
-    clearTimeout(timeoutId);
-    return response.ok || response.status < 500;
-  } catch {
-    return false;
-  }
-}
-
-let usingCache = false;
-let jenkinsDown = false;
-let builds: Build[] = [];
-
-try {
-  builds = await getAllBuilds({ includeExperimental: true });
-} catch (error) {
-  const isReachable = await isJenkinsReachable();
-  if (!isReachable) {
-    jenkinsDown = true;
-    usingCache = false;
-    builds = [];
-  } else {
-    jenkinsDown = false;
-    const cachedBuilds = await getCachedBuilds(false);
-    if (cachedBuilds && cachedBuilds.length > 0) {
-      usingCache = true;
-      builds = cachedBuilds;
-    } else {
-      builds = [];
-    }
-  }
-}
-
-const filteredBuilds = builds.filter(b => b.minecraftVersion !== 'unknown');
-
-const buildsByVersion = filteredBuilds.reduce<Record<string, Build[]>>((grouped, build) => {
-  grouped[build.minecraftVersion] ??= [];
-  grouped[build.minecraftVersion].push(build);
-  return grouped;
-}, {});
-
-const versions = Object.keys(buildsByVersion).sort().reverse();
+import DownloadsPageWrapper from '../../components/DownloadsPageWrapper.svelte';
 ---
 
 <Layout>
@@ -88,13 +32,7 @@ const versions = Object.keys(buildsByVersion).sort().reverse();
       </div>
     </header>
 
-    <DownloadsPage 
-      buildsByVersion={buildsByVersion}
-      versions={versions}
-      usingCache={usingCache}
-      jenkinsDown={jenkinsDown}
-      client:load
-    />
+    <DownloadsPageWrapper client:load />
   </main>
 
   <Footer slot="footer" client:load />

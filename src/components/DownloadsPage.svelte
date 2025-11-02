@@ -76,7 +76,6 @@
   }
 
   onMount(() => {
-    // Animate notification on mount
     if (notificationElement) {
       gsap.fromTo(
         notificationElement,
@@ -87,7 +86,6 @@
   });
 
   $effect(() => {
-    // Animate builds list when version changes or builds update
     if (buildsListElement && builds.length > 0) {
       const buildElements = buildsListElement.querySelectorAll('.build-row');
       gsap.fromTo(

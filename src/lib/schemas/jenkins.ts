@@ -33,11 +33,6 @@ export const BuildSchema = z.object({
   minecraftVersion: z.string(),
   timestamp: z.number(),
   isExperimental: z.boolean(),
-  commit: z.object({
-    message: z.string().nullable(),
-    extraDescription: z.string().nullable(),
-    hash: z.string().nullable(),
-  }),
   commits: z.array(
     z.object({
       message: z.string().nullable(),

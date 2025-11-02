@@ -1,5 +1,7 @@
 ---
 import { siteConfig } from '../config/site';
+import { plausibleConfig } from '../config/plausible';
+import '../lib/fonts';
 import '../styles/global.css';
 
 interface Props {
@@ -23,8 +25,6 @@ const fullTitle = title === siteConfig.name ? title : `${title} | ${siteConfig.n
 		<meta name="description" content={description} />
 		<meta name="keywords" content="CanvasMC, Canvas, Regionizing, Threaded Minecraft, Folia, Performance, Multithreading" />
 		<meta name="theme-color" content="#0f0f0f" />
-		
-		<!-- Open Graph -->
 		<meta property="og:url" content={siteConfig.url} />
 		<meta property="og:site_name" content={siteConfig.name} />
 		<meta property="og:title" content={fullTitle} />
@@ -34,14 +34,21 @@ const fullTitle = title === siteConfig.name ? title : `${title} | ${siteConfig.n
 		<meta property="og:image:height" content="630" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="website" />
-		
-		<!-- Twitter -->
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:creator" content="@thedueris" />
-		
 		<link rel="icon" type="image/png" href="/logo.png" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{fullTitle}</title>
+
+		{plausibleConfig.enabled && (
+			<script
+				is:inline
+				defer
+				data-domain={plausibleConfig.domain}
+				data-api={plausibleConfig.apiHost}
+				src={plausibleConfig.src}
+			></script>
+		)}
 	</head>
 	<body class="relative bg-[var(--background)] min-h-screen font-sans antialiased text-[var(--foreground)]">
 		<slot name="navbar" />

@@ -46,10 +46,6 @@ function parseBuild(build: JenkinsBuild): Build {
       })
       ?.reverse() || [];
 
-  const firstCommit = build.changeSet?.items?.[0];
-  const firstMessage = firstCommit?.msg || null;
-  const firstExtra = extractExtraDescription(firstMessage, firstCommit?.comment);
-
   return {
     result: build.result,
     buildNumber: build.number,
@@ -60,11 +56,6 @@ function parseBuild(build: JenkinsBuild): Build {
     minecraftVersion: versionMatch?.[1]?.replace('-', '') || 'unknown',
     timestamp: build.timestamp,
     isExperimental,
-    commit: {
-      message: firstMessage,
-      extraDescription: firstExtra,
-      hash: firstCommit?.commitId || null,
-    },
     commits,
   };
 }

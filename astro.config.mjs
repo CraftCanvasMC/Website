@@ -5,6 +5,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   integrations: [svelte()],
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    css: {
+      transformer: 'postcss',
+    }
   }
 });
