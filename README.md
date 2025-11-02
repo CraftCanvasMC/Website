@@ -22,7 +22,7 @@ The official website for CanvasMC, built with modern web technologies.
 > bun install       # Install dependencies
 > bun run dev       # Start dev server at localhost:4321
 > bun run build     # Build production site to ./dist/
-> bun run preview   # Preview production build locally
+> bun run start     # Preview production build locally
 ```
 
 ## Contributors

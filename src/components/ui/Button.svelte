@@ -8,6 +8,7 @@
     href?: string;
     type?: 'button' | 'submit' | 'reset';
     class?: string;
+    disabled?: boolean;
     children: Snippet;
     onclick?: (e: MouseEvent) => void;
   }
@@ -18,6 +19,7 @@
     href,
     type = 'button',
     class: className = '',
+    disabled = false,
     children,
     onclick
   }: Props = $props();
@@ -41,11 +43,11 @@
 </script>
 
 {#if href}
-  <a use:hoverScale={'medium'} href={href} class={classes} onclick={onclick}>
+  <a use:hoverScale={'medium'} href={href} class={classes} onclick={onclick} aria-disabled={disabled}>
     {@render children()}
   </a>
 {:else}
-  <button use:hoverScale={'medium'} type={type} class={classes} onclick={onclick}>
+  <button use:hoverScale={'medium'} type={type} class={classes} onclick={onclick} disabled={disabled}>
     {@render children()}
   </button>
 {/if}

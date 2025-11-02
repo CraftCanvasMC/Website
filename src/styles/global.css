@@ -95,21 +95,39 @@
   z-index: 10;
 }
 
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.backdrop-blur-sm,
+.backdrop-blur-sm *,
+[class*="backdrop-blur"] {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
 button,
 a,
 .group {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 [class*="hover:scale"] {
-  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 @media (hover: hover) {
   [class*="hover:scale"]:not(:hover) {
     will-change: auto;
+  }
+  [class*="hover:scale"]:hover {
+    will-change: transform;
   }
 }
 

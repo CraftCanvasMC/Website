@@ -79,7 +79,7 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-15 items-center justify-between">
         <div class="flex items-center space-x-6">
-          <a href="/" class="flex items-center space-x-2 hover:opacity-90" aria-label="Home">
+          <a href="/" class="flex items-center space-x-2" aria-label="Home">
             <img src="/logo.png" alt="" width="26" height="26" />
             <span class="font-semibold text-sm">{siteConfig.name}</span>
           </a>
