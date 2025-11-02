@@ -9,6 +9,7 @@
   import type { Build } from '../lib/schemas/jenkins';
   import gsap from 'gsap';
   import { onMount } from 'svelte';
+  import { scrollReveal, scrollStagger } from '../lib/animations';
 
   interface Props {
     buildsByVersion: Record<string, Build[]>;
@@ -86,23 +87,6 @@
   });
 
   $effect(() => {
-    if (buildsListElement && builds.length > 0) {
-      const buildElements = buildsListElement.querySelectorAll('.build-row');
-      gsap.fromTo(
-        buildElements,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.4,
-          stagger: 0.05,
-          ease: 'power2.out'
-        }
-      );
-    }
-  });
-
-  $effect(() => {
     const clearRedirect = () => (redirecting = false);
     window.addEventListener('pageshow', clearRedirect);
     return () => window.removeEventListener('pageshow', clearRedirect);
@@ -146,8 +130,9 @@
 
   <Redirecting bind:show={redirecting} target="Javadocs" />
   
-  <Card class="p-6 overflow-hidden">
-    <div class="mb-6 flex items-center justify-between gap-4 animate-fade-in">
+  <div use:scrollReveal={{ type: 'slideUp', start: 'top 85%' }}>
+    <Card class="p-6 overflow-hidden">
+      <div class="mb-6 flex items-center justify-between gap-4 animate-fade-in">
       <div class="flex items-center gap-2">
         <Select
           value={selectedVersion}
@@ -203,7 +188,7 @@
             <p class="text-neutral-300 text-center">No builds available for this version.</p>
           {:else}
             {#each builds as build, index (build.buildNumber)}
-              <div class="build-row">
+              <div use:scrollReveal={{ type: 'slideUp', start: 'top 100%', delay: index * 0.08 }}>
                 <BuildRow {build} isLatest={index === 0} {dateFormatter} />
               </div>
             {/each}
@@ -212,12 +197,13 @@
       {/if}
     </div>
 
-    {#if !jenkinsDown}
-      <div class="mt-8 text-center">
-        <a href="https://jenkins.canvasmc.io" target="_blank" rel="noopener noreferrer" class="text-neutral-400 text-sm hover:text-neutral-300 transition-colors">
-          Looking for older builds? Check out our Jenkins server →
-        </a>
-      </div>
-    {/if}
-  </Card>
+      {#if !jenkinsDown}
+        <div class="mt-8 text-center">
+          <a href="https://jenkins.canvasmc.io" target="_blank" rel="noopener noreferrer" class="text-neutral-400 text-sm hover:text-neutral-300 transition-colors">
+            Looking for older builds? Check out our Jenkins server →
+          </a>
+        </div>
+      {/if}
+    </Card>
+  </div>
 </section>

@@ -4,7 +4,7 @@
   import Card from '../ui/Card.svelte';
   import { jenkinsConfig } from '../../config/jenkins';
   import { siteConfig } from '../../config/site';
-  import { staggerEntrance } from '../../lib/animations';
+  import { scrollReveal, scrollStagger } from '../../lib/animations';
 
   const COMMUNITIES = [
     {
@@ -33,35 +33,37 @@
 </script>
 
 <section class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 lg:py-28">
-  <header class="max-w-2xl text-center mx-auto">
+  <header use:scrollReveal={{ type: 'fadeIn', start: 'top 85%' }} class="max-w-2xl text-center mx-auto">
     <h2 class="font-semibold text-3xl text-white">Join our community</h2>
     <p class="mt-3 text-lg text-neutral-300">
       Connect with the Canvas community, contribute to development, and stay up to date.
     </p>
   </header>
 
-  <div use:staggerEntrance={{ type: 'slideUp', stagger: 0.15, selector: '> *' }} class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {#each COMMUNITIES as { title, description, icon: Icon, buttonText, href }}
-      <Card enableHover={true} class="flex flex-col p-6 bg-white/5 hover:bg-white/10 transition-colors hover:ring-neutral-600/60 gap-2">
-        <div class="flex gap-4">
-          <div class="shrink-0">
-            <div class="rounded-lg bg-neutral-700/50 p-2.5">
-              <Icon class="size-5 text-neutral-100" />
+  <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {#each COMMUNITIES as { title, description, icon: Icon, buttonText, href }, index}
+      <div use:scrollReveal={{ type: 'slideUp', start: 'top 85%', delay: index * 0.2 }}>
+        <Card enableHover={true} class="flex flex-col p-6 bg-white/5 hover:bg-white/10 transition-colors hover:ring-neutral-600/60 gap-2">
+          <div class="flex gap-4">
+            <div class="shrink-0">
+              <div class="rounded-lg bg-neutral-700/50 p-2.5">
+                <Icon class="size-5 text-neutral-100" />
+              </div>
+            </div>
+            <div>
+              <h3 class="font-medium text-neutral-100">{title}</h3>
+              <p class="mt-1.5 text-neutral-400 text-sm">{description}</p>
             </div>
           </div>
-          <div>
-            <h3 class="font-medium text-neutral-100">{title}</h3>
-            <p class="mt-1.5 text-neutral-400 text-sm">{description}</p>
+          <div class="mt-6 border-neutral-800 border-t pt-4">
+            <Button variant="secondary" class="w-full" href={href}>
+              {#snippet children()}
+                {buttonText}
+              {/snippet}
+            </Button>
           </div>
-        </div>
-        <div class="mt-6 border-neutral-800 border-t pt-4">
-          <Button variant="secondary" class="w-full" href={href}>
-            {#snippet children()}
-              {buttonText}
-            {/snippet}
-          </Button>
-        </div>
-      </Card>
+        </Card>
+      </div>
     {/each}
   </div>
 </section>

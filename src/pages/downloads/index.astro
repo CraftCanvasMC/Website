@@ -11,7 +11,7 @@ import DownloadsPageWrapper from '../../components/DownloadsPageWrapper.svelte';
   <GradientBackground client:load />
   
   <main class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
-    <header class="max-w-2xl text-center mx-auto mb-12">
+    <header class="max-w-2xl text-center mx-auto mb-12 scroll-animate-header">
       <h1 class="font-semibold text-4xl text-white">Downloads</h1>
       <p class="mt-3 text-lg text-neutral-300">
         Get the latest builds of CanvasMC for your Minecraft server.
@@ -37,3 +37,26 @@ import DownloadsPageWrapper from '../../components/DownloadsPageWrapper.svelte';
 
   <Footer slot="footer" client:load />
 </Layout>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const header = document.querySelector('.scroll-animate-header');
+  if (header) {
+    gsap.set(header, { opacity: 0, y: 20 });
+    gsap.to(header, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: header,
+        start: 'top 90%',
+        once: true,
+      },
+    });
+  }
+</script>

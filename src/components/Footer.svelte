@@ -4,7 +4,7 @@
   import { siteConfig } from '../config/site';
   import GithubIcon from './icons/GithubIcon.svelte';
   import DiscordIcon from './icons/DiscordIcon.svelte';
-  import { hoverLift } from '../lib/animations';
+  import { hoverLift, scrollReveal, scrollStagger } from '../lib/animations';
 
   const LINKS = {
     'Project & Development': [
@@ -33,7 +33,7 @@
 <footer class="mt-10 border-neutral-800/80 border-t lg:mt-14 bg-[var(--background)]">
   <div class="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
     <div class="grid gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-5">
-      <section class="text-left lg:col-span-2">
+      <section use:scrollReveal={{ type: 'fadeIn', start: 'top 90%' }} class="text-left lg:col-span-2">
         <a href="/" class="inline-flex items-center gap-2 rounded-xl hover:opacity-90">
           <img src="/logo.png" alt="CanvasMC Logo" width="26" height="26" />
           <h2 class="font-semibold">{siteConfig.name}</h2>
@@ -56,7 +56,7 @@
         </div>
       </section>
 
-      <div class="grid gap-8 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
+      <div use:scrollStagger={{ type: 'slideUp', stagger: 0.1, selector: '> section', start: 'top 90%' }} class="grid gap-8 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
         {#each Object.entries(LINKS) as [title, links]}
           <section class="space-y-3">
             <h3 class="font-medium text-sm">{title}</h3>
