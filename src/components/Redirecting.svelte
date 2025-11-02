@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { fly, fade } from 'svelte/transition';
   import { onMount } from 'svelte';
+  import gsap from 'gsap';
 
   interface Props {
     show: boolean;
@@ -9,26 +9,71 @@
 
   let { show = $bindable(false), target }: Props = $props();
   let mounted = $state(false);
+  let overlayElement: HTMLDivElement | undefined;
+  let dotElements: HTMLDivElement[] = [];
+  let textElement: HTMLParagraphElement | undefined;
 
   onMount(() => {
     mounted = true;
+  });
+
+  $effect(() => {
+    if (show && mounted && overlayElement) {
+      gsap.fromTo(
+        overlayElement,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3, ease: 'power2.out' }
+      );
+
+      gsap.fromTo(
+        dotElements,
+        { scale: 0, opacity: 0 },
+        { 
+          scale: 1, 
+          opacity: 1, 
+          duration: 0.4, 
+          stagger: 0.1,
+          ease: 'back.out(1.7)' 
+        }
+      );
+
+      gsap.to(dotElements, {
+        y: -10,
+        duration: 0.6,
+        stagger: 0.15,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.inOut',
+        delay: 0.5,
+      });
+
+      if (textElement) {
+        gsap.fromTo(
+          textElement,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, delay: 0.3, ease: 'power2.out' }
+        );
+      }
+    } else if (!show && overlayElement) {
+      gsap.killTweensOf([overlayElement, ...dotElements, textElement]);
+    }
   });
 </script>
 
 {#if mounted && show}
   <div
+    bind:this={overlayElement}
     class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black/70 backdrop-blur-sm text-white"
-    transition:fade={{ duration: 300 }}
   >
     <div class="flex flex-row gap-2">
-      <div class="w-4 h-4 rounded-full bg-white animate-bounce"></div>
-      <div class="w-4 h-4 rounded-full bg-white animate-bounce [animation-delay:-0.3s]"></div>
-      <div class="w-4 h-4 rounded-full bg-white animate-bounce [animation-delay:-0.5s]"></div>
+      <div bind:this={dotElements[0]} class="w-4 h-4 rounded-full bg-white will-change-transform"></div>
+      <div bind:this={dotElements[1]} class="w-4 h-4 rounded-full bg-white will-change-transform"></div>
+      <div bind:this={dotElements[2]} class="w-4 h-4 rounded-full bg-white will-change-transform"></div>
     </div>
 
     <p 
-      class="mt-8 text-lg font-semibold text-center"
-      in:fly={{ y: 8, delay: 250, duration: 400 }}
+      bind:this={textElement}
+      class="mt-8 text-lg font-semibold text-center will-change-transform"
     >
       Redirecting{target ? ` to ${target}` : ''}, please wait...
     </p>

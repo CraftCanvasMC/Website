@@ -4,6 +4,7 @@
   import Card from '../ui/Card.svelte';
   import { jenkinsConfig } from '../../config/jenkins';
   import { siteConfig } from '../../config/site';
+  import { staggerEntrance } from '../../lib/animations';
 
   const COMMUNITIES = [
     {
@@ -39,9 +40,9 @@
     </p>
   </header>
 
-  <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <div use:staggerEntrance={{ type: 'slideUp', stagger: 0.15, selector: '> *' }} class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     {#each COMMUNITIES as { title, description, icon: Icon, buttonText, href }}
-      <Card class="flex flex-col p-6 bg-white/5 hover:bg-white/10 transition-all duration-200 hover:ring-neutral-600/60 gap-2 transform-gpu transition-transform duration-200 hover:scale-[1.02]">
+      <Card enableHover={true} class="flex flex-col p-6 bg-white/5 hover:bg-white/10 transition-colors hover:ring-neutral-600/60 gap-2">
         <div class="flex gap-4">
           <div class="shrink-0">
             <div class="rounded-lg bg-neutral-700/50 p-2.5">

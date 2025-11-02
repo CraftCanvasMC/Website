@@ -1,5 +1,6 @@
 <script lang="ts">
   import { type Snippet } from 'svelte';
+  import { hoverScale } from '../../lib/animations';
 
   interface Props {
     variant?: 'default' | 'secondary' | 'ghost';
@@ -21,7 +22,7 @@
     onclick
   }: Props = $props();
 
-  const baseClasses = 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transform-gpu';
+  const baseClasses = 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 will-change-transform';
 
   const variantClasses = {
     default: 'bg-white text-neutral-900 hover:bg-neutral-100/90',
@@ -40,11 +41,11 @@
 </script>
 
 {#if href}
-  <a href={href} class={classes} onclick={onclick}>
+  <a use:hoverScale={'medium'} href={href} class={classes} onclick={onclick}>
     {@render children()}
   </a>
 {:else}
-  <button type={type} class={classes} onclick={onclick}>
+  <button use:hoverScale={'medium'} type={type} class={classes} onclick={onclick}>
     {@render children()}
   </button>
 {/if}

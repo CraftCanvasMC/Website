@@ -5,6 +5,8 @@
   import DiscordIcon from './icons/DiscordIcon.svelte';
   import DonateIcon from './icons/DonateIcon.svelte';
   import Redirecting from './Redirecting.svelte';
+  import gsap from 'gsap';
+  import { hoverLift } from '../lib/animations';
 
   interface NavbarItem {
     href: string;
@@ -27,12 +29,25 @@
   let isOpen = $state(false);
   let redirecting = $state(false);
   let redirectTarget = $state<string | undefined>(undefined);
+  let mobileMenuElement: HTMLDivElement | undefined;
 
   let currentPath = $state('');
   
   if (typeof window !== 'undefined') {
     currentPath = window.location.pathname;
   }
+
+  $effect(() => {
+    if (mobileMenuElement) {
+      if (isOpen) {
+        gsap.fromTo(
+          mobileMenuElement,
+          { opacity: 0, y: -20 },
+          { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+        );
+      }
+    }
+  });
 
   function handleExternalRedirect(url: string) {
     const urlObj = new URL(url);
@@ -92,9 +107,10 @@
           {#each SOCIAL as link}
             {@const IconComponent = link.icon}
             <a
+              use:hoverLift={'small'}
               href={link.href}
               onclick={(e) => handleClick(e, link.href)}
-              class="flex items-center gap-1.5 text-sm transition-colors text-neutral-300 hover:text-neutral-100"
+              class="flex items-center gap-1.5 text-sm transition-colors text-neutral-300 hover:text-neutral-100 will-change-transform"
             >
               <IconComponent class="size-5" />
             </a>
@@ -118,7 +134,7 @@
     </div>
 
     {#if isOpen}
-      <div class="absolute top-15 right-0 left-0 border-neutral-800 border-y bg-[var(--background)] pt-5 md:hidden">
+      <div bind:this={mobileMenuElement} class="absolute top-15 right-0 left-0 border-neutral-800 border-y bg-[var(--background)] pt-5 md:hidden">
         <div class="space-y-1 px-2 pb-3">
           {#each LINKS as link}
             {@const isActive = currentPath === link.href}

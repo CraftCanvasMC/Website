@@ -2,13 +2,15 @@
   import { ArrowRight } from 'lucide-svelte';
   import Button from '../ui/Button.svelte';
   import Card from '../ui/Card.svelte';
+  import { entrance } from '../../lib/animations';
 </script>
 
 <section class="relative isolate">
   <div class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 lg:py-22">
     <div class="flex flex-col items-center text-center gap-12 lg:flex-row lg:justify-center lg:items-center lg:text-left">
-      <Card class="max-w-xl p-8 border border-white/10 backdrop-blur-sm bg-white/5 transition-all">
-        <h1 class="font-bold text-4xl leading-tight lg:text-5xl bg-gradient-to-r from-white via-neutral-300 to-white bg-clip-text text-transparent">
+      <div use:entrance={{ type: 'slideUp', delay: 0.2 }}>
+        <Card class="max-w-xl p-8 border border-white/10 backdrop-blur-sm bg-white/5 transition-all">
+          <h1 class="font-bold text-4xl leading-tight lg:text-5xl bg-gradient-to-r from-white via-neutral-300 to-white bg-clip-text text-transparent">
           High performance Minecraft server software
         </h1>
         <p class="mt-7 text-2xl bg-gradient-to-r from-neutral-100 via-neutral-400 to-neutral-100 bg-clip-text text-transparent">
@@ -21,7 +23,7 @@
           <Button
             size="lg"
             href="/downloads"
-            class="gap-2 transform transition-transform duration-200 hover:scale-105"
+            class="gap-2"
           >
             {#snippet children()}
               Download Canvas
@@ -31,7 +33,7 @@
             variant="secondary"
             size="lg"
             href="https://docs.canvasmc.io"
-            class="flex items-center gap-2 transform transition-transform duration-200 hover:scale-105"
+            class="flex items-center gap-2"
           >
             {#snippet children()}
               Documentation
@@ -39,9 +41,10 @@
             {/snippet}
           </Button>
         </div>
-      </Card>
+        </Card>
+      </div>
 
-      <div class="hidden lg:flex justify-center relative shrink-0">
+      <div use:entrance={{ type: 'fadeIn', delay: 0.3, duration: 0.3 }} class="hidden lg:flex justify-center relative shrink-0">
         <div class="absolute inset-0 flex justify-center items-center">
           <img
             src="/logo_big.webp"

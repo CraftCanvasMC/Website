@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Cpu, Lightbulb, CircleGauge, FileSliders, Zap, ChevronsUp } from 'lucide-svelte';
   import Card from '../ui/Card.svelte';
+  import { staggerEntrance } from '../../lib/animations';
 
   const FEATURES = [
     {
@@ -50,10 +51,11 @@
     </p>
   </header>
 
-  <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 place-items-center">
+  <div use:staggerEntrance={{ type: 'slideUp', stagger: 0.1, selector: '> *' }} class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 place-items-center">
     {#each FEATURES as { title, description, icon: Icon }}
       <Card
-        class="w-full sm:w-[95%] max-w-sm p-5 border border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-all gap-2 transform-gpu duration-200 hover:scale-[1.02]"
+        enableHover={true}
+        class="w-full sm:w-[95%] max-w-sm p-5 border border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-colors gap-2"
       >
         <div class="flex gap-4">
           <div class="shrink-0">

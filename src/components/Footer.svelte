@@ -4,6 +4,7 @@
   import { siteConfig } from '../config/site';
   import GithubIcon from './icons/GithubIcon.svelte';
   import DiscordIcon from './icons/DiscordIcon.svelte';
+  import { hoverLift } from '../lib/animations';
 
   const LINKS = {
     'Project & Development': [
@@ -42,11 +43,12 @@
           {#each SOCIALS as { href, icon, label }}
             {@const IconComponent = icon}
             <a
+              use:hoverLift={'small'}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${label} (opens in new tab)`}
-              class="text-neutral-300 transition-colors hover:text-neutral-100"
+              class="text-neutral-300 transition-colors hover:text-neutral-100 will-change-transform"
             >
               <IconComponent class="size-5" />
             </a>

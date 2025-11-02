@@ -1,7 +1,8 @@
 <script lang="ts">
   import { z } from 'zod';
   import { Mail, User, MessageSquare, CheckCircle, AlertCircle } from 'lucide-svelte';
-  import { gsap } from 'gsap';
+  import { shake, hoverScale } from '../lib/animations';
+  import gsap from 'gsap';
 
   // Zod schema for form validation
   const contactSchema = z.object({
@@ -20,6 +21,7 @@
 
   let errors: Partial<Record<keyof ContactForm, string>> = {};
   let successMessage = '';
+  let formContainer: HTMLDivElement | undefined;
 
   function handleSubmit(event: Event) {
     event.preventDefault();
@@ -49,23 +51,15 @@
           errors[field] = issue.message;
         });
 
-        gsap.to('.form-container', {
-          keyframes: [
-            { x: -10 },
-            { x: 10 },
-            { x: -10 },
-            { x: 10 },
-            { x: 0 }
-          ],
-          duration: 0.4,
-          ease: 'power2.inOut'
-        });
+        if (formContainer) {
+          shake(formContainer);
+        }
       }
     }
   }
 </script>
 
-<div class="form-container max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg">
+<div bind:this={formContainer} class="form-container max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg">
   <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center gap-2">
     <MessageSquare size={28} />
     Contact Form
@@ -130,8 +124,9 @@
     </div>
 
     <button
+      use:hoverScale={'small'}
       type="submit"
-      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors will-change-transform"
     >
       Submit
     </button>
