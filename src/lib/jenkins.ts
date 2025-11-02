@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { jenkinsConfig } from '../config/jenkins';
 import { type Build, type JenkinsBuild, JenkinsBuildSchema } from './schemas/jenkins';
-import { getCachedBuilds, setCachedBuilds } from './cache';
+import { setCachedBuilds } from './cache';
 
 export class JenkinsError extends Error {
   constructor(message: string) {

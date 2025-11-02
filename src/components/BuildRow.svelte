@@ -4,6 +4,7 @@
   import CommitItem from './CommitItem.svelte';
   import StatusBadge from './StatusBadge.svelte';
   import type { Build } from '../lib/schemas/jenkins';
+  import gsap from 'gsap';
 
   interface Props {
     build: Build;
@@ -12,6 +13,7 @@
   }
 
   let { build, isLatest, dateFormatter }: Props = $props();
+  let rowElement: HTMLDivElement | undefined = $state();
 
   const formattedDate = $derived(dateFormatter.format(new Date(build.timestamp)).replace(',', ''));
   
@@ -36,10 +38,36 @@
   });
 
   const displayCommits = $derived(build.commits.slice(0, 100));
+
+  function handleMouseEnter() {
+    if (rowElement) {
+      gsap.to(rowElement, {
+        scale: 1.008,
+        borderColor: 'rgba(255, 255, 255, 0.2)',
+        duration: 0.2,
+        ease: 'power2.out'
+      });
+    }
+  }
+
+  function handleMouseLeave() {
+    if (rowElement) {
+      gsap.to(rowElement, {
+        scale: 1,
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        duration: 0.2,
+        ease: 'power2.out'
+      });
+    }
+  }
 </script>
 
 <div
-  class="group relative flex flex-col justify-between gap-4 border border-neutral-800 border-t py-4 px-4 sm:px-6 sm:flex-row sm:items-center rounded-lg transition-all duration-200 ease-out hover:border-white/20 hover:scale-[1.008]"
+  bind:this={rowElement}
+  onmouseenter={handleMouseEnter}
+  onmouseleave={handleMouseLeave}
+  role="article"
+  class="group relative flex flex-col justify-between gap-4 border border-neutral-800 border-t py-4 px-4 sm:px-6 sm:flex-row sm:items-center rounded-lg will-change-transform"
 >
   <div class="flex min-w-0 flex-1 flex-col sm:flex-row sm:items-center">
     <div class="flex flex-col justify-center pr-6 sm:pr-8 border-r border-white/10 min-w-[120px] sm:min-w-[140px]">

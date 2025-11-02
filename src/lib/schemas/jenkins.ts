@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const JenkinsBuildSchema = z.object({
   number: z.number(),
-  url: z.string().url(),
+  url: z.string(),
   displayName: z.string(),
   result: z.enum(['SUCCESS', 'FAILURE', 'ABORTED', 'UNSTABLE']).optional(),
   timestamp: z.number(),
@@ -28,8 +28,8 @@ export type JenkinsBuild = z.infer<typeof JenkinsBuildSchema>;
 export const BuildSchema = z.object({
   result: z.enum(['SUCCESS', 'FAILURE', 'ABORTED', 'UNSTABLE']).optional(),
   buildNumber: z.number(),
-  url: z.string().url(),
-  downloadUrl: z.string().url().nullable(),
+  url: z.string(),
+  downloadUrl: z.string().nullable(),
   minecraftVersion: z.string(),
   timestamp: z.number(),
   isExperimental: z.boolean(),

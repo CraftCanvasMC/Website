@@ -7,6 +7,8 @@
   import BuildRow from './BuildRow.svelte';
   import SculptorContent from './SculptorContent.svelte';
   import type { Build } from '../lib/schemas/jenkins';
+  import gsap from 'gsap';
+  import { onMount } from 'svelte';
 
   interface Props {
     buildsByVersion: Record<string, Build[]>;
@@ -25,6 +27,9 @@
   let selectedVersion = $state(versions[0]);
   let showNewTab = $state(false);
   let redirecting = $state(false);
+  let contentContainer: HTMLDivElement | undefined = $state();
+  let notificationElement: HTMLDivElement | undefined = $state();
+  let buildsListElement: HTMLDivElement | undefined = $state();
 
   let builds = $derived.by(() => {
     const versionBuilds = buildsByVersion[selectedVersion];
@@ -48,8 +53,56 @@
   }
 
   function toggleTab() {
-    showNewTab = !showNewTab;
+    if (contentContainer) {
+      gsap.to(contentContainer, {
+        opacity: 0,
+        y: -10,
+        duration: 0.2,
+        ease: 'power2.in',
+        onComplete: () => {
+          showNewTab = !showNewTab;
+          if (contentContainer) {
+            gsap.fromTo(
+              contentContainer,
+              { opacity: 0, y: 10 },
+              { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+            );
+          }
+        }
+      });
+    } else {
+      showNewTab = !showNewTab;
+    }
   }
+
+  onMount(() => {
+    // Animate notification on mount
+    if (notificationElement) {
+      gsap.fromTo(
+        notificationElement,
+        { opacity: 0, x: 20 },
+        { opacity: 1, x: 0, duration: 0.4, ease: 'power2.out' }
+      );
+    }
+  });
+
+  $effect(() => {
+    // Animate builds list when version changes or builds update
+    if (buildsListElement && builds.length > 0) {
+      const buildElements = buildsListElement.querySelectorAll('.build-row');
+      gsap.fromTo(
+        buildElements,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          stagger: 0.05,
+          ease: 'power2.out'
+        }
+      );
+    }
+  });
 
   $effect(() => {
     const clearRedirect = () => (redirecting = false);
@@ -60,7 +113,7 @@
 
 <section class="mt-12 sm:mt-16 relative">
   {#if jenkinsDown}
-    <div class="fixed top-4 right-4 z-50 bg-red-500/90 backdrop-blur-sm text-white px-4 py-3 rounded-lg shadow-lg border border-red-400/50 max-w-sm animate-slide-in">
+    <div bind:this={notificationElement} class="fixed top-4 right-4 z-50 bg-red-500/90 backdrop-blur-sm text-white px-4 py-3 rounded-lg shadow-lg border border-red-400/50 max-w-sm">
       <div class="flex items-start gap-3">
         <div class="shrink-0 mt-0.5">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -76,7 +129,7 @@
       </div>
     </div>
   {:else if usingCache}
-    <div class="fixed top-4 right-4 z-50 bg-yellow-500/90 backdrop-blur-sm text-white px-4 py-3 rounded-lg shadow-lg border border-yellow-400/50 max-w-sm animate-slide-in">
+    <div bind:this={notificationElement} class="fixed top-4 right-4 z-50 bg-yellow-500/90 backdrop-blur-sm text-white px-4 py-3 rounded-lg shadow-lg border border-yellow-400/50 max-w-sm">
       <div class="flex items-start gap-3">
         <div class="shrink-0 mt-0.5">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -131,11 +184,11 @@
       </Button>
     </div>
 
-    <div>
+    <div bind:this={contentContainer}>
       {#if showNewTab}
         <SculptorContent {selectedVersion} {jenkinsDown} />
       {:else if jenkinsDown && builds.length === 0}
-        <div class="text-center py-16 animate-fade-in">
+        <div class="text-center py-16">
           <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 mb-4">
             <svg class="w-8 h-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -147,12 +200,14 @@
           </p>
         </div>
       {:else}
-        <div class="space-y-2 animate-fade-in">
+        <div bind:this={buildsListElement} class="space-y-2">
           {#if builds.length === 0}
             <p class="text-neutral-300 text-center">No builds available for this version.</p>
           {:else}
             {#each builds as build, index (build.buildNumber)}
-              <BuildRow {build} isLatest={index === 0} {dateFormatter} />
+              <div class="build-row">
+                <BuildRow {build} isLatest={index === 0} {dateFormatter} />
+              </div>
             {/each}
           {/if}
         </div>
@@ -160,7 +215,7 @@
     </div>
 
     {#if !jenkinsDown}
-      <div class="mt-8 text-center animate-fade-in" style="animation-delay: 0.3s;">
+      <div class="mt-8 text-center">
         <a href="https://jenkins.canvasmc.io" target="_blank" rel="noopener noreferrer" class="text-neutral-400 text-sm hover:text-neutral-300 transition-colors">
           Looking for older builds? Check out our Jenkins server →
         </a>
@@ -168,35 +223,3 @@
     {/if}
   </Card>
 </section>
-
-<style>
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateX(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 0.3s ease-out;
-  }
-
-  .animate-slide-in {
-    animation: slideIn 0.4s ease-out;
-  }
-</style>
