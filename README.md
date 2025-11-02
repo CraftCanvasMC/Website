@@ -27,7 +27,7 @@ The official website for CanvasMC, built with modern web technologies.
 
 ## Contributors
 
-![Contributors](https://contrib.rocks/image?repo=CraftCanvasMC/Website)
+![Contributors](https://contrib.rocks/image?repo=CraftCanvasMC/Website&anon=0&max=100)
 
 ## License
 
