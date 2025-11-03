@@ -1,21 +1,16 @@
 // Navigation
-export { 
+export {
   Home,
   Download,
   BookOpen,
   Users,
   Settings,
   Menu,
-  X
-} from 'lucide-svelte';
+  X,
+} from "lucide-svelte";
 
 // Social
-export {
-  Github,
-  Twitter,
-  MessageSquare as Discord,
-  Mail
-} from 'lucide-svelte';
+export { Github, Twitter, MessageSquare as Discord, Mail } from "lucide-svelte";
 
 // UI
 export {
@@ -27,8 +22,8 @@ export {
   ChevronLeft,
   ChevronRight,
   Search,
-  ExternalLink
-} from 'lucide-svelte';
+  ExternalLink,
+} from "lucide-svelte";
 
 // Action
 export {
@@ -39,8 +34,8 @@ export {
   Bookmark,
   Eye,
   Trash2,
-  Edit
-} from 'lucide-svelte';
+  Edit,
+} from "lucide-svelte";
 
 // Feature
 export {
@@ -50,8 +45,8 @@ export {
   Code,
   Terminal,
   Cpu,
-  Package
-} from 'lucide-svelte';
+  Package,
+} from "lucide-svelte";
 
 // Default icon size
 export const DEFAULT_ICON_SIZE = 24;

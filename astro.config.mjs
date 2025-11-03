@@ -1,18 +1,18 @@
-import { defineConfig } from 'astro/config';
-import svelte from '@astrojs/svelte';
-import tailwindcss from '@tailwindcss/vite';
-import node from '@astrojs/node';
+import { defineConfig } from "astro/config";
+import svelte from "@astrojs/svelte";
+import tailwindcss from "@tailwindcss/vite";
+import node from "@astrojs/node";
 
 export default defineConfig({
-  output: 'server',
+  output: "server",
   adapter: node({
-    mode: 'standalone'
+    mode: "standalone",
   }),
   integrations: [svelte()],
   vite: {
     plugins: [tailwindcss()],
     css: {
-      transformer: 'postcss',
-    }
-  }
+      transformer: "postcss",
+    },
+  },
 });

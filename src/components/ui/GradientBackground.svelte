@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import { gsap } from 'gsap';
 
   interface Props {
     layers?: number;

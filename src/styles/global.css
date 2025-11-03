@@ -31,7 +31,8 @@
 }
 
 @keyframes heartbeat {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.9;
   }
@@ -173,7 +174,7 @@ html {
   html {
     scroll-behavior: auto;
   }
-  
+
   .scroll-animate,
   .scroll-animate-up,
   .scroll-animate-down,

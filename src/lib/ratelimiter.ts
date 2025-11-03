@@ -1,4 +1,4 @@
-import { LRUCache } from 'lru-cache';
+import { LRUCache } from "lru-cache";
 
 interface RateLimitOptions {
   paths: string[];
@@ -20,15 +20,21 @@ export class RateLimiter {
     });
   }
 
-  check(identifier: string): { success: boolean; remaining: number; reset: number } {
+  check(identifier: string): {
+    success: boolean;
+    remaining: number;
+    reset: number;
+  } {
     const now = Date.now();
     const timestamps = this.cache.get(identifier) || [];
-    const validTimestamps = timestamps.filter((timestamp) => now - timestamp < this.windowMs);
-    
+    const validTimestamps = timestamps.filter(
+      (timestamp) => now - timestamp < this.windowMs,
+    );
+
     if (validTimestamps.length >= this.limit) {
       const oldestTimestamp = validTimestamps[0];
       const reset = oldestTimestamp + this.windowMs;
-      
+
       return {
         success: false,
         remaining: 0,
@@ -38,7 +44,7 @@ export class RateLimiter {
 
     validTimestamps.push(now);
     this.cache.set(identifier, validTimestamps);
-    
+
     return {
       success: true,
       remaining: this.limit - validTimestamps.length,
@@ -48,7 +54,12 @@ export class RateLimiter {
 }
 
 export const apiRateLimiter = new RateLimiter({
-  paths: ['/api/v2/builds', '/api/v2/builds/all', '/api/v2/builds/latest', '/api/v2/jd'],
+  paths: [
+    "/api/v2/builds",
+    "/api/v2/builds/all",
+    "/api/v2/builds/latest",
+    "/api/v2/jd",
+  ],
   limit: 100,
   windowMs: 15 * 60 * 1000,
 });

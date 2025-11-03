@@ -1,140 +1,154 @@
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
   gsap.ticker.fps(-1);
-  gsap.config({ 
+  gsap.config({
     force3D: true,
     nullTargetWarn: false,
     autoSleep: 60,
   });
   ScrollTrigger.config({
-    autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load',
+    autoRefreshEvents: "visibilitychange,DOMContentLoaded,load",
   });
 }
 
 export const HOVER_ANIMATIONS = {
   scale: {
-    small: { scale: 1.02, duration: 0.15, ease: 'power1.out' },
-    medium: { scale: 1.05, duration: 0.15, ease: 'power1.out' },
-    large: { scale: 1.1, duration: 0.15, ease: 'power1.out' },
+    small: { scale: 1.02, duration: 0.15, ease: "power1.out" },
+    medium: { scale: 1.05, duration: 0.15, ease: "power1.out" },
+    large: { scale: 1.1, duration: 0.15, ease: "power1.out" },
   },
   lift: {
-    small: { y: -2, duration: 0.15, ease: 'power1.out' },
-    medium: { y: -4, duration: 0.15, ease: 'power1.out' },
-    large: { y: -8, duration: 0.15, ease: 'power1.out' },
+    small: { y: -2, duration: 0.15, ease: "power1.out" },
+    medium: { y: -4, duration: 0.15, ease: "power1.out" },
+    large: { y: -8, duration: 0.15, ease: "power1.out" },
   },
 } as const;
 
 export const ENTRANCE_ANIMATIONS = {
-  fadeIn: { opacity: 0, duration: 0.8, ease: 'power2.out' },
-  slideUp: { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out' },
-  slideDown: { y: -30, opacity: 0, duration: 0.8, ease: 'power2.out' },
-  scaleIn: { scale: 0.95, opacity: 0, duration: 0.8, ease: 'power2.out' },
-  slideLeft: { x: -30, opacity: 0, duration: 0.8, ease: 'power2.out' },
-  slideRight: { x: 30, opacity: 0, duration: 0.8, ease: 'power2.out' },
+  fadeIn: { opacity: 0, duration: 0.8, ease: "power2.out" },
+  slideUp: { y: 30, opacity: 0, duration: 0.8, ease: "power2.out" },
+  slideDown: { y: -30, opacity: 0, duration: 0.8, ease: "power2.out" },
+  scaleIn: { scale: 0.95, opacity: 0, duration: 0.8, ease: "power2.out" },
+  slideLeft: { x: -30, opacity: 0, duration: 0.8, ease: "power2.out" },
+  slideRight: { x: 30, opacity: 0, duration: 0.8, ease: "power2.out" },
 } as const;
 
-export function hoverScale(node: HTMLElement, intensity: 'small' | 'medium' | 'large' = 'medium') {
+export function hoverScale(
+  node: HTMLElement,
+  intensity: "small" | "medium" | "large" = "medium",
+) {
   const config = HOVER_ANIMATIONS.scale[intensity];
 
   const handleMouseEnter = () => {
-    node.style.willChange = 'transform';
-    gsap.to(node, { 
-      ...config, 
+    node.style.willChange = "transform";
+    gsap.to(node, {
+      ...config,
       force3D: true,
-      overwrite: 'auto',
+      overwrite: "auto",
       immediateRender: false,
-      lazy: false
+      lazy: false,
     });
   };
 
   const handleMouseLeave = () => {
-    gsap.to(node, { 
-      scale: 1, 
-      duration: config.duration, 
+    gsap.to(node, {
+      scale: 1,
+      duration: config.duration,
       ease: config.ease,
       force3D: true,
-      overwrite: 'auto',
+      overwrite: "auto",
       immediateRender: false,
       lazy: false,
       onComplete: () => {
-        node.style.willChange = 'auto';
-      }
+        node.style.willChange = "auto";
+      },
     });
   };
 
-  node.addEventListener('mouseenter', handleMouseEnter, { passive: true });
-  node.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+  node.addEventListener("mouseenter", handleMouseEnter, { passive: true });
+  node.addEventListener("mouseleave", handleMouseLeave, { passive: true });
 
   return {
     destroy() {
       gsap.killTweensOf(node);
-      node.style.willChange = 'auto';
-      node.removeEventListener('mouseenter', handleMouseEnter);
-      node.removeEventListener('mouseleave', handleMouseLeave);
+      node.style.willChange = "auto";
+      node.removeEventListener("mouseenter", handleMouseEnter);
+      node.removeEventListener("mouseleave", handleMouseLeave);
     },
   };
 }
 
-export function hoverLift(node: HTMLElement, intensity: 'small' | 'medium' | 'large' = 'medium') {
+export function hoverLift(
+  node: HTMLElement,
+  intensity: "small" | "medium" | "large" = "medium",
+) {
   const config = HOVER_ANIMATIONS.lift[intensity];
   const handleMouseEnter = () => {
-    node.style.willChange = 'transform';
-    gsap.to(node, { 
+    node.style.willChange = "transform";
+    gsap.to(node, {
       ...config,
       force3D: true,
-      overwrite: 'auto',
+      overwrite: "auto",
       immediateRender: false,
-      lazy: false
+      lazy: false,
     });
   };
 
   const handleMouseLeave = () => {
-    gsap.to(node, { 
-      y: 0, 
-      duration: config.duration, 
+    gsap.to(node, {
+      y: 0,
+      duration: config.duration,
       ease: config.ease,
       force3D: true,
-      overwrite: 'auto',
+      overwrite: "auto",
       immediateRender: false,
       lazy: false,
       onComplete: () => {
-        node.style.willChange = 'auto';
-      }
+        node.style.willChange = "auto";
+      },
     });
   };
 
-  node.addEventListener('mouseenter', handleMouseEnter, { passive: true });
-  node.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+  node.addEventListener("mouseenter", handleMouseEnter, { passive: true });
+  node.addEventListener("mouseleave", handleMouseLeave, { passive: true });
 
   return {
     destroy() {
       gsap.killTweensOf(node);
-      node.style.willChange = 'auto';
-      node.removeEventListener('mouseenter', handleMouseEnter);
-      node.removeEventListener('mouseleave', handleMouseLeave);
+      node.style.willChange = "auto";
+      node.removeEventListener("mouseenter", handleMouseEnter);
+      node.removeEventListener("mouseleave", handleMouseLeave);
     },
   };
 }
 
 export function entrance(
   node: HTMLElement,
-  { type = 'fadeIn', delay = 0, duration }: { type?: keyof typeof ENTRANCE_ANIMATIONS; delay?: number; duration?: number } = {}
+  {
+    type = "fadeIn",
+    delay = 0,
+    duration,
+  }: {
+    type?: keyof typeof ENTRANCE_ANIMATIONS;
+    delay?: number;
+    duration?: number;
+  } = {},
 ) {
   const config = ENTRANCE_ANIMATIONS[type];
   const animConfig = duration !== undefined ? { ...config, duration } : config;
-  
-  gsap.set(node, { 
+
+  gsap.set(node, {
     opacity: 0,
-    y: type === 'slideUp' ? 30 : type === 'slideDown' ? -30 : 0,
-    x: type === 'slideLeft' ? -30 : type === 'slideRight' ? 30 : 0,
-    scale: type === 'scaleIn' ? 0.95 : 1,
-    visibility: 'visible',
+    y: type === "slideUp" ? 30 : type === "slideDown" ? -30 : 0,
+    x: type === "slideLeft" ? -30 : type === "slideRight" ? 30 : 0,
+    scale: type === "scaleIn" ? 0.95 : 1,
+    visibility: "visible",
   });
-  
-  gsap.to(node, { 
+
+  gsap.to(node, {
     opacity: 1,
     y: 0,
     x: 0,
@@ -143,10 +157,10 @@ export function entrance(
     delay,
     ease: animConfig.ease,
     force3D: true,
-    overwrite: 'auto',
+    overwrite: "auto",
     onComplete: () => {
-      gsap.set(node, { clearProps: 'transform,opacity' });
-    }
+      gsap.set(node, { clearProps: "transform,opacity" });
+    },
   });
 
   return {
@@ -158,23 +172,27 @@ export function entrance(
 
 export function staggerEntrance(
   node: HTMLElement,
-  { type = 'fadeIn', stagger = 0.1, selector = '> *' }: { 
-    type?: keyof typeof ENTRANCE_ANIMATIONS; 
+  {
+    type = "fadeIn",
+    stagger = 0.1,
+    selector = "> *",
+  }: {
+    type?: keyof typeof ENTRANCE_ANIMATIONS;
     stagger?: number;
     selector?: string;
-  } = {}
+  } = {},
 ) {
   const config = ENTRANCE_ANIMATIONS[type];
   const children = node.querySelectorAll(selector);
-  
-  gsap.set(children, { 
+
+  gsap.set(children, {
     opacity: 0,
-    y: type === 'slideUp' ? 30 : type === 'slideDown' ? -30 : 0,
-    x: type === 'slideLeft' ? -30 : type === 'slideRight' ? 30 : 0,
-    scale: type === 'scaleIn' ? 0.95 : 1,
-    visibility: 'visible',
+    y: type === "slideUp" ? 30 : type === "slideDown" ? -30 : 0,
+    x: type === "slideLeft" ? -30 : type === "slideRight" ? 30 : 0,
+    scale: type === "scaleIn" ? 0.95 : 1,
+    visibility: "visible",
   });
-  
+
   gsap.to(children, {
     opacity: 1,
     y: 0,
@@ -184,10 +202,10 @@ export function staggerEntrance(
     stagger,
     ease: config.ease,
     force3D: true,
-    overwrite: 'auto',
+    overwrite: "auto",
     onComplete: () => {
-      gsap.set(children, { clearProps: 'transform,opacity' });
-    }
+      gsap.set(children, { clearProps: "transform,opacity" });
+    },
   });
 
   return {
@@ -207,36 +225,44 @@ export function shake(node: HTMLElement, intensity: number = 10) {
       { x: 0 },
     ],
     duration: 0.4,
-    ease: 'power2.inOut',
+    ease: "power2.inOut",
   });
 }
 
-export function pulse(node: HTMLElement, scale: number = 1.05, duration: number = 0.6) {
+export function pulse(
+  node: HTMLElement,
+  scale: number = 1.05,
+  duration: number = 0.6,
+) {
   gsap.to(node, {
     scale,
     duration: duration / 2,
     yoyo: true,
     repeat: 1,
-    ease: 'power2.inOut',
+    ease: "power2.inOut",
   });
 }
 
-export function rotate(node: HTMLElement, rotation: number = 360, duration: number = 0.6) {
+export function rotate(
+  node: HTMLElement,
+  rotation: number = 360,
+  duration: number = 0.6,
+) {
   gsap.to(node, {
     rotation,
     duration,
-    ease: 'power2.out',
+    ease: "power2.out",
   });
 }
 
 export function scrollReveal(
   node: HTMLElement,
   {
-    type = 'fadeIn',
+    type = "fadeIn",
     delay = 0,
     duration,
-    start = 'top 80%',
-    end = 'bottom 20%',
+    start = "top 80%",
+    end = "bottom 20%",
     scrub = false,
     markers = false,
   }: {
@@ -247,17 +273,17 @@ export function scrollReveal(
     end?: string;
     scrub?: boolean | number;
     markers?: boolean;
-  } = {}
+  } = {},
 ) {
   const config = ENTRANCE_ANIMATIONS[type];
   const animConfig = duration !== undefined ? { ...config, duration } : config;
 
   gsap.set(node, {
     opacity: 0,
-    y: type === 'slideUp' ? 30 : type === 'slideDown' ? -30 : 0,
-    x: type === 'slideLeft' ? -30 : type === 'slideRight' ? 30 : 0,
-    scale: type === 'scaleIn' ? 0.95 : 1,
-    visibility: 'visible',
+    y: type === "slideUp" ? 30 : type === "slideDown" ? -30 : 0,
+    x: type === "slideLeft" ? -30 : type === "slideRight" ? 30 : 0,
+    scale: type === "scaleIn" ? 0.95 : 1,
+    visibility: "visible",
   });
 
   const scrollTrigger = ScrollTrigger.create({
@@ -275,7 +301,7 @@ export function scrollReveal(
         delay,
         ease: animConfig.ease,
         force3D: true,
-        overwrite: 'auto',
+        overwrite: "auto",
       });
     },
     once: true,
@@ -292,10 +318,10 @@ export function scrollReveal(
 export function scrollStagger(
   node: HTMLElement,
   {
-    type = 'fadeIn',
+    type = "fadeIn",
     stagger = 0.1,
-    selector = '> *',
-    start = 'top 80%',
+    selector = "> *",
+    start = "top 80%",
     markers = false,
   }: {
     type?: keyof typeof ENTRANCE_ANIMATIONS;
@@ -303,17 +329,17 @@ export function scrollStagger(
     selector?: string;
     start?: string;
     markers?: boolean;
-  } = {}
+  } = {},
 ) {
   const config = ENTRANCE_ANIMATIONS[type];
   const children = node.querySelectorAll(selector);
 
   gsap.set(children, {
     opacity: 0,
-    y: type === 'slideUp' ? 30 : type === 'slideDown' ? -30 : 0,
-    x: type === 'slideLeft' ? -30 : type === 'slideRight' ? 30 : 0,
-    scale: type === 'scaleIn' ? 0.95 : 1,
-    visibility: 'visible',
+    y: type === "slideUp" ? 30 : type === "slideDown" ? -30 : 0,
+    x: type === "slideLeft" ? -30 : type === "slideRight" ? 30 : 0,
+    scale: type === "scaleIn" ? 0.95 : 1,
+    visibility: "visible",
   });
 
   const scrollTrigger = ScrollTrigger.create({
@@ -330,7 +356,7 @@ export function scrollStagger(
         stagger,
         ease: config.ease,
         force3D: true,
-        overwrite: 'auto',
+        overwrite: "auto",
       });
     },
     once: true,
@@ -348,15 +374,15 @@ export function scrollParallax(
   node: HTMLElement,
   {
     speed = 0.5,
-    start = 'top bottom',
-    end = 'bottom top',
+    start = "top bottom",
+    end = "bottom top",
     markers = false,
   }: {
     speed?: number;
     start?: string;
     end?: string;
     markers?: boolean;
-  } = {}
+  } = {},
 ) {
   const scrollTrigger = ScrollTrigger.create({
     trigger: node,
@@ -377,18 +403,18 @@ export function scrollParallax(
   return {
     destroy() {
       scrollTrigger.kill();
-      gsap.set(node, { clearProps: 'transform' });
+      gsap.set(node, { clearProps: "transform" });
     },
   };
 }
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   (window as any).gsapDebug = () => {
     const activeTweens = gsap.globalTimeline.getChildren().length;
     const scrollTriggers = ScrollTrigger.getAll().length;
-    console.log('[GSAP] Active tweens:', activeTweens);
-    console.log('[GSAP] Active ScrollTriggers:', scrollTriggers);
-    console.log('[GSAP] Ticker time:', gsap.ticker.time);
+    console.log("[GSAP] Active tweens:", activeTweens);
+    console.log("[GSAP] Active ScrollTriggers:", scrollTriggers);
+    console.log("[GSAP] Ticker time:", gsap.ticker.time);
     return { tweens: activeTweens, scrollTriggers };
   };
 }

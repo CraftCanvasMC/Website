@@ -1,5 +1,5 @@
-import type { APIRoute } from 'astro';
-import { siteConfig } from '../config/site';
+import type { APIRoute } from "astro";
+import { siteConfig } from "../config/site";
 
 export const GET: APIRoute = () => {
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -21,7 +21,7 @@ export const GET: APIRoute = () => {
 
   return new Response(sitemap, {
     headers: {
-      'Content-Type': 'application/xml; charset=utf-8',
+      "Content-Type": "application/xml; charset=utf-8",
     },
   });
 };

@@ -82,7 +82,7 @@
 </script>
 
 {#if loading}
-  <section class="mt-12 sm:mt-16">
+  <section class="mt-12 sm:mt-16 min-h-[60vh] mb-20">
     <div class="border border-neutral-800 rounded-lg p-6 relative bg-neutral-900/30 backdrop-blur-sm overflow-hidden">
       <div class="flex flex-col items-center justify-center py-24 text-center overflow-hidden">
         <div class="heartbeat-container mb-6">

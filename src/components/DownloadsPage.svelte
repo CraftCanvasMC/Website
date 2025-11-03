@@ -27,6 +27,7 @@
 
   let selectedVersion = $state(versions[0]);
   let showNewTab = $state(false);
+  let showFailedBuilds = $state(false);
   let redirecting = $state(false);
   let contentContainer: HTMLDivElement | undefined = $state();
   let notificationElement: HTMLDivElement | undefined = $state();
@@ -34,7 +35,13 @@
 
   let builds = $derived.by(() => {
     const versionBuilds = buildsByVersion[selectedVersion];
-    return versionBuilds?.slice(0, 11) ?? [];
+    const allBuilds = versionBuilds?.slice(0, 12) ?? [];
+    
+    if (showFailedBuilds) {
+      return allBuilds;
+    }
+    
+    return allBuilds.filter(build => build.result === 'SUCCESS');
   });
 
   const dateFormatter = new Intl.DateTimeFormat('en-GB', {
@@ -93,7 +100,7 @@
   });
 </script>
 
-<section class="mt-12 sm:mt-16 relative">
+<section class="mt-12 sm:mt-16 relative min-h-[60vh] mb-20">
   {#if jenkinsDown}
     <div bind:this={notificationElement} class="fixed top-4 right-4 z-50 bg-red-500/90 backdrop-blur-sm text-white px-4 py-3 rounded-lg shadow-lg border border-red-400/50 max-w-sm">
       <div class="flex items-start gap-3">
@@ -142,29 +149,52 @@
         />
         <button
           onclick={handleJavadocRedirect}
-          class="p-2 rounded hover:bg-white/10 transition-colors"
+          class="group relative flex items-center gap-2 p-2 rounded hover:bg-white/10 transition-all overflow-hidden"
           title="View Javadocs"
           aria-label="View Javadocs"
         >
-          <BookOpenText class="size-5 text-neutral-300 hover:text-neutral-100" />
+          <BookOpenText class="size-5 text-neutral-300 group-hover:text-neutral-100 transition-colors shrink-0" />
+          <span class="text-sm text-neutral-300 group-hover:text-neutral-100 whitespace-nowrap max-w-0 group-hover:max-w-[150px] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden">
+            Javadocs
+          </span>
+        </button>
+        <button
+          onclick={() => (showFailedBuilds = !showFailedBuilds)}
+          class="group relative flex items-center gap-2 p-2 rounded hover:bg-white/10 transition-all overflow-hidden {showFailedBuilds ? 'bg-white/10' : ''}"
+          title={showFailedBuilds ? 'Hide Failed Builds' : 'Show Failed Builds'}
+          aria-label={showFailedBuilds ? 'Hide Failed Builds' : 'Show Failed Builds'}
+        >
+          <svg class="size-5 text-neutral-300 group-hover:text-neutral-100 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            {#if !showFailedBuilds}
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+            {:else}
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            {/if}
+          </svg>
+          <span class="text-sm text-neutral-300 group-hover:text-neutral-100 whitespace-nowrap max-w-0 group-hover:max-w-[150px] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden">
+            {showFailedBuilds ? 'Hide Failed Builds' : 'Show Failed Builds'}
+          </span>
         </button>
       </div>
 
-      <Button
-        variant={showNewTab ? 'default' : 'secondary'}
-        onclick={toggleTab}
-        class="flex items-center gap-2 transition-transform duration-200 hover:scale-105"
-      >
-        {#snippet children()}
-          {#if showNewTab}
-            <LayoutList class="size-4" />
-            Show Builds
-          {:else}
-            <PanelsTopLeft class="size-4" />
-            Show Sculptor
-          {/if}
-        {/snippet}
-      </Button>
+      <div class="flex items-center gap-2">
+        <Button
+          variant={showNewTab ? 'default' : 'secondary'}
+          onclick={toggleTab}
+          class="flex items-center gap-2 transition-transform duration-200 hover:scale-105"
+        >
+          {#snippet children()}
+            {#if showNewTab}
+              <LayoutList class="size-4" />
+              Show Builds
+            {:else}
+              <PanelsTopLeft class="size-4" />
+              Show Sculptor
+            {/if}
+          {/snippet}
+        </Button>
+      </div>
     </div>
 
     <div bind:this={contentContainer}>
@@ -188,7 +218,7 @@
             <p class="text-neutral-300 text-center">No builds available for this version.</p>
           {:else}
             {#each builds as build, index (build.buildNumber)}
-              <div use:scrollReveal={{ type: 'slideUp', start: 'top 100%', delay: index * 0.08 }}>
+              <div use:scrollReveal={{ type: 'slideUp', start: 'top 100%', delay: index * 0.05 }}>
                 <BuildRow {build} isLatest={index === 0} {dateFormatter} />
               </div>
             {/each}

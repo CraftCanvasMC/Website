@@ -1,12 +1,12 @@
-import type { APIRoute } from 'astro';
-import { JenkinsError, getLatestBuild } from '../../../lib/jenkins';
+import type { APIRoute } from "astro";
+import { JenkinsError, getLatestBuild } from "../../../lib/jenkins";
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url, redirect }) => {
   try {
-    const versionParam = url.searchParams.get('version');
-    const experimentalParam = url.searchParams.get('experimental') === 'true';
+    const versionParam = url.searchParams.get("version");
+    const experimentalParam = url.searchParams.get("experimental") === "true";
 
     const build = await getLatestBuild(!experimentalParam);
 
@@ -19,14 +19,14 @@ export const GET: APIRoute = async ({ url, redirect }) => {
     if (error instanceof JenkinsError) {
       return new Response(JSON.stringify({ error: error.message }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
     }
 
     console.error(error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 };

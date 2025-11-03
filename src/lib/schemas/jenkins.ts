@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const JenkinsBuildSchema = z.object({
   number: z.number(),
   url: z.string(),
   displayName: z.string(),
-  result: z.enum(['SUCCESS', 'FAILURE', 'ABORTED', 'UNSTABLE']).optional(),
+  result: z.enum(["SUCCESS", "FAILURE", "ABORTED", "UNSTABLE"]).optional(),
   timestamp: z.number(),
   building: z.boolean().default(false),
   artifacts: z.array(z.object({ relativePath: z.string() })).optional(),
@@ -26,7 +26,7 @@ export const JenkinsBuildSchema = z.object({
 export type JenkinsBuild = z.infer<typeof JenkinsBuildSchema>;
 
 export const BuildSchema = z.object({
-  result: z.enum(['SUCCESS', 'FAILURE', 'ABORTED', 'UNSTABLE']).optional(),
+  result: z.enum(["SUCCESS", "FAILURE", "ABORTED", "UNSTABLE"]).optional(),
   buildNumber: z.number(),
   url: z.string(),
   downloadUrl: z.string().nullable(),
