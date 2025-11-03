@@ -1,15 +1,77 @@
 @import "tailwindcss";
+@import "./theme-dark.css";
+@import "./theme-light.css";
 
 :root {
   --font-family-sans: "Geist Sans", system-ui, -apple-system, sans-serif;
   --font-family-mono: "Geist Mono", ui-monospace, monospace;
-  --background: #0f0f0f;
-  --foreground: #ededed;
+}
+
+html {
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  transition: 
+    background 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[class*="bg-"],
+[class*="text-"],
+[class*="border-"],
+nav,
+main,
+footer,
+.card,
+[data-theme] {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.2s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button,
+a,
+input,
+select,
+textarea,
+[class*="hover:"],
+.theme-toggle,
+.sun-and-moon > *,
+svg,
+path {
+  transition-duration: 0.15s;
+}
+
+[class*="animate-"],
+[class*="transform"],
+[class*="scale"],
+[class*="rotate"],
+.scroll-animate,
+.heartbeat-container,
+.heartbeat-container svg {
+  transition: none !important;
+}
+
+@supports (view-transition-name: none) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  html,
+  body {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
 *::-webkit-scrollbar {
@@ -22,12 +84,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
 }
 
 @keyframes heartbeat {

@@ -44,7 +44,13 @@
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
-    setPreference(newTheme);
+    if (typeof document !== 'undefined' && 'startViewTransition' in document) {
+      (document as any).startViewTransition(() => {
+        setPreference(newTheme);
+      });
+    } else {
+      setPreference(newTheme);
+    }
   };
 
   onMount(() => {
@@ -108,8 +114,6 @@
   @import "https://unpkg.com/open-props/easings.min.css";
 
   .theme-toggle {
-    --icon-fill: rgb(212 212 212);
-    --icon-fill-hover: rgb(245 245 245);
     background: none;
     border: none;
     padding: 0;
@@ -117,14 +121,25 @@
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
     outline-offset: 5px;
-    color: var(--icon-fill);
+    color: rgb(212 212 212);
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
   }
 
   .theme-toggle:hover {
-    color: var(--icon-fill-hover);
+    color: rgb(245 245 245);
+    transform: scale(1.1);
+  }
+
+  :global([data-theme="light"]) .theme-toggle {
+    color: #4f46e5;
+  }
+
+  :global([data-theme="light"]) .theme-toggle:hover {
+    color: #6366f1;
+    transform: scale(1.1);
   }
 
   .sun-and-moon > :is(.moon, .sun, .sun-beams) {
