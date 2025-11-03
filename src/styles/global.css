@@ -3,19 +3,8 @@
 :root {
   --font-family-sans: "Geist Sans", system-ui, -apple-system, sans-serif;
   --font-family-mono: "Geist Mono", ui-monospace, monospace;
-}
-
-:root,
-.dark {
-  color-scheme: dark;
-  --background: #0a0a0a;
+  --background: #0f0f0f;
   --foreground: #ededed;
-}
-
-.light {
-  color-scheme: light;
-  --background: #ffffff;
-  --foreground: #0a0a0a;
 }
 
 * {
