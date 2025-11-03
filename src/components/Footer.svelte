@@ -79,15 +79,21 @@
       </div>
     </div>
 
-    <div class="mt-8 flex flex-col items-start justify-between gap-4 border-neutral-800/80 border-t pt-8 text-sm sm:flex-row sm:items-center">
-      <p class="text-neutral-400">
-        &copy; {currentYear} {siteConfig.name}
+    <div class="mt-8 space-y-4 border-neutral-800/80 border-t pt-8">
+      <p class="text-neutral-500 text-xs leading-relaxed">
+        This website is not an official Minecraft website and is not associated with Mojang Studios or Microsoft. All product and company names are trademarks or registered trademarks of their respective holders. Use of these names does not imply any affiliation or endorsement by them.
       </p>
-      <div class="flex items-center gap-1 text-neutral-400">
-        Built with <Heart class="size-3" fill="currentColor" /> by the
-        <p class="underline underline-offset-2 hover:text-neutral-200">
-          {siteConfig.name} Team
+      
+      <div class="flex flex-col items-start justify-between gap-4 text-sm sm:flex-row sm:items-center">
+        <p class="text-neutral-400">
+          &copy; {currentYear} {siteConfig.name}
         </p>
+        <div class="flex items-center gap-1 text-neutral-400">
+          Built with <Heart class="size-3" fill="currentColor" /> by the
+          <p class="underline underline-offset-2 hover:text-neutral-200">
+            {siteConfig.name} Team
+          </p>
+        </div>
       </div>
     </div>
   </div>
