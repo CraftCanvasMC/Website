@@ -5,6 +5,7 @@
   import DiscordIcon from './icons/DiscordIcon.svelte';
   import DonateIcon from './icons/DonateIcon.svelte';
   import Redirecting from './Redirecting.svelte';
+  import ThemeToggle from './ThemeToggle.svelte';
   import gsap from 'gsap';
   import { hoverLift } from '../lib/animations';
 
@@ -115,21 +116,26 @@
               <IconComponent class="size-5" />
             </a>
           {/each}
+          <div class="w-px h-5 bg-neutral-700"></div>
+          <ThemeToggle size={20} />
         </div>
 
-        <button
-          type="button"
-          onclick={() => (isOpen = !isOpen)}
-          class="rounded-md p-2.5 text-neutral-300 hover:bg-neutral-800 md:hidden"
-          aria-label={`${isOpen ? 'Close' : 'Open'} menu`}
-          aria-expanded={isOpen}
-        >
-          {#if isOpen}
-            <X class="size-6" aria-hidden />
-          {:else}
-            <Menu class="size-6" aria-hidden />
-          {/if}
-        </button>
+        <div class="flex items-center gap-3 md:hidden">
+          <ThemeToggle size={20} />
+          <button
+            type="button"
+            onclick={() => (isOpen = !isOpen)}
+            class="rounded-md p-2.5 text-neutral-300 hover:bg-neutral-800"
+            aria-label={`${isOpen ? 'Close' : 'Open'} menu`}
+            aria-expanded={isOpen}
+          >
+            {#if isOpen}
+              <X class="size-6" aria-hidden />
+            {:else}
+              <Menu class="size-6" aria-hidden />
+            {/if}
+          </button>
+        </div>
       </div>
     </div>
 

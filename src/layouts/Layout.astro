@@ -49,6 +49,24 @@ const fullTitle = title === siteConfig.name ? title : `${title} | ${siteConfig.n
 				src={plausibleConfig.src}
 			></script>
 		)}
+
+		<!-- Theme initialization script - runs before page renders to prevent flash -->
+		<script is:inline>
+			(function() {
+				const storageKey = 'theme-preference';
+				
+				function getColorPreference() {
+					const stored = localStorage.getItem(storageKey);
+					if (stored && (stored === 'light' || stored === 'dark')) {
+						return stored;
+					}
+					return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				}
+				
+				const theme = getColorPreference();
+				document.documentElement.setAttribute('data-theme', theme);
+			})();
+		</script>
 	</head>
 	<body class="relative bg-[var(--background)] min-h-screen font-sans antialiased text-[var(--foreground)]">
 		<slot name="navbar" />

@@ -31,8 +31,7 @@
 }
 
 @keyframes heartbeat {
-  0%,
-  100% {
+  0%, 100% {
     transform: scale(1);
     opacity: 0.9;
   }
@@ -139,49 +138,4 @@ a,
 
 [class*="hover:shadow"] {
   isolation: isolate;
-}
-
-.scroll-animate {
-  opacity: 0;
-  will-change: transform, opacity;
-}
-
-.scroll-animate-up {
-  transform: translateY(30px);
-}
-
-.scroll-animate-down {
-  transform: translateY(-30px);
-}
-
-.scroll-animate-left {
-  transform: translateX(-30px);
-}
-
-.scroll-animate-right {
-  transform: translateX(30px);
-}
-
-.scroll-animate-scale {
-  transform: scale(0.95);
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .scroll-animate,
-  .scroll-animate-up,
-  .scroll-animate-down,
-  .scroll-animate-left,
-  .scroll-animate-right,
-  .scroll-animate-scale {
-    opacity: 1;
-    transform: none;
-  }
 }
