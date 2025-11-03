@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.svelte';
 import Footer from '../../components/Footer.svelte';
 import GradientBackground from '../../components/ui/GradientBackground.svelte';
-import DownloadsPageWrapper from '../../components/DownloadsPageWrapper.svelte';
+import DownloadsPageContainer from '../../components/DownloadsPageContainer.svelte';
 ---
 
 <Layout>
@@ -41,7 +41,7 @@ import DownloadsPageWrapper from '../../components/DownloadsPageWrapper.svelte';
       </div>
     </header>
 
-    <DownloadsPageWrapper client:load />
+    <DownloadsPageContainer client:load />
   </main>
 
   <Footer slot="footer" client:load />

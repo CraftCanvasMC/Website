@@ -12,13 +12,28 @@
   let overlayElement = $state<HTMLDivElement | undefined>(undefined);
   let dotElements: HTMLDivElement[] = [];
   let textElement = $state<HTMLParagraphElement | undefined>(undefined);
+  let portalTarget = $state<HTMLDivElement | undefined>(undefined);
 
   onMount(() => {
     mounted = true;
+    portalTarget = document.createElement('div');
+    portalTarget.style.position = 'fixed';
+    portalTarget.style.inset = '0';
+    portalTarget.style.zIndex = '99999';
+    portalTarget.style.pointerEvents = 'none';
+    document.body.appendChild(portalTarget);
+
+    return () => {
+      if (portalTarget && document.body.contains(portalTarget)) {
+        document.body.removeChild(portalTarget);
+      }
+    };
   });
 
   $effect(() => {
-    if (show && mounted && overlayElement) {
+    if (show && mounted && overlayElement && portalTarget) {
+      portalTarget.appendChild(overlayElement);
+      
       gsap.fromTo(
         overlayElement,
         { opacity: 0 },
@@ -63,7 +78,7 @@
 {#if mounted && show}
   <div
     bind:this={overlayElement}
-    class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black/70 backdrop-blur-sm text-white"
+    class="absolute inset-0 flex flex-col items-center justify-center bg-black/70 backdrop-blur-sm text-white pointer-events-auto"
   >
     <div class="flex flex-row gap-2">
       <div bind:this={dotElements[0]} class="w-4 h-4 rounded-full bg-white will-change-transform"></div>

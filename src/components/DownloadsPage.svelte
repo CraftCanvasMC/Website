@@ -3,7 +3,6 @@
   import Button from './ui/Button.svelte';
   import Card from './ui/Card.svelte';
   import Select from './ui/Select.svelte';
-  import Redirecting from './Redirecting.svelte';
   import BuildRow from './BuildRow.svelte';
   import SculptorContent from './SculptorContent.svelte';
   import type { Build } from '../lib/schemas/jenkins';
@@ -16,19 +15,20 @@
     versions: string[];
     usingCache?: boolean;
     jenkinsDown?: boolean;
+    redirecting?: boolean;
   }
 
   let {
     buildsByVersion,
     versions,
     usingCache = false,
-    jenkinsDown = false
+    jenkinsDown = false,
+    redirecting = $bindable(false)
   }: Props = $props();
 
   let selectedVersion = $state(versions[0]);
   let showNewTab = $state(false);
   let showFailedBuilds = $state(false);
-  let redirecting = $state(false);
   let contentContainer: HTMLDivElement | undefined = $state();
   let notificationElement: HTMLDivElement | undefined = $state();
   let buildsListElement: HTMLDivElement | undefined = $state();
@@ -134,8 +134,6 @@
       </div>
     </div>
   {/if}
-
-  <Redirecting bind:show={redirecting} target="Javadocs" />
   
   <div use:scrollReveal={{ type: 'slideUp', start: 'top 85%' }}>
     <Card class="p-6 overflow-hidden">

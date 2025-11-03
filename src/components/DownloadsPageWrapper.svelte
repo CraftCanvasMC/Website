@@ -5,6 +5,12 @@
   import { jenkinsConfig } from '../config/jenkins';
   import { Palette } from 'lucide-svelte';
 
+  interface Props {
+    redirecting?: boolean;
+  }
+
+  let { redirecting = $bindable(false) }: Props = $props();
+
   let buildsByVersion = $state<Record<string, Build[]>>({});
   let versions = $state<string[]>([]);
   let usingCache = $state(false);
@@ -132,5 +138,6 @@
     {versions}
     {usingCache}
     {jenkinsDown}
+    bind:redirecting
   />
 {/if}
