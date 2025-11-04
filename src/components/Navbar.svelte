@@ -6,6 +6,7 @@
   import DonateIcon from './icons/DonateIcon.svelte';
   import Redirecting from './Redirecting.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
+  import LanguageSelector from './LanguageSelector.svelte';
   import gsap from 'gsap';
   import { hoverLift } from '../lib/animations';
 
@@ -117,10 +118,12 @@
             </a>
           {/each}
           <div class="w-px h-5 bg-neutral-700"></div>
+          <LanguageSelector />
           <ThemeToggle size={20} />
         </div>
 
         <div class="flex items-center gap-3 md:hidden">
+          <LanguageSelector />
           <ThemeToggle size={20} />
           <button
             type="button"

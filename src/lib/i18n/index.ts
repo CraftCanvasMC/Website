@@ -1,6 +1,6 @@
-import { writable, derived, get } from 'svelte/store';
+import { writable, derived, get } from "svelte/store";
 
-export type Language = 'en' | 'es' | 'fr' | 'de' | 'zh' | 'ja' | 'pt' | 'ru';
+export type Language = "en" | "es" | "fr" | "de" | "zh" | "ja" | "pt" | "ru";
 
 export interface Translation {
   [key: string]: string | Translation;
@@ -11,33 +11,33 @@ export interface Translations {
 }
 
 export const LANGUAGES: { code: Language; name: string; flag: string }[] = [
-  { code: 'en', name: 'English', flag: '🇬🇧' },
-  { code: 'es', name: 'Español', flag: '🇪🇸' },
-  { code: 'fr', name: 'Français', flag: '🇫🇷' },
-  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-  { code: 'zh', name: '中文', flag: '🇨🇳' },
-  { code: 'ja', name: '日本語', flag: '🇯🇵' },
-  { code: 'pt', name: 'Português', flag: '🇵🇹' },
-  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+  { code: "en", name: "English", flag: "🇬🇧" },
+  { code: "es", name: "Español", flag: "🇪🇸" },
+  { code: "fr", name: "Français", flag: "🇫🇷" },
+  { code: "de", name: "Deutsch", flag: "🇩🇪" },
+  { code: "zh", name: "中文", flag: "🇨🇳" },
+  { code: "ja", name: "日本語", flag: "🇯🇵" },
+  { code: "pt", name: "Português", flag: "🇵🇹" },
+  { code: "ru", name: "Русский", flag: "🇷🇺" },
 ];
 
-const STORAGE_KEY = 'language-preference';
+const STORAGE_KEY = "language-preference";
 
 function getBrowserLanguage(): Language {
-  if (typeof window === 'undefined') return 'en';
-  
+  if (typeof window === "undefined") return "en";
+
   const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored && LANGUAGES.some(l => l.code === stored)) {
+  if (stored && LANGUAGES.some((l) => l.code === stored)) {
     return stored as Language;
   }
-  
-  const browserLang = navigator.language.split('-')[0];
-  const found = LANGUAGES.find(l => l.code === browserLang);
-  return found ? (found.code as Language) : 'en';
+
+  const browserLang = navigator.language.split("-")[0];
+  const found = LANGUAGES.find((l) => l.code === browserLang);
+  return found ? (found.code as Language) : "en";
 }
 
 export const currentLanguage = writable<Language>(
-  typeof window !== 'undefined' ? getBrowserLanguage() : 'en'
+  typeof window !== "undefined" ? getBrowserLanguage() : "en",
 );
 
 const translations = writable<Translations>({});
@@ -45,7 +45,7 @@ const translations = writable<Translations>({});
 export async function loadTranslations(lang: Language) {
   try {
     const module = await import(`./translations/${lang}.ts`);
-    translations.update(t => ({
+    translations.update((t) => ({
       ...t,
       [lang]: module.default,
     }));
@@ -56,26 +56,26 @@ export async function loadTranslations(lang: Language) {
 
 export function setLanguage(lang: Language) {
   currentLanguage.set(lang);
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     localStorage.setItem(STORAGE_KEY, lang);
-    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute("lang", lang);
   }
   loadTranslations(lang);
 }
 
 function getNestedTranslation(obj: Translation, path: string): string {
-  const keys = path.split('.');
+  const keys = path.split(".");
   let current: any = obj;
-  
+
   for (const key of keys) {
-    if (current && typeof current === 'object' && key in current) {
+    if (current && typeof current === "object" && key in current) {
       current = current[key];
     } else {
       return path;
     }
   }
-  
-  return typeof current === 'string' ? current : path;
+
+  return typeof current === "string" ? current : path;
 }
 
 export const t = derived(
@@ -86,11 +86,11 @@ export const t = derived(
       if (!langTranslations) {
         return fallback || key;
       }
-      
+
       const translation = getNestedTranslation(langTranslations, key);
-      return translation === key ? (fallback || key) : translation;
+      return translation === key ? fallback || key : translation;
     };
-  }
+  },
 );
 
 export async function initI18n() {

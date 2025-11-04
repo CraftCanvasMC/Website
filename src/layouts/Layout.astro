@@ -67,6 +67,12 @@ const fullTitle = title === siteConfig.name ? title : `${title} | ${siteConfig.n
 				document.documentElement.setAttribute('data-theme', theme);
 			})();
 		</script>
+
+		<!-- i18n initialization script -->
+		<script>
+			import { initI18n } from '../lib/i18n';
+			initI18n();
+		</script>
 	</head>
 	<body class="relative bg-[var(--background)] min-h-screen font-sans antialiased text-[var(--foreground)]">
 		<slot name="navbar" />
