@@ -49,6 +49,7 @@ function parseBuild(build: JenkinsBuild): Build {
           message,
           extraDescription,
           hash: item.commitId || null,
+          author: item.author?.fullName || null,
         };
       })
       ?.reverse() || [];

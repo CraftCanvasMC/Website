@@ -16,6 +16,11 @@ export const JenkinsBuildSchema = z.object({
             msg: z.string(),
             commitId: z.string(),
             comment: z.string().optional().nullable(),
+            author: z
+              .object({
+                fullName: z.string(),
+              })
+              .optional(),
           }),
         )
         .optional(),
@@ -38,6 +43,7 @@ export const BuildSchema = z.object({
       message: z.string().nullable(),
       extraDescription: z.string().nullable(),
       hash: z.string().nullable(),
+      author: z.string().nullable(),
     }),
   ),
 });
