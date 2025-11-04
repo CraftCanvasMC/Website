@@ -10,7 +10,7 @@ export default {
     menu: "menu",
   },
   hero: {
-    title: "Wysokowydajnościowe oprogramowanie dla serwera Minecraft",
+    title: "Szybkie i wydajne oprogramowanie dla serwera Minecraft",
     subtitle:
       "CanvasMC to fork Folii, oprogramowania dla serwera Minecraft, który naprawia niespójności w rozgrywce, błędy i wprowadza jeszcze więcej ulepszeń dla wydajności serwera",
     downloadCanvas: "Pobierz Canvas",
@@ -61,7 +61,7 @@ export default {
     latest: "Najnowszy",
     experimental: "Eksperymentalny",
     download: "Pobierz",
-    unavailable: "Niedostępny",
+    unavailable: "Niedostępne",
     noChanges: "Bez zmian",
     viewJavadocs: "Javadocs",
     showFailedBuilds: "Pokaż nieudane buildy",
@@ -87,7 +87,7 @@ export default {
     sculptor: {
       title: "Launcher Sculptor",
       description:
-        "Sculptor to oficjalny launcher, który automatycznie aktualizuje Canvas. Z nim możesz zawsze być na najnowszej wersji bez konieczności pobierania jej samemu. Również gwarantuje, że będzie aktualizować tylko do wersji Minecraft, którą określisz.",
+        "Sculptor to oficjalny launcher, który automatycznie aktualizuje Canvas. Z nim możesz zawsze być na bieżąco z nowymi wersjami, bez konieczności pobierania ich samemu. Gwarantuje też, że będzie pobierać nowe buildy tylko dla wersji Minecraft, którą określisz.",
       downloadSculptor: "Pobierz Sculptor",
       exampleUsage: "Przykładowe użycie",
       argumentsExplained: "Wyjaśnienie argumentów",
@@ -153,9 +153,9 @@ export default {
     },
     disclaimer:
       "Ta strona nie jest oficjalną stroną Minecraft i nie jest powiązana z Mojang Studios ani Microsoft. Wszystkie nazwy produktów i firm są znakami towarowymi lub zastrzeżonymi znakami towarowymi ich odpowiednich właścicieli. Użycie tych nazw nie oznacza żadnej afiliacji lub poparcia z ich strony.",
-    builtWith: "Stworzone za pomocą",
-    by: "przez",
-    team: "Zespół",
+    builtWith: "Stworzone z",
+    by: "przez zespół",
+    team: "",
   },
   notFound: {
     title: "404",
@@ -186,7 +186,7 @@ export default {
   status: {
     success: "Sukces",
     failure: "Niepowodzenie",
-    aborted: "Przerwany",
+    aborted: "Anulowany",
     unstable: "Niestabilny",
   },
   time: {
@@ -195,7 +195,7 @@ export default {
     minutesAgo: "minut temu",
     hourAgo: "godzinę temu",
     hoursAgo: "godzin temu",
-    dayAgo: "wczoraj",
+    dayAgo: "dzień temu",
     daysAgo: "dni temu",
     monthAgo: "miesiąc temu",
     monthsAgo: "miesięcy temu",
