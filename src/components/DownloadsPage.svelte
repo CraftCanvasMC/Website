@@ -9,6 +9,7 @@
   import gsap from 'gsap';
   import { onMount } from 'svelte';
   import { scrollReveal, scrollStagger } from '../lib/animations';
+  import { t } from '../lib/i18n';
 
   interface Props {
     buildsByVersion: Record<string, Build[]>;
@@ -103,9 +104,9 @@
           </svg>
         </div>
         <div>
-          <p class="font-semibold text-sm">Jenkins is Down</p>
+          <p class="font-semibold text-sm">{$t('downloads.jenkinsDown.title')}</p>
           <p class="text-xs mt-0.5 text-white/90">
-            {usingCache ? 'Showing cached builds. Downloads may be unavailable.' : 'Unable to fetch builds at this time.'}
+            {usingCache ? $t('downloads.jenkinsDown.message') : $t('downloads.jenkinsDown.noCache')}
           </p>
         </div>
       </div>
@@ -119,9 +120,9 @@
           </svg>
         </div>
         <div>
-          <p class="font-semibold text-sm">Showing Cached Builds</p>
+          <p class="font-semibold text-sm">{$t('downloads.usingCache.title')}</p>
           <p class="text-xs mt-0.5 text-white/90">
-            Jenkins is currently building. Showing recent builds from cache. Downloads are still available.
+            {$t('downloads.usingCache.message')}
           </p>
         </div>
       </div>
@@ -135,18 +136,18 @@
         <Select
           value={selectedVersion}
           onValueChange={(v: string) => (selectedVersion = v)}
-          options={versions.map((v: string) => ({ value: v, label: `Minecraft ${v}` }))}
+          options={versions.map((v: string) => ({ value: v, label: `${$t('downloads.version')} ${v}` }))}
           class="w-[180px]"
         />
         <button
           onclick={handleJavadocRedirect}
           class="group relative flex items-center gap-2 p-2 rounded hover:bg-white/10 transition-all overflow-hidden"
-          title="View Javadocs"
-          aria-label="View Javadocs"
+          title={$t('downloads.viewJavadocs')}
+          aria-label={$t('downloads.viewJavadocs')}
         >
           <BookOpenText class="size-5 text-neutral-300 group-hover:text-neutral-100 transition-colors shrink-0" />
           <span class="text-sm text-neutral-300 group-hover:text-neutral-100 whitespace-nowrap max-w-0 group-hover:max-w-[150px] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out overflow-hidden">
-            Javadocs
+            {$t('downloads.viewJavadocs')}
           </span>
         </button>
       </div>
@@ -160,10 +161,10 @@
           {#snippet children()}
             {#if showNewTab}
               <LayoutList class="size-4" />
-              Show Builds
+              {$t('downloads.showBuilds')}
             {:else}
               <PanelsTopLeft class="size-4" />
-              Show Sculptor
+              {$t('downloads.showSculptor')}
             {/if}
           {/snippet}
         </Button>
@@ -180,15 +181,15 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-neutral-100 mb-2">Downloads Unavailable</h3>
+          <h3 class="text-xl font-semibold text-neutral-100 mb-2">{$t('downloads.downloadsUnavailable')}</h3>
           <p class="text-neutral-400 max-w-md mx-auto">
-            Our Jenkins server is currently unreachable. Please check back later.
+            {$t('downloads.jenkinsUnreachable')}
           </p>
         </div>
       {:else}
         <div bind:this={buildsListElement} class="space-y-2">
           {#if builds.length === 0}
-            <p class="text-neutral-300 text-center">No builds available for this version.</p>
+            <p class="text-neutral-300 text-center">{$t('downloads.noBuilds')}</p>
           {:else}
             {#each builds as build, index (build.buildNumber)}
               <div use:scrollReveal={{ type: 'slideUp', start: 'top 100%', delay: index * 0.05 }}>
@@ -203,7 +204,7 @@
       {#if !jenkinsDown}
         <div class="mt-8 text-center">
           <a href="https://jenkins.canvasmc.io" target="_blank" rel="noopener noreferrer" class="text-neutral-400 text-sm hover:text-neutral-300 transition-colors">
-            Looking for older builds? Check out our Jenkins server →
+            {$t('downloads.olderBuilds')}
           </a>
         </div>
       {/if}

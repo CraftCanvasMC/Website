@@ -3,37 +3,59 @@ export default {
     home: "Startseite",
     downloads: "Downloads",
     documentation: "Dokumentation",
-    javadocs: "Javadocs",
+    maven: "Maven",
+    github: "GitHub",
+    discord: "Discord",
+    donate: "Spenden",
+    menu: "Menü",
   },
   hero: {
-    title: "Canvas",
-    subtitle: "Leistungsstarkes Multithreading für Minecraft",
-    description:
-      "Eine hochleistungsfähige Minecraft-Serversoftware auf Basis von Folia, die nahtloses regionalisiertes Multithreading für massive Welten bietet.",
-    getStarted: "Loslegen",
-    viewOnGithub: "Auf GitHub ansehen",
-    joinDiscord: "Discord beitreten",
+    title: "Hochleistungs-Minecraft-Serversoftware",
+    subtitle:
+      "CanvasMC ist ein Fork der Folia Minecraft-Serversoftware, der Gameplay-Inkonsistenzen und Fehler behebt und weitere Leistungsverbesserungen für den dedizierten Server einführt",
+    downloadCanvas: "Canvas herunterladen",
   },
   features: {
-    title: "Warum Canvas wählen?",
-    performance: {
-      title: "Blitzschnelle Leistung",
+    heading: "Was macht Canvas besonders?",
+    subheading:
+      "Erfahren Sie, was Canvas von anderer Minecraft-Serversoftware unterscheidet.",
+    scheduler: {
+      title: "Neu geschriebener Scheduler",
       description:
-        "Erleben Sie unübertroffene Serverleistung mit unserem fortschrittlichen regionalisierten Multithreading.",
+        "Canvas basiert hauptsächlich auf einem neu geschriebenen Scheduler für Folia, was Canvas zu einem der schnellsten Folia-Forks macht.",
     },
-    compatibility: {
-      title: "Plugin-Kompatibel",
+    chunkGeneration: {
+      title: "Optimierte Chunk-Generierung",
       description:
-        "Funktioniert sofort mit den meisten Folia-kompatiblen Plugins.",
+        "Mit fester linearer Skalierung durch das Neuschreiben des Chunk-System-Executors ist die Chunk-Leistung im Vergleich zu anderen Forks unübertroffen.",
+    },
+    configuration: {
+      title: "Umfangreiche Konfiguration",
+      description:
+        "Optimieren Sie jeden Aspekt Ihres Servers mit dokumentierten Konfigurationsoptionen und Leistungseinstellungen.",
     },
     community: {
-      title: "Aktive Community",
+      title: "Ihre Ideen, Unser Code",
       description:
-        "Treten Sie unserer blühenden Community bei, um Support, Updates und Beiträge zu erhalten.",
+        "Canvas wächst mit seiner Community – teilen Sie die Funktionen, die Sie sehen möchten, und wir werden daran arbeiten, sie zum Leben zu erwecken.",
+    },
+    profiling: {
+      title: "Echtes Regions-Profiling",
+      description:
+        "Canvas führt einen echten Spark-Profiler ein, der mit Region-Threading kompatibel ist und die Folia-Profiling-Engine ersetzt.",
+    },
+    powerful: {
+      title: "Leistungsstark und Optimiert",
+      description:
+        "Durch die Behebung mehrerer Folia-Fehler und Abstürze ist Canvas sowohl schnell als auch stabil",
     },
   },
   downloads: {
     title: "Downloads",
+    subtitle:
+      "Holen Sie sich die neuesten Builds von CanvasMC für Ihren Minecraft-Server.",
+    downloadLatest: "Neuesten Build herunterladen",
+    sourceCode: "Quellcode",
     version: "Minecraft",
     build: "Build",
     latest: "Neueste",
@@ -48,6 +70,10 @@ export default {
     showBuilds: "Builds anzeigen",
     olderBuilds:
       "Suchen Sie nach älteren Builds? Schauen Sie sich unseren Jenkins-Server an →",
+    noBuilds: "Keine Builds für diese Version verfügbar.",
+    downloadsUnavailable: "Downloads nicht verfügbar",
+    jenkinsUnreachable:
+      "Unser Jenkins-Server ist derzeit nicht erreichbar. Bitte versuchen Sie es später erneut.",
     jenkinsDown: {
       title: "Jenkins ist ausgefallen",
       message:
@@ -59,27 +85,78 @@ export default {
       message:
         "Jenkins erstellt derzeit Builds. Zeige aktuelle Builds aus dem Cache. Downloads sind weiterhin verfügbar.",
     },
+    sculptor: {
+      title: "Sculptor Launcher",
+      description:
+        "Sculptor ist der offizielle Auto-Update-Launcher für Canvas. Er stellt sicher, dass Sie immer die neueste Version haben, ohne manuell Builds herunterladen zu müssen. Dies ist auch Minecraft-versionsspezifisch, sodass nur auf die von Ihnen angegebene Minecraft-Version aktualisiert wird.",
+      downloadSculptor: "Sculptor herunterladen",
+      exampleUsage: "Beispielverwendung",
+      argumentsExplained: "Argumente erklärt",
+      args: {
+        minecraftVersion: {
+          name: "-Dsculptor.minecraftVersion",
+          description:
+            "Gibt die Minecraft-Version an, für die Sculptor Builds herunterladen und verwalten soll. Ohne dies wird Sculptor nicht starten.",
+          required: "Erforderlich.",
+        },
+        includeExperimental: {
+          name: "-Dsculptor.includeExperimental",
+          description:
+            "Akzeptiert true oder false (Standard: false). Wenn auf true gesetzt, wird Sculptor auch experimentelle Canvas-Builds einschließen statt nur stabile.",
+          required: "Optional.",
+        },
+        serverFileName: {
+          name: "-Dsculptor.serverFileName",
+          description:
+            "Legt den Namen der heruntergeladenen Server-JAR-Datei fest. Standardmäßig server.jar, wenn nicht angegeben.",
+          required: "Optional.",
+        },
+      },
+    },
   },
   community: {
-    title: "Treten Sie unserer Community bei",
-    description:
-      "Vernetzen Sie sich mit Entwicklern, erhalten Sie Support und bleiben Sie auf dem Laufenden",
+    heading: "Treten Sie unserer Community bei",
+    subheading:
+      "Vernetzen Sie sich mit der Canvas-Community, tragen Sie zur Entwicklung bei und bleiben Sie auf dem Laufenden.",
     discord: {
       title: "Discord",
       description:
-        "Chatten Sie mit der Community und erhalten Sie Echtzeit-Support",
+        "Treten Sie unserer Discord-Community bei, um Support zu erhalten, Ihre Erfahrungen zu teilen und sich mit anderen Canvas-Benutzern zu vernetzen.",
       action: "Discord beitreten",
     },
     github: {
       title: "GitHub",
-      description: "Tragen Sie zum Projekt bei und melden Sie Probleme",
-      action: "Repository ansehen",
+      description:
+        "Tragen Sie zur Canvas-Entwicklung bei, melden Sie Probleme und erkunden Sie unsere Open-Source-Codebasis auf GitHub.",
+      action: "GitHub ansehen",
+    },
+    jenkins: {
+      title: "Jenkins",
+      description:
+        "Greifen Sie auf unsere neuesten Builds, Entwicklungsversionen zu und verfolgen Sie unseren kontinuierlichen Integrationsfortschritt.",
+      action: "Jenkins besuchen",
     },
   },
   footer: {
-    madeWith: "Erstellt mit",
-    by: "von",
-    license: "Lizenziert unter",
+    sections: {
+      projectDev: "Projekt & Entwicklung",
+      getInvolved: "Mitmachen",
+      aboutCanvas: "Über Canvas",
+    },
+    links: {
+      githubRepo: "GitHub-Repository",
+      jenkins: "Jenkins CI",
+      downloads: "Downloads",
+      apiDocs: "API-Dokumentation",
+      githubIssues: "GitHub-Probleme",
+      donate: "Spenden",
+      license: "Lizenz",
+    },
+    disclaimer:
+      "Diese Website ist keine offizielle Minecraft-Website und steht nicht in Verbindung mit Mojang Studios oder Microsoft. Alle Produkt- und Firmennamen sind Marken oder eingetragene Marken ihrer jeweiligen Inhaber. Die Verwendung dieser Namen impliziert keine Zugehörigkeit oder Unterstützung durch sie.",
+    builtWith: "Erstellt mit",
+    by: "vom",
+    team: "Team",
   },
   notFound: {
     title: "404",

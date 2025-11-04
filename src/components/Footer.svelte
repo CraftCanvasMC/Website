@@ -5,26 +5,27 @@
   import GithubIcon from './icons/GithubIcon.svelte';
   import DiscordIcon from './icons/DiscordIcon.svelte';
   import { hoverLift } from '../lib/animations';
+  import { t } from '../lib/i18n';
 
   const LINKS = {
-    'Project & Development': [
-      { href: siteConfig.links.github.repo, label: 'GitHub Repository' },
-      { href: jenkinsConfig.baseUrl, label: 'Jenkins CI' },
-      { href: '/downloads', label: 'Downloads' },
-      { href: 'https://github.com/CraftCanvasMC/Website/blob/main/docs/API.md', label: 'API Documentation' },
+    projectDev: [
+      { href: siteConfig.links.github.repo, labelKey: 'footer.links.githubRepo' },
+      { href: jenkinsConfig.baseUrl, labelKey: 'footer.links.jenkins' },
+      { href: '/downloads', labelKey: 'footer.links.downloads' },
+      { href: 'https://github.com/CraftCanvasMC/Website/blob/main/docs/API.md', labelKey: 'footer.links.apiDocs' },
     ],
-    'Get Involved': [
-      { href: `${siteConfig.links.github.repo}/issues`, label: 'GitHub Issues' },
-      { href: siteConfig.links.donate, label: 'Donate' },
+    getInvolved: [
+      { href: `${siteConfig.links.github.repo}/issues`, labelKey: 'footer.links.githubIssues' },
+      { href: siteConfig.links.donate, labelKey: 'footer.links.donate' },
     ],
-    'About Canvas': [
-      { href: `${siteConfig.links.github.repo}/blob/master/LICENSE`, label: 'License' },
+    aboutCanvas: [
+      { href: `${siteConfig.links.github.repo}/blob/master/LICENSE`, labelKey: 'footer.links.license' },
     ],
   } as const;
 
   const SOCIALS = [
-    { href: siteConfig.links.github.org, icon: GithubIcon, label: 'GitHub' },
-    { href: siteConfig.links.discord, icon: DiscordIcon, label: 'Discord' },
+    { href: siteConfig.links.github.org, icon: GithubIcon, labelKey: 'nav.github' },
+    { href: siteConfig.links.discord, icon: DiscordIcon, labelKey: 'nav.discord' },
   ] as const;
 
   const currentYear = new Date().getFullYear();
@@ -40,14 +41,14 @@
         </a>
 
         <div class="mt-4 flex gap-4">
-          {#each SOCIALS as { href, icon, label }}
+          {#each SOCIALS as { href, icon, labelKey }}
             {@const IconComponent = icon}
             <a
               use:hoverLift={'small'}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${label} (opens in new tab)`}
+              aria-label={`${$t(labelKey)} (opens in new tab)`}
               class="text-neutral-300 transition-colors hover:text-neutral-100"
             >
               <IconComponent class="size-5" />
@@ -57,11 +58,11 @@
       </section>
 
       <div class="grid gap-8 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-3">
-        {#each Object.entries(LINKS) as [title, links]}
+        {#each Object.entries(LINKS) as [sectionKey, links]}
           <section class="space-y-3">
-            <h3 class="font-medium text-sm">{title}</h3>
+            <h3 class="font-medium text-sm">{$t(`footer.sections.${sectionKey}`)}</h3>
             <ul class="space-y-1.5">
-              {#each links as { href, label }}
+              {#each links as { href, labelKey }}
                 <li>
                   <a
                     href={href}
@@ -69,7 +70,7 @@
                     rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                     class="text-neutral-400 text-sm transition-colors duration-200 hover:text-white"
                   >
-                    {label}
+                    {$t(labelKey)}
                   </a>
                 </li>
               {/each}
@@ -81,7 +82,7 @@
 
     <div class="mt-8 space-y-4 border-neutral-800/80 border-t pt-8">
       <p class="text-neutral-500 text-xs leading-relaxed">
-        This website is not an official Minecraft website and is not associated with Mojang Studios or Microsoft. All product and company names are trademarks or registered trademarks of their respective holders. Use of these names does not imply any affiliation or endorsement by them.
+        {$t('footer.disclaimer')}
       </p>
       
       <div class="flex flex-col items-start justify-between gap-4 text-sm sm:flex-row sm:items-center">
@@ -89,9 +90,9 @@
           &copy; {currentYear} {siteConfig.name}
         </p>
         <div class="flex items-center gap-1 text-neutral-400">
-          Built with <Heart class="size-3" fill="currentColor" /> by the
+          {$t('footer.builtWith')} <Heart class="size-3" fill="currentColor" /> {$t('footer.by')}
           <p class="underline underline-offset-2 hover:text-neutral-200">
-            {siteConfig.name} Team
+            {siteConfig.name} {$t('footer.team')}
           </p>
         </div>
       </div>

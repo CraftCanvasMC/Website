@@ -2,42 +2,37 @@
   import { Cpu, Lightbulb, CircleGauge, FileSliders, Zap, ChevronsUp } from 'lucide-svelte';
   import Card from '../ui/Card.svelte';
   import { scrollReveal, scrollStagger } from '../../lib/animations';
+  import { t } from '../../lib/i18n';
 
   const FEATURES = [
     {
-      title: 'Rewritten Scheduler',
-      description:
-        'Canvas is primarily based on a rewritten scheduler for Folia, which makes Canvas one of the fastest Folia forks out there.',
+      titleKey: 'features.scheduler.title',
+      descriptionKey: 'features.scheduler.description',
       icon: Cpu,
     },
     {
-      title: 'Optimized Chunk Generation',
-      description:
-        'With fixed linear scaling by rewriting the chunk system executor, chunk performance is unparalleled compared to other forks.',
+      titleKey: 'features.chunkGeneration.title',
+      descriptionKey: 'features.chunkGeneration.description',
       icon: Zap,
     },
     {
-      title: 'Extensive Configuration',
-      description:
-        'Fine-tune every aspect of your server with documented configuration options and performance settings.',
+      titleKey: 'features.configuration.title',
+      descriptionKey: 'features.configuration.description',
       icon: FileSliders,
     },
     {
-      title: 'Your Ideas, Our Code',
-      description:
-        "Canvas grows with its community — share the features you'd love to see, and we'll work to bring them to life.",
+      titleKey: 'features.community.title',
+      descriptionKey: 'features.community.description',
       icon: Lightbulb,
     },
     {
-      title: 'Proper Region Profiling',
-      description:
-        'Canvas introduces a genuine Spark profiler compatible with region threading, replacing the Folia profiling engine.',
+      titleKey: 'features.profiling.title',
+      descriptionKey: 'features.profiling.description',
       icon: CircleGauge,
     },
     {
-      title: 'Powerful and Optimized',
-      description:
-        'Fixing multiple Folia bugs and crashes, Canvas is both fast and stable',
+      titleKey: 'features.powerful.title',
+      descriptionKey: 'features.powerful.description',
       icon: ChevronsUp,
     }
   ] as const;
@@ -45,14 +40,14 @@
 
 <section class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 lg:py-0">
   <header use:scrollReveal={{ type: 'fadeIn', start: 'top 85%' }} class="max-w-2xl mt-24 text-center mx-auto">
-    <h2 class="font-semibold text-3xl text-white">What makes Canvas special?</h2>
+    <h2 class="font-semibold text-3xl text-white">{$t('features.heading')}</h2>
     <p class="mt-3 text-lg text-neutral-300">
-      Find out what makes Canvas different from other Minecraft server software.
+      {$t('features.subheading')}
     </p>
   </header>
 
   <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 place-items-center">
-    {#each FEATURES as { title, description, icon: Icon }, index}
+    {#each FEATURES as { titleKey, descriptionKey, icon: Icon }, index}
       <div use:scrollReveal={{ type: 'slideUp', start: 'top 85%', delay: index * 0.12 }} class="w-full sm:w-[95%] max-w-sm">
         <Card
           enableHover={true}
@@ -65,8 +60,8 @@
               </div>
             </div>
             <div>
-              <h3 class="font-medium text-neutral-100">{title}</h3>
-              <p class="mt-1.5 text-neutral-400 text-sm">{description}</p>
+              <h3 class="font-medium text-neutral-100">{$t(titleKey)}</h3>
+              <p class="mt-1.5 text-neutral-400 text-sm">{$t(descriptionKey)}</p>
             </div>
           </div>
         </Card>

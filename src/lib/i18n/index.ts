@@ -1,6 +1,16 @@
 import { writable, derived, get } from "svelte/store";
 
-export type Language = "en" | "es" | "fr" | "de" | "zh" | "ja" | "pt" | "ru";
+export type Language =
+  | "en"
+  | "es"
+  | "fr"
+  | "de"
+  | "zh"
+  | "ja"
+  | "pt"
+  | "ru"
+  | "pl"
+  | "tr";
 
 export interface Translation {
   [key: string]: string | Translation;
@@ -19,6 +29,8 @@ export const LANGUAGES: { code: Language; name: string; flag: string }[] = [
   { code: "ja", name: "日本語", flag: "🇯🇵" },
   { code: "pt", name: "Português", flag: "🇵🇹" },
   { code: "ru", name: "Русский", flag: "🇷🇺" },
+  { code: "pl", name: "Polski", flag: "🇵🇱" },
+  { code: "tr", name: "Türkçe", flag: "🇹🇷" },
 ];
 
 const STORAGE_KEY = "language-preference";

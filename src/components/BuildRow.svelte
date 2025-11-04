@@ -5,6 +5,7 @@
   import StatusBadge from './StatusBadge.svelte';
   import type { Build } from '../lib/schemas/jenkins';
   import gsap from 'gsap';
+  import { t } from '../lib/i18n';
 
   interface Props {
     build: Build;
@@ -21,20 +22,25 @@
     const diffMs = Date.now() - build.timestamp;
     const diffMins = Math.floor(diffMs / 60000);
 
-    if (diffMins < 1) return 'just now';
-    if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+    if (diffMins < 1) return $t('time.justNow');
+    if (diffMins === 1) return `1 ${$t('time.minuteAgo')}`;
+    if (diffMins < 60) return `${diffMins} ${$t('time.minutesAgo')}`;
 
     const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    if (diffHours === 1) return `1 ${$t('time.hourAgo')}`;
+    if (diffHours < 24) return `${diffHours} ${$t('time.hoursAgo')}`;
 
     const diffDays = Math.floor(diffHours / 24);
-    if (diffDays < 30) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    if (diffDays === 1) return `1 ${$t('time.dayAgo')}`;
+    if (diffDays < 30) return `${diffDays} ${$t('time.daysAgo')}`;
 
     const diffMonths = Math.floor(diffDays / 30);
-    if (diffMonths < 12) return `${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`;
+    if (diffMonths === 1) return `1 ${$t('time.monthAgo')}`;
+    if (diffMonths < 12) return `${diffMonths} ${$t('time.monthsAgo')}`;
 
     const diffYears = Math.floor(diffMonths / 12);
-    return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
+    if (diffYears === 1) return `1 ${$t('time.yearAgo')}`;
+    return `${diffYears} ${$t('time.yearsAgo')}`;
   });
 
   const displayCommits = $derived(build.commits.slice(0, 100));
@@ -82,7 +88,7 @@
 
     <div class="flex-1 min-w-0 pl-6 sm:pl-8 mt-3 sm:mt-0 space-y-2">
       {#if build.commits.length === 0}
-        <span class="text-neutral-300 text-sm">No changes</span>
+        <span class="text-neutral-300 text-sm">{$t('downloads.noChanges')}</span>
       {:else}
         {#each displayCommits as commit, cidx}
           <CommitItem {commit} commitIndex={`${build.buildNumber}-${cidx}`} />
@@ -100,12 +106,12 @@
       {#if build.downloadUrl}
         <a href={build.downloadUrl} download class="inline-flex items-center gap-2">
           <Download class="size-4" />
-          Download
+          {$t('downloads.download')}
         </a>
       {:else}
         <span class="inline-flex items-center gap-2">
           <Download class="size-4" />
-          Unavailable
+          {$t('downloads.unavailable')}
         </span>
       {/if}
     {/snippet}

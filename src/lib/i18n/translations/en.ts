@@ -3,36 +3,58 @@ export default {
     home: "Home",
     downloads: "Downloads",
     documentation: "Documentation",
-    javadocs: "Javadocs",
+    maven: "Maven",
+    github: "GitHub",
+    discord: "Discord",
+    donate: "Donate",
+    menu: "menu",
   },
   hero: {
-    title: "Canvas",
-    subtitle: "Powerful Multithreading for Minecraft",
-    description:
-      "A high-performance Minecraft server software built on Folia, offering seamless regionized multithreading for massive worlds.",
-    getStarted: "Get Started",
-    viewOnGithub: "View on GitHub",
-    joinDiscord: "Join Discord",
+    title: "High performance Minecraft server software",
+    subtitle:
+      "CanvasMC is a fork of the Folia Minecraft server software that fixes gameplay inconsistencies, bugs, and introduces further performance enhancements to the dedicated server",
+    downloadCanvas: "Download Canvas",
   },
   features: {
-    title: "Why Choose Canvas?",
-    performance: {
-      title: "Blazing Performance",
+    heading: "What makes Canvas special?",
+    subheading:
+      "Find out what makes Canvas different from other Minecraft server software.",
+    scheduler: {
+      title: "Rewritten Scheduler",
       description:
-        "Experience unparalleled server performance with our advanced regionized multithreading.",
+        "Canvas is primarily based on a rewritten scheduler for Folia, which makes Canvas one of the fastest Folia forks out there.",
     },
-    compatibility: {
-      title: "Plugin Compatible",
-      description: "Works with most Folia-compatible plugins out of the box.",
+    chunkGeneration: {
+      title: "Optimized Chunk Generation",
+      description:
+        "With fixed linear scaling by rewriting the chunk system executor, chunk performance is unparalleled compared to other forks.",
+    },
+    configuration: {
+      title: "Extensive Configuration",
+      description:
+        "Fine-tune every aspect of your server with documented configuration options and performance settings.",
     },
     community: {
-      title: "Active Community",
+      title: "Your Ideas, Our Code",
       description:
-        "Join our thriving community for support, updates, and contributions.",
+        "Canvas grows with its community — share the features you'd love to see, and we'll work to bring them to life.",
+    },
+    profiling: {
+      title: "Proper Region Profiling",
+      description:
+        "Canvas introduces a genuine Spark profiler compatible with region threading, replacing the Folia profiling engine.",
+    },
+    powerful: {
+      title: "Powerful and Optimized",
+      description:
+        "Fixing multiple Folia bugs and crashes, Canvas is both fast and stable",
     },
   },
   downloads: {
     title: "Downloads",
+    subtitle: "Get the latest builds of CanvasMC for your Minecraft server.",
+    downloadLatest: "Download Latest Build",
+    sourceCode: "Source Code",
     version: "Minecraft",
     build: "Build",
     latest: "Latest",
@@ -46,6 +68,10 @@ export default {
     showSculptor: "Show Sculptor",
     showBuilds: "Show Builds",
     olderBuilds: "Looking for older builds? Check out our Jenkins server →",
+    noBuilds: "No builds available for this version.",
+    downloadsUnavailable: "Downloads Unavailable",
+    jenkinsUnreachable:
+      "Our Jenkins server is currently unreachable. Please check back later.",
     jenkinsDown: {
       title: "Jenkins is Down",
       message: "Showing cached builds. Downloads may be unavailable.",
@@ -56,25 +82,78 @@ export default {
       message:
         "Jenkins is currently building. Showing recent builds from cache. Downloads are still available.",
     },
+    sculptor: {
+      title: "Sculptor Launcher",
+      description:
+        "Sculptor is the official auto-updating launcher for Canvas. It ensures you're always on the latest version without needing to manually download builds. This is Minecraft-version specific too, so it will only update to the Minecraft version you specify.",
+      downloadSculptor: "Download Sculptor",
+      exampleUsage: "Example Usage",
+      argumentsExplained: "Arguments Explained",
+      args: {
+        minecraftVersion: {
+          name: "-Dsculptor.minecraftVersion",
+          description:
+            "Specifies the Minecraft version Sculptor should download and manage builds for. Without this, Sculptor will fail to launch.",
+          required: "Required.",
+        },
+        includeExperimental: {
+          name: "-Dsculptor.includeExperimental",
+          description:
+            "Accepts true or false (default: false). If set to true, Sculptor will also include experimental Canvas builds instead of only stable ones.",
+          required: "Optional.",
+        },
+        serverFileName: {
+          name: "-Dsculptor.serverFileName",
+          description:
+            "Sets the name of the downloaded server jar file. Defaults to server.jar if not specified.",
+          required: "Optional.",
+        },
+      },
+    },
   },
   community: {
-    title: "Join Our Community",
-    description: "Connect with developers, get support, and stay updated",
+    heading: "Join our community",
+    subheading:
+      "Connect with the Canvas community, contribute to development, and stay up to date.",
     discord: {
       title: "Discord",
-      description: "Chat with the community and get real-time support",
+      description:
+        "Join our Discord community to get support, share your experiences, and connect with other Canvas users.",
       action: "Join Discord",
     },
     github: {
       title: "GitHub",
-      description: "Contribute to the project and report issues",
-      action: "View Repository",
+      description:
+        "Contribute to Canvas development, report issues, and explore our open source codebase on GitHub.",
+      action: "View GitHub",
+    },
+    jenkins: {
+      title: "Jenkins",
+      description:
+        "Access our latest builds, development versions, and track our continuous integration progress.",
+      action: "Visit Jenkins",
     },
   },
   footer: {
-    madeWith: "Made with",
-    by: "by",
-    license: "Licensed under",
+    sections: {
+      projectDev: "Project & Development",
+      getInvolved: "Get Involved",
+      aboutCanvas: "About Canvas",
+    },
+    links: {
+      githubRepo: "GitHub Repository",
+      jenkins: "Jenkins CI",
+      downloads: "Downloads",
+      apiDocs: "API Documentation",
+      githubIssues: "GitHub Issues",
+      donate: "Donate",
+      license: "License",
+    },
+    disclaimer:
+      "This website is not an official Minecraft website and is not associated with Mojang Studios or Microsoft. All product and company names are trademarks or registered trademarks of their respective holders. Use of these names does not imply any affiliation or endorsement by them.",
+    builtWith: "Built with",
+    by: "by the",
+    team: "Team",
   },
   notFound: {
     title: "404",

@@ -3,6 +3,7 @@
   import Button from '../ui/Button.svelte';
   import Card from '../ui/Card.svelte';
   import { scrollReveal } from '../../lib/animations';
+  import { t } from '../../lib/i18n';
 </script>
 
 <section class="relative isolate">
@@ -11,12 +12,10 @@
       <div use:scrollReveal={{ type: 'slideUp', delay: 0.1, start: 'top 90%' }}>
         <Card class="max-w-xl p-8 border border-white/10 backdrop-blur-sm bg-white/5 transition-all">
           <h1 class="font-bold text-4xl leading-tight lg:text-5xl bg-gradient-to-r from-white via-neutral-300 to-white bg-clip-text text-transparent">
-          High performance Minecraft server software
+          {$t('hero.title')}
         </h1>
         <p class="mt-7 text-2xl bg-gradient-to-r from-neutral-100 via-neutral-400 to-neutral-100 bg-clip-text text-transparent">
-          CanvasMC is a fork of the Folia Minecraft server software that fixes gameplay
-          inconsistencies, bugs, and introduces further performance enhancements to the
-          dedicated server
+          {$t('hero.subtitle')}
         </p>
 
         <div class="mt-8 flex flex-col gap-4 sm:flex-row justify-center lg:justify-start">
@@ -26,7 +25,7 @@
             class="gap-2"
           >
             {#snippet children()}
-              Download Canvas
+              {$t('hero.downloadCanvas')}
             {/snippet}
           </Button>
           <Button
@@ -36,7 +35,7 @@
             class="flex items-center gap-2"
           >
             {#snippet children()}
-              Documentation
+              {$t('nav.documentation')}
               <ArrowRight class="size-4" />
             {/snippet}
           </Button>

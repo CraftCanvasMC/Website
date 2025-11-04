@@ -4,6 +4,7 @@
   import { onMount } from 'svelte';
   import { jenkinsConfig } from '../config/jenkins';
   import { Palette } from 'lucide-svelte';
+  import { t } from '../lib/i18n';
 
   interface Props {
     redirecting?: boolean;
@@ -95,7 +96,7 @@
           <Palette class="size-12 text-neutral-200" />
         </div>
         <p class="text-xl font-medium text-neutral-300">
-          Loading builds...
+          {$t('common.loading')}
         </p>
       </div>
     </div>
@@ -109,9 +110,9 @@
         </svg>
       </div>
       <div>
-        <p class="font-semibold text-sm">Jenkins is Down</p>
+        <p class="font-semibold text-sm">{$t('downloads.jenkinsDown.title')}</p>
         <p class="text-xs mt-0.5 text-white/90">
-          Unable to fetch builds at this time.
+          {$t('downloads.jenkinsDown.noCache')}
         </p>
       </div>
     </div>
@@ -125,9 +126,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-neutral-100 mb-2">Downloads Unavailable</h3>
+        <h3 class="text-xl font-semibold text-neutral-100 mb-2">{$t('downloads.downloadsUnavailable')}</h3>
         <p class="text-neutral-400 max-w-md mx-auto">
-          Our Jenkins server is currently unreachable. Please check back later.
+          {$t('downloads.jenkinsUnreachable')}
         </p>
       </div>
     </div>

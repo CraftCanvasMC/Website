@@ -9,23 +9,24 @@
   import LanguageSelector from './LanguageSelector.svelte';
   import gsap from 'gsap';
   import { hoverLift } from '../lib/animations';
+  import { t } from '../lib/i18n';
 
   interface NavbarItem {
     href: string;
-    label: string;
+    translationKey: string;
     icon?: any;
   }
 
   const LINKS: NavbarItem[] = [
-    { href: '/downloads', label: 'Downloads' },
-    { href: 'https://docs.canvasmc.io', label: 'Docs' },
-    { href: 'https://maven.canvasmc.io', label: 'Maven' },
+    { href: '/downloads', translationKey: 'nav.downloads' },
+    { href: 'https://docs.canvasmc.io', translationKey: 'nav.documentation' },
+    { href: 'https://maven.canvasmc.io', translationKey: 'nav.maven' },
   ];
 
   const SOCIAL: NavbarItem[] = [
-    { href: siteConfig.links.github.org, label: 'GitHub', icon: GithubIcon },
-    { href: siteConfig.links.discord, label: 'Discord', icon: DiscordIcon },
-    { href: siteConfig.links.donate, label: 'Donate', icon: DonateIcon },
+    { href: siteConfig.links.github.org, translationKey: 'nav.github', icon: GithubIcon },
+    { href: siteConfig.links.discord, translationKey: 'nav.discord', icon: DiscordIcon },
+    { href: siteConfig.links.donate, translationKey: 'nav.donate', icon: DonateIcon },
   ];
 
   let isOpen = $state(false);
@@ -81,7 +82,7 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-15 items-center justify-between">
         <div class="flex items-center space-x-6">
-          <a href="/" class="flex items-center space-x-2" aria-label="Home">
+          <a href="/" class="flex items-center space-x-2" aria-label={$t('nav.home')}>
             <img src="/logo.png" alt="" width="26" height="26" />
             <span class="font-semibold text-sm">{siteConfig.name}</span>
           </a>
@@ -96,7 +97,7 @@
                 class="flex items-center gap-1.5 text-sm transition-colors {isActive ? 'text-white' : 'text-neutral-300 hover:text-neutral-100'}"
                 aria-current={isActive ? 'page' : undefined}
               >
-                {link.label}
+                {$t(link.translationKey)}
                 {#if isExternal}
                   <ExternalLink class="size-0" aria-hidden />
                 {/if}
@@ -129,7 +130,7 @@
             type="button"
             onclick={() => (isOpen = !isOpen)}
             class="rounded-md p-2.5 text-neutral-300 hover:bg-neutral-800"
-            aria-label={`${isOpen ? 'Close' : 'Open'} menu`}
+            aria-label={`${isOpen ? $t('common.close') : $t('common.open')} ${$t('nav.menu')}`}
             aria-expanded={isOpen}
           >
             {#if isOpen}
@@ -153,7 +154,7 @@
               class="rounded-md px-3 py-2 hover:bg-neutral-800 flex items-center gap-1.5 text-sm transition-colors {isActive ? 'text-white' : 'text-neutral-300 hover:text-neutral-100'}"
               aria-current={isActive ? 'page' : undefined}
             >
-              {link.label}
+              {$t(link.translationKey)}
             </a>
           {/each}
           <div class="-mx-4 pt-3">
