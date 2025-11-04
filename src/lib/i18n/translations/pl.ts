@@ -10,84 +10,84 @@ export default {
     menu: "menu",
   },
   hero: {
-    title: "Wysokowydajne oprogramowanie serwera Minecraft",
+    title: "Wysokowydajnościowe oprogramowanie dla serwera Minecraft",
     subtitle:
-      "CanvasMC to fork oprogramowania serwera Minecraft Folia, który naprawia niespójności rozgrywki, błędy i wprowadza dalsze ulepszenia wydajności dedykowanego serwera",
+      "CanvasMC to fork Folii, oprogramowania dla serwera Minecraft, który naprawia niespójności w rozgrywce, błędy i wprowadza jeszcze więcej ulepszeń dla wydajności serwera",
     downloadCanvas: "Pobierz Canvas",
   },
   features: {
     heading: "Co czyni Canvas wyjątkowym?",
     subheading:
-      "Dowiedz się, czym Canvas różni się od innego oprogramowania serwerowego Minecraft.",
+      "Dowiedz się, co odróżnia Canvas od reszty.",
     scheduler: {
-      title: "Przepisany harmonogram",
+      title: "Przerobiony scheduler",
       description:
-        "Canvas jest oparty głównie na przepisanym harmonogramie dla Folia, co czyni Canvas jednym z najszybszych forków Folia.",
+        "Canvas jest oparty głównie na nowym schedulerze dla chunków, co czyni Canvas jednym z najszybszych forków Folii.",
     },
     chunkGeneration: {
       title: "Zoptymalizowane generowanie chunków",
       description:
-        "Dzięki naprawionemu skalowaniu liniowemu poprzez przepisanie executora systemu chunków, wydajność chunków jest niezrównana w porównaniu z innymi forkami.",
+        "Dzięki naprawionemu skalowaniu liniowemu, możliwym poprzez przerobienie executora systemu chunków, wydajność chunków jest niezrównanie lepsza w porównaniu z innymi forkami.",
     },
     configuration: {
       title: "Obszerna konfiguracja",
       description:
-        "Dostrajaj każdy aspekt swojego serwera dzięki udokumentowanym opcjom konfiguracji i ustawieniom wydajności.",
+        "Modyfikuj każdy aspekt swojego serwera dzięki udokumentowanej konfiguracji i optymalizacjom",
     },
     community: {
       title: "Twoje pomysły, nasz kod",
       description:
-        "Canvas rośnie razem ze swoją społecznością — podziel się funkcjami, które chciałbyś zobaczyć, a my postaramy się je wcielić w życie.",
+        "Canvas rośnie razem ze swoją społecznością - podziel się funkcjami, które pragniesz zobaczyć, a my postaramy się je wcielić w życie.",
     },
     profiling: {
-      title: "Właściwe profilowanie regionów",
+      title: "Prawdziwe profilowanie regionów",
       description:
-        "Canvas wprowadza prawdziwy profiler Spark kompatybilny z wątkowanem regionów, zastępując silnik profilowania Folia.",
+        "Canvas posiada profiler Spark z prawdziwego zdarzenia, który jest kompatybilny z region threadingiem, tj. z regionami, zastępując wbudowany profiler Folii.",
     },
     powerful: {
-      title: "Potężny i zoptymalizowany",
+      title: "Potężne i szybkie",
       description:
-        "Naprawiając wiele błędów i awarii Folia, Canvas jest szybki i stabilny",
+        "Naprawiając wiele błędów i crashów występujących w Folii, Canvas jest szybkie i stabilne",
     },
   },
   downloads: {
     title: "Pobieranie",
     subtitle:
-      "Pobierz najnowsze kompilacje CanvasMC dla swojego serwera Minecraft.",
-    downloadLatest: "Pobierz najnowszą kompilację",
+      "Pobierz najnowsze buildy CanvasMC dla swojego serwera Minecraft.",
+    downloadLatest: "Pobierz najnowszy build",
     sourceCode: "Kod źródłowy",
     version: "Minecraft",
-    build: "Kompilacja",
-    latest: "Najnowsza",
-    experimental: "Eksperymentalna",
+    build: "Build",
+    latest: "Najnowszy",
+    experimental: "Eksperymentalny",
     download: "Pobierz",
-    unavailable: "Niedostępne",
-    noChanges: "Brak zmian",
+    unavailable: "Niedostępny",
+    noChanges: "Bez zmian",
     viewJavadocs: "Javadocs",
-    showFailedBuilds: "Pokaż nieudane kompilacje",
-    hideFailedBuilds: "Ukryj nieudane kompilacje",
-    showSculptor: "Pokaż Sculptor",
-    showBuilds: "Pokaż kompilacje",
-    olderBuilds: "Szukasz starszych kompilacji? Sprawdź nasz serwer Jenkins →",
-    noBuilds: "Brak dostępnych kompilacji dla tej wersji.",
-    downloadsUnavailable: "Pobieranie niedostępne",
+    showFailedBuilds: "Pokaż nieudane buildy",
+    hideFailedBuilds: "Ukryj nieudane buildy",
+    showSculptor: "Pokaż launcher Sculptor",
+    showBuilds: "Pokaż buildy",
+    olderBuilds: "Szukasz starszych buildów? Odwiedź nasz serwer Jenkins →",
+    noBuilds: "Brak buildów dla tej wersji.",
+    downloadsUnavailable: "Pobieranie jest obecnie niedostępne",
     jenkinsUnreachable:
       "Nasz serwer Jenkins jest obecnie niedostępny. Spróbuj ponownie później.",
     jenkinsDown: {
       title: "Jenkins nie działa",
       message:
-        "Pokazywanie zbuforowanych kompilacji. Pobieranie może być niedostępne.",
-      noCache: "Nie można pobrać kompilacji w tym momencie.",
+        "Pokazane są tylko buildy z pamięci. Pobieranie może być niedostępne.",
+      noCache: "Nie można pobrać builda w tym momencie.",
     },
     usingCache: {
-      title: "Pokazywanie zbuforowanych kompilacji",
+      title: "Pokazywanie buildów z pamięci",
       message:
-        "Jenkins jest obecnie w trakcie kompilacji. Pokazywanie ostatnich kompilacji z pamięci podręcznej. Pobieranie jest nadal dostępne.",
+        "Jenkins obecnie kompiluje nowy build. Pokazywane są tylko ostatnie buildy z pamięci. Wciąż można pobierać.",
     },
     sculptor: {
       title: "Launcher Sculptor",
       description:
-        "Sculptor to oficjalny launcher z automatyczną aktualizacją dla Canvas. Zapewnia, że zawsze masz najnowszą wersję bez konieczności ręcznego pobierania kompilacji. Jest to również specyficzne dla wersji Minecraft, więc będzie aktualizować tylko do wersji Minecraft, którą określisz.",
+        "Sculptor to oficjalny launcher, który automatycznie aktualizuje Canvas. Z nim możesz zawsze być na najnowszej wersji bez konieczności pobierania jej samemu. Również gwarantuje, że będzie aktualizować tylko do wersji Minecraft, którą określisz.",
       downloadSculptor: "Pobierz Sculptor",
       exampleUsage: "Przykładowe użycie",
       argumentsExplained: "Wyjaśnienie argumentów",
@@ -95,19 +95,19 @@ export default {
         minecraftVersion: {
           name: "-Dsculptor.minecraftVersion",
           description:
-            "Określa wersję Minecraft, dla której Sculptor powinien pobierać i zarządzać kompilacjami. Bez tego Sculptor nie uruchomi się.",
+            "Określa wersję Minecraft, dla której Sculptor powinien pobierać nowe buildy i nimi zarządzać. Bez tego Sculptor nie uruchomi się.",
           required: "Wymagane.",
         },
         includeExperimental: {
           name: "-Dsculptor.includeExperimental",
           description:
-            "Akceptuje true lub false (domyślnie: false). Jeśli ustawione na true, Sculptor będzie również uwzględniać eksperymentalne kompilacje Canvas zamiast tylko stabilnych.",
+            "Akceptuje tylko wartości true i false (domyślnie: false). Jeśli ustawiono true, Sculptor będzie również brać pod uwagę eksperymentalne buildy Canvas.",
           required: "Opcjonalne.",
         },
         serverFileName: {
           name: "-Dsculptor.serverFileName",
           description:
-            "Ustawia nazwę pobranego pliku jar serwera. Domyślnie server.jar, jeśli nie określono.",
+            "Ustawia nazwę pobranego pliku jar serwera. Domyślnie server.jar",
           required: "Opcjonalne.",
         },
       },
@@ -116,23 +116,23 @@ export default {
   community: {
     heading: "Dołącz do naszej społeczności",
     subheading:
-      "Połącz się ze społecznością Canvas, przyczyń się do rozwoju i bądź na bieżąco.",
+      "Zintegruj się ze społecznością Canvas, przyczyń się do rozwoju i bądź na bieżąco.",
     discord: {
       title: "Discord",
       description:
-        "Dołącz do naszej społeczności Discord, aby uzyskać wsparcie, podzielić się swoimi doświadczeniami i połączyć się z innymi użytkownikami Canvas.",
-      action: "Dołącz do Discord",
+        "Dołącz do naszej społeczności na Discordzie, aby uzyskać wsparcie, podzielić się swoimi doświadczeniami i połączyć się z innymi użytkownikami Canvas.",
+      action: "Dołącz na Discorda",
     },
     github: {
       title: "GitHub",
       description:
-        "Przyczyń się do rozwoju Canvas, zgłaszaj problemy i eksploruj naszą bazę kodu open source na GitHub.",
-      action: "Zobacz GitHub",
+        "Dołóż się do rozwoju Canvas, zgłaszaj błędy i zwiedzaj nasz kod open source na GitHub'ie.",
+      action: "Zobacz stronę GitHub",
     },
     jenkins: {
       title: "Jenkins",
       description:
-        "Uzyskaj dostęp do naszych najnowszych kompilacji, wersji deweloperskich i śledź postęp naszej ciągłej integracji.",
+        "Uzyskaj dostęp do naszych najnowszych buildów, wersji deweloperskich i śledź postęp naszej ciągłej integracji.",
       action: "Odwiedź Jenkins",
     },
   },
@@ -148,22 +148,22 @@ export default {
       downloads: "Pobieranie",
       apiDocs: "Dokumentacja API",
       githubIssues: "GitHub Issues",
-      donate: "Wspomóż",
+      donate: "Wspomóż rozwój",
       license: "Licencja",
     },
     disclaimer:
       "Ta strona nie jest oficjalną stroną Minecraft i nie jest powiązana z Mojang Studios ani Microsoft. Wszystkie nazwy produktów i firm są znakami towarowymi lub zastrzeżonymi znakami towarowymi ich odpowiednich właścicieli. Użycie tych nazw nie oznacza żadnej afiliacji lub poparcia z ich strony.",
-    builtWith: "Zbudowane z",
+    builtWith: "Stworzone za pomocą",
     by: "przez",
     team: "Zespół",
   },
   notFound: {
     title: "404",
-    heading: "Strona nie znaleziona",
+    heading: "Nie udało się odnaleźć strony",
     description:
       "Strona, której szukasz, nie istnieje lub została przeniesiona.",
     backHome: "Powrót do strony głównej",
-    reportDiscord: "Zgłoś na Discord",
+    reportDiscord: "Zgłoś na Discordzie",
   },
   common: {
     loading: "Ładowanie...",
@@ -186,7 +186,7 @@ export default {
   status: {
     success: "Sukces",
     failure: "Niepowodzenie",
-    aborted: "Przerwano",
+    aborted: "Przerwany",
     unstable: "Niestabilny",
   },
   time: {
@@ -195,7 +195,7 @@ export default {
     minutesAgo: "minut temu",
     hourAgo: "godzinę temu",
     hoursAgo: "godzin temu",
-    dayAgo: "dzień temu",
+    dayAgo: "wczoraj",
     daysAgo: "dni temu",
     monthAgo: "miesiąc temu",
     monthsAgo: "miesięcy temu",
