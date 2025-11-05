@@ -71,61 +71,53 @@
 </script>
 
 <nav class="fixed inset-x-0 top-0 z-50 w-[calc(100%-var(--removed-body-scroll-bar-size,0px))] border-neutral-800 border-b bg-[var(--background)]/90 backdrop-blur-sm">
-  <div
-    style="
-      transform: scale(1.3);
-      transform-origin: top left;
-      width: calc(100% / 1.3);
-      height: calc(100px / 1.3);
-    "
-  >
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex h-15 items-center justify-between">
-        <div class="flex items-center space-x-6">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+        <div class="flex items-center space-x-4 sm:space-x-6">
           <a href="/" class="flex items-center space-x-2" aria-label={$t('nav.home')}>
-            <img src="/logo.png" alt="" width="26" height="26" />
-            <span class="font-semibold text-sm">{siteConfig.name}</span>
+            <img src="/logo.png" alt="" width="32" height="32" class="w-6 h-6 sm:w-8 sm:h-8" />
+            <span class="font-semibold text-base sm:text-lg">{siteConfig.name}</span>
           </a>
 
-          <div class="hidden md:flex md:space-x-4">
+          <div class="hidden md:flex md:space-x-6">
             {#each LINKS as link}
               {@const isActive = currentPath === link.href}
               {@const isExternal = link.href.startsWith('http')}
               <a
                 href={link.href}
                 onclick={(e) => handleClick(e, link.href)}
-                class="flex items-center gap-1.5 text-sm transition-colors {isActive ? 'text-white' : 'text-neutral-300 hover:text-neutral-100'}"
+                class="flex items-center gap-1.5 text-base transition-colors {isActive ? 'text-white' : 'text-neutral-300 hover:text-neutral-100'}"
                 aria-current={isActive ? 'page' : undefined}
               >
                 {$t(link.translationKey)}
                 {#if isExternal}
-                  <ExternalLink class="size-0" aria-hidden />
+                  <ExternalLink class="size-3.5" aria-hidden />
                 {/if}
               </a>
             {/each}
           </div>
         </div>
 
-        <div class="hidden md:flex md:items-center md:space-x-5">
+        <div class="hidden md:flex md:items-center md:space-x-4">
           {#each SOCIAL as link}
             {@const IconComponent = link.icon}
             <a
               use:hoverLift={'small'}
               href={link.href}
               onclick={(e) => handleClick(e, link.href)}
-              class="flex items-center gap-1.5 text-sm transition-colors text-neutral-300 hover:text-neutral-100 will-change-transform"
+              class="flex items-center gap-1.5 text-base transition-colors text-neutral-300 hover:text-neutral-100 will-change-transform"
             >
-              <IconComponent class="size-5" />
+              <IconComponent class="size-6" />
             </a>
           {/each}
-          <div class="w-px h-5 bg-neutral-700"></div>
+          <div class="w-px h-6 bg-neutral-700"></div>
           <LanguageSelector />
-          <ThemeToggle size={20} />
+          <ThemeToggle size={24} />
         </div>
 
         <div class="flex items-center gap-3 md:hidden">
           <LanguageSelector />
-          <ThemeToggle size={20} />
+          <ThemeToggle size={24} />
           <button
             type="button"
             onclick={() => (isOpen = !isOpen)}
@@ -143,15 +135,15 @@
       </div>
     </div>
 
-    {#if isOpen}
-      <div bind:this={mobileMenuElement} class="absolute top-15 right-0 left-0 border-neutral-800 border-y bg-[var(--background)] pt-5 md:hidden">
+  {#if isOpen}
+    <div bind:this={mobileMenuElement} class="absolute top-16 right-0 left-0 border-neutral-800 border-y bg-[var(--background)] pt-5 md:hidden">
         <div class="space-y-1 px-2 pb-3">
           {#each LINKS as link}
             {@const isActive = currentPath === link.href}
             <a
               href={link.href}
               onclick={(e) => handleClick(e, link.href)}
-              class="rounded-md px-3 py-2 hover:bg-neutral-800 flex items-center gap-1.5 text-sm transition-colors {isActive ? 'text-white' : 'text-neutral-300 hover:text-neutral-100'}"
+              class="rounded-md px-3 py-2 hover:bg-neutral-800 flex items-center gap-1.5 text-base transition-colors {isActive ? 'text-white' : 'text-neutral-300 hover:text-neutral-100'}"
               aria-current={isActive ? 'page' : undefined}
             >
               {$t(link.translationKey)}
@@ -165,18 +157,17 @@
                   <a
                     href={link.href}
                     onclick={(e) => handleClick(e, link.href)}
-                    class="rounded-md p-1.5 hover:bg-neutral-800 flex items-center gap-1.5 text-sm transition-colors text-neutral-300 hover:text-neutral-100"
+                    class="rounded-md p-1.5 hover:bg-neutral-800 flex items-center gap-1.5 text-base transition-colors text-neutral-300 hover:text-neutral-100"
                   >
-                    <IconComponent class="size-5" />
+                    <IconComponent class="size-6" />
                   </a>
                 {/each}
               </div>
             </div>
           </div>
-        </div>
       </div>
-    {/if}
-  </div>
+    </div>
+  {/if}
 </nav>
 
 <Redirecting bind:show={redirecting} target={redirectTarget} />
