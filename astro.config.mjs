@@ -9,6 +9,10 @@ export default defineConfig({
     mode: "standalone",
   }),
   integrations: [svelte()],
+  server: {
+    port: 3000,
+    host: true,
+  },
   vite: {
     plugins: [tailwindcss()],
     css: {
