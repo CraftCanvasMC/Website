@@ -41,6 +41,6 @@
   },
   "trustedDependencies": ["@biomejs/biome", "sharp"],
   "engines": {
-    "node": "22"
+    "node": "24"
   }
 }
