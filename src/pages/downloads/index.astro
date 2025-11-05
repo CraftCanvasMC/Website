@@ -1,0 +1,43 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.svelte';
+import Footer from '../../components/Footer.svelte';
+import GradientBackground from '../../components/ui/GradientBackground.svelte';
+import DownloadsPageContainer from '../../components/DownloadsPageContainer.svelte';
+import DownloadsPageHeader from '../../components/DownloadsPageHeader.svelte';
+---
+
+<Layout>
+  <Navbar slot="navbar" client:load />
+  <GradientBackground client:load />
+  
+  <main class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
+    <DownloadsPageHeader client:load />
+    <DownloadsPageContainer client:load />
+  </main>
+
+  <Footer slot="footer" client:load />
+</Layout>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const header = document.querySelector('.scroll-animate-header');
+  if (header) {
+    gsap.set(header, { opacity: 0, y: 20 });
+    gsap.to(header, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: header,
+        start: 'top 90%',
+        once: true,
+      },
+    });
+  }
+</script>

@@ -1,66 +1,65 @@
-import { LRUCache } from 'lru-cache';
+import { LRUCache } from "lru-cache";
 
-import type { NextRequest } from 'next/server';
-
-type RatelimitConfig = {
+interface RateLimitOptions {
+  paths: string[];
   limit: number;
   windowMs: number;
-};
+}
 
-type RatelimiterOptions = {
-  paths: Record<string, RatelimitConfig>;
-  max?: number;
-  ttl?: number;
-};
+export class RateLimiter {
+  private cache: LRUCache<string, number[]>;
+  private limit: number;
+  private windowMs: number;
 
-export class Ratelimiter {
-  private cache: LRUCache<string, number>;
-  private paths: Record<string, RatelimitConfig>;
-
-  constructor(options: RatelimiterOptions) {
-    this.cache = new LRUCache<string, number>({
-      max: options.max ?? 10_000,
-      ttl: options.ttl ?? 1000 * 60 * 2, // default: 2 minutes
-      updateAgeOnGet: false,
+  constructor(options: RateLimitOptions) {
+    this.limit = options.limit;
+    this.windowMs = options.windowMs;
+    this.cache = new LRUCache<string, number[]>({
+      max: 500,
+      ttl: options.windowMs,
     });
-
-    this.paths = options.paths;
   }
 
-  private getClientIP(request: NextRequest): string {
-    return request.headers.get('x-forwarded-for')?.split(',')[0].trim() || '127.0.0.1';
-  }
-
-  private getPathConfig(path: string): RatelimitConfig | undefined {
-    return Object.entries(this.paths).find(([pattern]) => path.startsWith(pattern))?.[1];
-  }
-
-  evaluate(request: NextRequest): {
-    isAllowed: boolean;
-    headers: Record<string, string>;
-  } | null {
-    const path = request.nextUrl.pathname;
-    const config = this.getPathConfig(path);
-
-    if (!config) return null;
-
-    const ip = this.getClientIP(request);
-    const key = `${ip}:${path}`;
+  check(identifier: string): {
+    success: boolean;
+    remaining: number;
+    reset: number;
+  } {
     const now = Date.now();
-    const count = (this.cache.get(key) || 0) + 1;
+    const timestamps = this.cache.get(identifier) || [];
+    const validTimestamps = timestamps.filter(
+      (timestamp) => now - timestamp < this.windowMs,
+    );
 
-    this.cache.set(key, count);
+    if (validTimestamps.length >= this.limit) {
+      const oldestTimestamp = validTimestamps[0];
+      const reset = oldestTimestamp + this.windowMs;
 
-    const resetTime = Math.floor((now + config.windowMs) / 1000);
-    const remaining = Math.max(0, config.limit - count);
+      return {
+        success: false,
+        remaining: 0,
+        reset,
+      };
+    }
+
+    validTimestamps.push(now);
+    this.cache.set(identifier, validTimestamps);
 
     return {
-      isAllowed: count <= config.limit,
-      headers: {
-        'X-RateLimit-Limit': config.limit.toString(),
-        'X-RateLimit-Remaining': remaining.toString(),
-        'X-RateLimit-Reset': resetTime.toString(),
-      },
+      success: true,
+      remaining: this.limit - validTimestamps.length,
+      reset: now + this.windowMs,
     };
   }
 }
+
+export const apiRateLimiter = new RateLimiter({
+  paths: [
+    "/api/v2/builds",
+    "/api/v2/builds/all",
+    "/api/v2/builds/latest",
+    "/api/v2/jd",
+  ],
+  limit: 100,
+  windowMs: 15 * 60 * 1000,
+});

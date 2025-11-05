@@ -1,31 +1,46 @@
-import { Ratelimiter } from '~/lib/ratelimiter';
+import { defineMiddleware } from "astro:middleware";
+import { apiRateLimiter } from "./lib/ratelimiter";
 
-import { type NextRequest, NextResponse } from 'next/server';
+export const onRequest = defineMiddleware(async (context, next) => {
+  const { request, url } = context;
 
-const ratelimiter = new Ratelimiter({
-  paths: {
-    '/api/v1/builds': { limit: 50, windowMs: 60_000 },
-    '/api/v1/latest': { limit: 30, windowMs: 60_000 },
-    '/api/v1/specific': { limit: 30, windowMs: 60_000 },
-    '/api/v2/builds': { limit: 50, windowMs: 60_000 },
-    '/api/v2/builds/latest': { limit: 30, windowMs: 60_000 },
-  },
-});
+  if (url.pathname.startsWith("/api/v2")) {
+    const ip =
+      request.headers.get("cf-connecting-ip") ||
+      request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
 
-export const config = {
-  matcher: ['/api/v1/:path*', '/api/v2/:path*'],
-};
+    const result = apiRateLimiter.check(ip);
 
-export function middleware(request: NextRequest) {
-  const result = ratelimiter.evaluate(request);
+    if (!result.success) {
+      return new Response(
+        JSON.stringify({
+          error: "Too Many Requests",
+          message: "Rate limit exceeded. Please try again later.",
+        }),
+        {
+          status: 429,
+          headers: {
+            "Content-Type": "application/json",
+            "Retry-After": String(
+              Math.ceil((result.reset - Date.now()) / 1000),
+            ),
+            "X-RateLimit-Limit": String(100),
+            "X-RateLimit-Remaining": String(result.remaining),
+            "X-RateLimit-Reset": String(result.reset),
+          },
+        },
+      );
+    }
 
-  if (!result) return NextResponse.next();
+    const response = await next();
+    response.headers.set("X-RateLimit-Limit", "100");
+    response.headers.set("X-RateLimit-Remaining", String(result.remaining));
+    response.headers.set("X-RateLimit-Reset", String(result.reset));
 
-  if (!result.isAllowed) {
-    return NextResponse.json({ error: 'Too many requests' }, { status: 429, headers: result.headers });
+    return response;
   }
 
-  const response = NextResponse.next();
-  Object.entries(result.headers).forEach(([key, value]) => response.headers.set(key, value));
-  return response;
-}
+  return next();
+});

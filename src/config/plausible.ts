@@ -1,9 +1,9 @@
-import { siteConfig } from './site';
-
 export const plausibleConfig = {
-  selfHosted: true,
-  customDomain: process.env.PLAUSIBLE_CUSTOM_DOMAIN || 'https://plausible.meteors.cc',
-  domain: new URL(siteConfig.url).hostname,
+  enabled: true,
+  domain: "canvasmc.io",
+  customDomain: "plausible.meteors.cc",
   trackFileDownloads: true,
   trackOutboundLinks: true,
-} as const;
+  apiHost: "https://plausible.meteors.cc",
+  src: "https://plausible.meteors.cc/js/script.file-downloads.outbound-links.js",
+};

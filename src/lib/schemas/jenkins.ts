@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const JenkinsBuildSchema = z.object({
   number: z.number(),
-  url: z.string().url(),
+  url: z.string(),
   displayName: z.string(),
-  result: z.enum(['SUCCESS', 'FAILURE', 'ABORTED', 'UNSTABLE']).optional(),
+  result: z.enum(["SUCCESS", "FAILURE", "ABORTED", "UNSTABLE"]).optional(),
   timestamp: z.number(),
   building: z.boolean().default(false),
   artifacts: z.array(z.object({ relativePath: z.string() })).optional(),
@@ -16,6 +16,11 @@ export const JenkinsBuildSchema = z.object({
             msg: z.string(),
             commitId: z.string(),
             comment: z.string().optional().nullable(),
+            author: z
+              .object({
+                fullName: z.string(),
+              })
+              .optional(),
           }),
         )
         .optional(),
@@ -25,25 +30,20 @@ export const JenkinsBuildSchema = z.object({
 
 export type JenkinsBuild = z.infer<typeof JenkinsBuildSchema>;
 
-/** CanvasMC API Schema */
 export const BuildSchema = z.object({
-  result: z.enum(['SUCCESS', 'FAILURE', 'ABORTED', 'UNSTABLE']).optional(),
+  result: z.enum(["SUCCESS", "FAILURE", "ABORTED", "UNSTABLE"]).optional(),
   buildNumber: z.number(),
-  url: z.string().url(),
-  downloadUrl: z.string().url().nullable(),
+  url: z.string(),
+  downloadUrl: z.string().nullable(),
   minecraftVersion: z.string(),
   timestamp: z.number(),
   isExperimental: z.boolean(),
-  commit: z.object({
-    message: z.string().nullable(),
-    extraDescription: z.string().nullable(),
-    hash: z.string().nullable(),
-  }),
   commits: z.array(
     z.object({
       message: z.string().nullable(),
       extraDescription: z.string().nullable(),
       hash: z.string().nullable(),
+      author: z.string().nullable(),
     }),
   ),
 });
