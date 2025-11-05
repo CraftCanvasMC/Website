@@ -179,6 +179,9 @@ export default {
     sort: "Sort",
     more: "More",
     less: "Less",
+    failed: "Failed",
+    cancelled: "Cancelled",
+    by: "by",
   },
   status: {
     success: "Success",

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { GitCommit, ChevronRight } from 'lucide-svelte';
+  import { t } from '../lib/i18n';
 
   interface Props {
     commit: {
@@ -30,7 +31,7 @@
     <p class="min-w-0 break-words text-neutral-300 text-sm flex-1">
       {commit.message || 'No commit message'}
       {#if commit.author}
-        <span class="text-neutral-500 text-xs ml-1">by {commit.author}</span>
+        <span class="text-neutral-500 text-xs ml-1">{$t('common.by')} {commit.author}</span>
       {/if}
     </p>
 

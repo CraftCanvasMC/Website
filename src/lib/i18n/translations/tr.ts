@@ -1,7 +1,7 @@
 export default {
   nav: {
     home: "Ana Sayfa",
-    downloads: "İndirmeler",
+    downloads: "İndirilenler",
     documentation: "Dokümantasyon",
     maven: "Maven",
     github: "GitHub",
@@ -12,154 +12,155 @@ export default {
   hero: {
     title: "Yüksek performanslı Minecraft sunucu yazılımı",
     subtitle:
-      "CanvasMC, oynanış tutarsızlıklarını ve hataları düzelten ve özel sunucuya daha fazla performans iyileştirmesi getiren Folia Minecraft sunucu yazılımının bir çatalıdır",
+      "CanvasMC, Folia Minecraft sunucu yazılımının bir çatallamasıdır; oynanış tutarsızlıklarını ve hataları düzeltir, ayrıca özel sunucular için performans iyileştirmeleri sunar.",
     downloadCanvas: "Canvas'ı İndir",
   },
   features: {
-    heading: "Canvas'ı özel yapan nedir?",
+    heading: "Canvas'ı özel kılan nedir?",
     subheading:
-      "Canvas'ın diğer Minecraft sunucu yazılımlarından farkını keşfedin.",
+      "Canvas’ı diğer Minecraft sunucu yazılımlarından ayıran özellikleri keşfedin.",
     scheduler: {
       title: "Yeniden Yazılmış Zamanlayıcı",
       description:
-        "Canvas, öncelikle Folia için yeniden yazılmış bir zamanlayıcıya dayanır ve bu da Canvas'ı en hızlı Folia çatallarından biri yapar.",
+        "Canvas, esas olarak Folia için yeniden yazılmış bir zamanlayıcıya dayanır; bu da Canvas’ı en hızlı Folia çatallarından biri yapar.",
     },
     chunkGeneration: {
-      title: "Optimize Edilmiş Chunk Üretimi",
+      title: "Optimize Edilmiş Parça (Chunk) Üretimi",
       description:
-        "Chunk sistem yürütücüsünü yeniden yazarak düzeltilen doğrusal ölçekleme ile chunk performansı diğer çatallara kıyasla benzersizdir.",
+        "Parça sistemi yürütücüsünün yeniden yazılmasıyla sağlanan doğrusal ölçeklendirme, diğer çatallara kıyasla benzersiz bir parça performansı sunar.",
     },
     configuration: {
-      title: "Kapsamlı Yapılandırma",
+      title: "Genişletilmiş Yapılandırma",
       description:
-        "Belgelenmiş yapılandırma seçenekleri ve performans ayarları ile sunucunuzun her yönünü ince ayarlayın.",
+        "Sunucunuzun her yönünü, belgelenmiş yapılandırma seçenekleri ve performans ayarlarıyla ince ayar yaparak kontrol edin.",
     },
     community: {
-      title: "Sizin Fikirleriniz, Bizim Kodumuz",
+      title: "Fikirleriniz, Kodumuz",
       description:
-        "Canvas topluluğuyla birlikte büyür — görmek istediğiniz özellikleri paylaşın, biz de onları hayata geçirmek için çalışalım.",
+        "Canvas topluluğuyla birlikte büyür — görmek istediğiniz özellikleri paylaşın, biz de onları hayata geçirelim.",
     },
     profiling: {
-      title: "Uygun Bölge Profilleme",
+      title: "Doğru Bölge Profilleme",
       description:
-        "Canvas, Folia profilleme motorunun yerini alan, bölge iş parçacığıyla uyumlu gerçek bir Spark profilleyici sunar.",
+        "Canvas, Folia profilleme motorunun yerini alan bölge iş parçacığıyla uyumlu gerçek bir Spark profilleyici sunar.",
     },
     powerful: {
       title: "Güçlü ve Optimize",
       description:
-        "Birden fazla Folia hatasını ve çökmesini düzelten Canvas hem hızlı hem de kararlıdır",
+        "Birçok Folia hatası ve çökmesini düzelterek Canvas hem hızlı hem de kararlıdır.",
     },
   },
   downloads: {
-    title: "İndirmeler",
-    subtitle: "Minecraft sunucunuz için CanvasMC'nin en son yapılarını edinin.",
-    downloadLatest: "En Son Yapıyı İndir",
+    title: "İndirilenler",
+    subtitle: "Minecraft sunucunuz için en son CanvasMC sürümlerini indirin.",
+    downloadLatest: "En Son Sürümü İndir",
     sourceCode: "Kaynak Kodu",
     version: "Minecraft",
     build: "Yapı",
     latest: "En Son",
     experimental: "Deneysel",
     download: "İndir",
-    unavailable: "Mevcut Değil",
+    unavailable: "Kullanılamıyor",
     noChanges: "Değişiklik yok",
-    viewJavadocs: "Javadocs",
+    viewJavadocs: "Javadocs'u Görüntüle",
     showFailedBuilds: "Başarısız Yapıları Göster",
     hideFailedBuilds: "Başarısız Yapıları Gizle",
     showSculptor: "Sculptor'u Göster",
     showBuilds: "Yapıları Göster",
-    olderBuilds: "Eski yapıları mı arıyorsunuz? Jenkins sunucumuza göz atın →",
+    olderBuilds:
+      "Daha eski sürümleri mi arıyorsunuz? Jenkins sunucumuzu ziyaret edin →",
     noBuilds: "Bu sürüm için mevcut yapı yok.",
-    downloadsUnavailable: "İndirmeler Mevcut Değil",
+    downloadsUnavailable: "İndirilenler Kullanılamıyor",
     jenkinsUnreachable:
-      "Jenkins sunucumuz şu anda erişilemiyor. Lütfen daha sonra tekrar kontrol edin.",
+      "Jenkins sunucumuza şu anda erişilemiyor. Lütfen daha sonra tekrar deneyin.",
     jenkinsDown: {
-      title: "Jenkins Çalışmıyor",
+      title: "Jenkins Kapalı",
       message:
         "Önbelleğe alınmış yapılar gösteriliyor. İndirmeler kullanılamayabilir.",
-      noCache: "Şu anda yapılar alınamıyor.",
+      noCache: "Şu anda yapılar getirilemiyor.",
     },
     usingCache: {
       title: "Önbelleğe Alınmış Yapılar Gösteriliyor",
       message:
-        "Jenkins şu anda derleme yapıyor. Önbellekten son yapılar gösteriliyor. İndirmeler hala mevcut.",
+        "Jenkins şu anda derleme yapıyor. En son yapılar önbellekten gösteriliyor. İndirmeler hâlâ kullanılabilir.",
     },
     sculptor: {
-      title: "Sculptor Başlatıcı",
+      title: "Sculptor Başlatıcısı",
       description:
-        "Sculptor, Canvas için resmi otomatik güncelleme başlatıcısıdır. Yapıları manuel olarak indirmenize gerek kalmadan her zaman en son sürümde olmanızı sağlar. Bu aynı zamanda Minecraft sürümüne özeldir, bu nedenle yalnızca belirttiğiniz Minecraft sürümüne güncelleme yapar.",
+        "Sculptor, Canvas için resmi otomatik güncelleyici başlatıcıdır. Manuel indirme yapmadan her zaman en güncel sürümde kalmanızı sağlar. Ayrıca Minecraft sürümüne özeldir, bu nedenle yalnızca belirttiğiniz sürüme günceller.",
       downloadSculptor: "Sculptor'u İndir",
-      exampleUsage: "Örnek Kullanım",
-      argumentsExplained: "Argümanlar Açıklaması",
+      exampleUsage: "Kullanım Örneği",
+      argumentsExplained: "Argümanların Açıklaması",
       args: {
         minecraftVersion: {
           name: "-Dsculptor.minecraftVersion",
           description:
-            "Sculptor'un yapıları indirmesi ve yönetmesi gereken Minecraft sürümünü belirtir. Bu olmadan Sculptor başlatılamaz.",
-          required: "Gerekli.",
+            "Sculptor’un hangi Minecraft sürümünü indirip yöneteceğini belirtir. Bu olmadan Sculptor başlatılamaz.",
+          required: "Zorunlu.",
         },
         includeExperimental: {
           name: "-Dsculptor.includeExperimental",
           description:
-            "true veya false kabul eder (varsayılan: false). true olarak ayarlanırsa, Sculptor yalnızca kararlı yapılar yerine deneysel Canvas yapılarını da içerecektir.",
+            "true veya false (varsayılan: false) kabul eder. true olarak ayarlanırsa Sculptor yalnızca kararlı sürümler yerine deneysel Canvas sürümlerini de içerir.",
           required: "İsteğe bağlı.",
         },
         serverFileName: {
           name: "-Dsculptor.serverFileName",
           description:
-            "İndirilen sunucu jar dosyasının adını ayarlar. Belirtilmezse varsayılan olarak server.jar'dır.",
+            "İndirilen sunucu jar dosyasının adını ayarlar. Belirtilmezse varsayılan olarak server.jar kullanılır.",
           required: "İsteğe bağlı.",
         },
       },
     },
   },
   community: {
-    heading: "Topluluğumuza katılın",
+    heading: "Topluluğumuza Katılın",
     subheading:
-      "Canvas topluluğuyla bağlantı kurun, geliştirmeye katkıda bulunun ve güncel kalın.",
+      "Canvas topluluğuyla bağlantı kurun, geliştirmelere katkıda bulunun ve güncel kalın.",
     discord: {
       title: "Discord",
       description:
         "Destek almak, deneyimlerinizi paylaşmak ve diğer Canvas kullanıcılarıyla bağlantı kurmak için Discord topluluğumuza katılın.",
-      action: "Discord'a Katıl",
+      action: "Discord’a Katıl",
     },
     github: {
       title: "GitHub",
       description:
-        "Canvas geliştirmesine katkıda bulunun, sorunları bildirin ve GitHub'da açık kaynak kod tabanımızı keşfedin.",
-      action: "GitHub'ı Görüntüle",
+        "Canvas geliştirmelerine katkıda bulunun, sorun bildirin ve açık kaynak kodumuzu keşfedin.",
+      action: "GitHub’ı Görüntüle",
     },
     jenkins: {
       title: "Jenkins",
       description:
-        "En son yapılarımıza, geliştirme sürümlerine erişin ve sürekli entegrasyon ilerlememizi takip edin.",
-      action: "Jenkins'i Ziyaret Et",
+        "En son yapılarımıza, geliştirme sürümlerimize erişin ve sürekli entegrasyon ilerlememizi takip edin.",
+      action: "Jenkins’i Ziyaret Et",
     },
   },
   footer: {
     sections: {
       projectDev: "Proje ve Geliştirme",
-      getInvolved: "Dahil Ol",
+      getInvolved: "Katılın",
       aboutCanvas: "Canvas Hakkında",
     },
     links: {
       githubRepo: "GitHub Deposu",
       jenkins: "Jenkins CI",
-      downloads: "İndirmeler",
+      downloads: "İndirilenler",
       apiDocs: "API Dokümantasyonu",
-      githubIssues: "GitHub Issues",
+      githubIssues: "GitHub Sorunları",
       donate: "Bağış Yap",
       license: "Lisans",
     },
     disclaimer:
-      "Bu web sitesi resmi bir Minecraft web sitesi değildir ve Mojang Studios veya Microsoft ile ilişkili değildir. Tüm ürün ve şirket adları ilgili sahiplerinin ticari markaları veya tescilli ticari markalarıdır. Bu isimlerin kullanımı, onlar tarafından herhangi bir bağlantı veya onay anlamına gelmez.",
-    builtWith: "Yapım:",
+      "Bu web sitesi resmi bir Minecraft web sitesi değildir ve Mojang Studios veya Microsoft ile bağlantılı değildir. Tüm ürün ve şirket adları, ilgili sahiplerinin ticari markalarıdır. Bu adların kullanımı herhangi bir onay veya ilişki anlamına gelmez.",
+    builtWith: "Şununla oluşturuldu:",
     by: "tarafından",
-    team: "Ekibi",
+    team: "ekibi",
   },
   notFound: {
     title: "404",
     heading: "Sayfa Bulunamadı",
-    description: "Aradığınız sayfa mevcut değil veya taşınmış.",
+    description: "Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
     backHome: "Ana Sayfaya Dön",
     reportDiscord: "Discord'da Bildir",
   },
@@ -180,6 +181,9 @@ export default {
     sort: "Sırala",
     more: "Daha Fazla",
     less: "Daha Az",
+    failed: "Başarısız",
+    cancelled: "İptal Edildi",
+    by: "tarafından",
   },
   status: {
     success: "Başarılı",
@@ -189,15 +193,15 @@ export default {
   },
   time: {
     justNow: "şimdi",
-    minuteAgo: "dakika önce",
+    minuteAgo: "bir dakika önce",
     minutesAgo: "dakika önce",
-    hourAgo: "saat önce",
+    hourAgo: "bir saat önce",
     hoursAgo: "saat önce",
-    dayAgo: "gün önce",
+    dayAgo: "bir gün önce",
     daysAgo: "gün önce",
-    monthAgo: "ay önce",
+    monthAgo: "bir ay önce",
     monthsAgo: "ay önce",
-    yearAgo: "yıl önce",
+    yearAgo: "bir yıl önce",
     yearsAgo: "yıl önce",
   },
 } as const;

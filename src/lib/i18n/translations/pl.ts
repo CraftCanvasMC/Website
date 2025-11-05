@@ -17,8 +17,7 @@ export default {
   },
   features: {
     heading: "Co czyni Canvas wyjątkowym?",
-    subheading:
-      "Dowiedz się, co odróżnia Canvas od reszty.",
+    subheading: "Dowiedz się, co odróżnia Canvas od reszty.",
     scheduler: {
       title: "Przerobiony scheduler",
       description:
@@ -182,6 +181,9 @@ export default {
     sort: "Sortuj",
     more: "Więcej",
     less: "Mniej",
+    failed: "Nieudane",
+    cancelled: "Anulowane",
+    by: "przez",
   },
   status: {
     success: "Sukces",
