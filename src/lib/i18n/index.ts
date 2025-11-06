@@ -1,4 +1,7 @@
 import { writable, derived, get } from "svelte/store";
+import enTranslations from "./translations/en";
+import plTranslations from "./translations/pl";
+import trTranslations from "./translations/tr";
 
 export type Language =
   | "en"
@@ -21,6 +24,12 @@ export const LANGUAGES: { code: Language; name: string; flag: string }[] = [
 
 const STORAGE_KEY = "language-preference";
 
+const allTranslations: Translations = {
+  en: enTranslations,
+  pl: plTranslations,
+  tr: trTranslations,
+};
+
 function getBrowserLanguage(): Language {
   if (typeof window === "undefined") return "en";
 
@@ -38,18 +47,9 @@ export const currentLanguage = writable<Language>(
   typeof window !== "undefined" ? getBrowserLanguage() : "en",
 );
 
-const translations = writable<Translations>({});
+const translations = writable<Translations>(allTranslations);
 
 export async function loadTranslations(lang: Language) {
-  try {
-    const module = await import(`./translations/${lang}.ts`);
-    translations.update((t) => ({
-      ...t,
-      [lang]: module.default,
-    }));
-  } catch (error) {
-    console.error(`Failed to load translations for ${lang}:`, error);
-  }
 }
 
 export function setLanguage(lang: Language) {
@@ -58,7 +58,6 @@ export function setLanguage(lang: Language) {
     localStorage.setItem(STORAGE_KEY, lang);
     document.documentElement.setAttribute("lang", lang);
   }
-  loadTranslations(lang);
 }
 
 function getNestedTranslation(obj: Translation, path: string): string {
@@ -91,8 +90,10 @@ export const t = derived(
   },
 );
 
-export async function initI18n() {
+export function initI18n() {
   const lang = getBrowserLanguage();
-  await loadTranslations(lang);
   currentLanguage.set(lang);
+  if (typeof window !== "undefined") {
+    document.documentElement.setAttribute("lang", lang);
+  }
 }
