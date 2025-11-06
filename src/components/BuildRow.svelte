@@ -75,7 +75,28 @@
   role="article"
   class="group relative flex flex-col justify-between gap-4 border border-neutral-800 border-t py-4 px-4 sm:px-6 sm:flex-row sm:items-center rounded-lg will-change-transform"
 >
-  <div class="flex min-w-0 flex-1 flex-col sm:flex-row sm:items-center">
+  <div class="sm:hidden flex min-w-0 flex-1 flex-col">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-lg font-semibold text-neutral-100">#{build.buildNumber}</span>
+        <StatusBadge result={build.result} isExperimental={build.isExperimental} />
+      </div>
+      <span class="text-[11px] text-neutral-500 mt-1">
+        {formattedDate} <span class="text-neutral-600">({relativeTime})</span>
+      </span>
+    </div>
+
+    <div class="mt-3 space-y-2">
+      {#if build.commits.length === 0}
+        <span class="text-neutral-300 text-sm">{$t('downloads.noChanges')}</span>
+      {:else}
+        {#each displayCommits as commit, cidx}
+          <CommitItem {commit} commitIndex={`${build.buildNumber}-${cidx}`} />
+        {/each}
+      {/if}
+    </div>
+  </div>
+  <div class="hidden sm:flex min-w-0 flex-1 sm:flex-row sm:items-center">
     <div class="flex flex-col justify-center pr-6 sm:pr-8 border-r border-white/10 min-w-[120px] sm:min-w-[140px]">
       <div class="flex items-center gap-2">
         <span class="text-lg font-semibold text-neutral-100">#{build.buildNumber}</span>

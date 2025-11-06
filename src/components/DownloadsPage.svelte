@@ -130,8 +130,8 @@
   {/if}
   
   <div use:scrollReveal={{ type: 'slideUp', start: 'top 85%' }}>
-    <Card class="p-6 overflow-hidden">
-      <div class="mb-6 flex items-center justify-between gap-4 animate-fade-in">
+    <Card class="p-4 sm:p-6 overflow-visible">
+      <div class="mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 animate-fade-in">
       <div class="flex items-center gap-2">
         <Select
           value={selectedVersion}
@@ -152,11 +152,11 @@
         </button>
       </div>
 
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 w-full sm:w-auto">
         <Button
           variant={showNewTab ? 'default' : 'secondary'}
           onclick={toggleTab}
-          class="flex items-center gap-2 transition-transform duration-200 hover:scale-105"
+          class="flex items-center justify-center gap-2 transition-transform duration-200 hover:scale-105 w-full sm:w-auto"
         >
           {#snippet children()}
             {#if showNewTab}
