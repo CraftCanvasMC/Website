@@ -43,18 +43,29 @@
   <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     {#each COMMUNITIES as { titleKey, descriptionKey, icon: Icon, buttonTextKey, href }, index}
       <div use:scrollReveal={{ type: 'slideUp', start: 'top 85%', delay: index * 0.2 }}>
-        <Card enableHover={true} class="flex flex-col p-6 bg-white/5 hover:bg-white/10 transition-colors hover:ring-neutral-600/60 gap-2">
-          <div class="flex gap-4">
-            <div class="shrink-0">
-              <div class="rounded-lg bg-neutral-700/50 p-2.5">
-                <Icon class="size-5 text-neutral-100" />
+        <Card enableHover={true} class="flex flex-col p-6 bg-white/5 hover:bg-white/10 transition-colors hover:ring-neutral-600/60">
+          <div class="sm:hidden">
+            <div class="flex items-center gap-4">
+              <div class="shrink-0">
+                <div class="rounded-lg bg-neutral-700/50 p-2.5">
+                  <Icon class="size-5 text-neutral-100" />
+                </div>
+              </div>
+              <h3 class="font-medium text-neutral-100">{$t(titleKey)}</h3>
+            </div>
+            <p class="mt-3 text-neutral-400 text-sm">{$t(descriptionKey)}</p>
+          </div>
+            <div class="hidden sm:flex gap-4">
+              <div class="shrink-0">
+                <div class="rounded-lg bg-neutral-700/50 p-2.5">
+                  <Icon class="size-5 text-neutral-100" />
+                </div>
+              </div>
+              <div>
+                <h3 class="font-medium text-neutral-100">{$t(titleKey)}</h3>
+                <p class="mt-1.5 text-neutral-400 text-sm">{$t(descriptionKey)}</p>
               </div>
             </div>
-            <div>
-              <h3 class="font-medium text-neutral-100">{$t(titleKey)}</h3>
-              <p class="mt-1.5 text-neutral-400 text-sm">{$t(descriptionKey)}</p>
-            </div>
-          </div>
           <div class="mt-6 border-neutral-800 border-t pt-4">
             <Button variant="secondary" class="w-full" href={href}>
               {#snippet children()}
