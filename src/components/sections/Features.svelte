@@ -51,9 +51,21 @@
       <div use:scrollReveal={{ type: 'slideUp', start: 'top 85%', delay: index * 0.12 }} class="w-full sm:w-[95%] max-w-sm">
         <Card
           enableHover={true}
-          class="p-5 border border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-colors gap-2"
+          class="p-5 border border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-colors"
         >
-          <div class="flex gap-4">
+          <div class="sm:hidden">
+            <div class="flex items-center gap-4">
+              <div class="shrink-0">
+                <div class="rounded-lg bg-neutral-700/50 p-2.5">
+                  <Icon class="size-5 text-neutral-100 drop-shadow-[0_0_4px_rgba(255,255,255,0.2)]" />
+                </div>
+              </div>
+              <h3 class="font-medium text-neutral-100">{$t(titleKey)}</h3>
+            </div>
+            <p class="mt-3 text-neutral-400 text-sm">{$t(descriptionKey)}</p>
+          </div>
+
+          <div class="hidden sm:flex gap-4">
             <div class="shrink-0">
               <div class="rounded-lg bg-neutral-700/50 p-2.5">
                 <Icon class="size-5 text-neutral-100 drop-shadow-[0_0_4px_rgba(255,255,255,0.2)]" />
