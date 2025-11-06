@@ -7,6 +7,7 @@
   }
 
   let { class: className = '', size = 24 }: Props = $props();
+  const maskId = `moon-mask-${size}-${Math.random().toString(36).slice(2, 8)}`;
 
   const storageKey = 'theme-preference';
   let theme = $state<'light' | 'dark'>('light');
@@ -85,18 +86,19 @@
   aria-label={mounted ? `Switch to ${theme === 'light' ? 'dark' : 'light'} theme` : 'Toggle theme'}
   aria-live="polite"
 >
-  <svg 
-    class="sun-and-moon" 
-    aria-hidden="true" 
-    width={size} 
-    height={size} 
+  <svg
+    class="sun-and-moon"
+    aria-hidden="true"
+    width={size}
+    height={size}
     viewBox="0 0 24 24"
+    role="img"
   >
-    <mask class="moon" id="moon-mask-{size}">
-      <rect x="0" y="0" width="100%" height="100%" fill="white" />
+    <mask class="moon" id={maskId} maskUnits="userSpaceOnUse" style="mask-type:luminance">
+      <rect x="0" y="0" width="24" height="24" fill="white" />
       <circle cx="24" cy="10" r="6" fill="black" />
     </mask>
-    <circle class="sun" cx="12" cy="12" r="6" mask="url(#moon-mask-{size})" fill="currentColor" />
+    <circle class="sun" cx="12" cy="12" r="6" mask={`url(#${maskId})`} fill="currentColor" />
     <g class="sun-beams" stroke="currentColor">
       <line x1="12" y1="1" x2="12" y2="3" />
       <line x1="12" y1="21" x2="12" y2="23" />
@@ -107,6 +109,7 @@
       <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
       <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
     </g>
+    <path class="moon-fallback" d="M12 18a6 6 0 0 1 0-12 6 6 0 0 0 0 12z" fill="currentColor" />
   </svg>
 </button>
 
@@ -165,6 +168,16 @@
 
   :global([data-theme="dark"]) .sun-and-moon > .moon > circle {
     transform: translateX(-7px);
+  }
+
+  .moon-fallback { display: none; }
+  @supports (mask-type: luminance) {
+    .moon-fallback { display: none; }
+  }
+
+  :global([data-theme="dark"]) .sun-and-moon:not(:has(mask)) .moon-fallback,
+  :global([data-theme="dark"]) .sun-and-moon.mask-fallback .moon-fallback {
+    display: block;
   }
 
   @supports (cx: 1) {
