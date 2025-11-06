@@ -17,7 +17,8 @@
 </script>
 
 <div class="min-w-0 space-y-1">
-  <div class="sm:hidden">
+  <!-- Stacked layout for narrow screens (phones, tablets, vertical monitors) -->
+  <div class="lg:hidden">
     <div class="flex items-center justify-between gap-2">
       <a
         href={`https://github.com/CraftCanvasMC/Canvas/commit/${commit.hash}`}
@@ -48,7 +49,9 @@
       <p class="text-neutral-500 text-xs mt-1">{$t('common.by')} {commit.author}</p>
     {/if}
   </div>
-  <div class="hidden sm:flex min-w-0 items-center gap-1.5">
+
+  <!-- Horizontal layout for wider screens (large desktops) -->
+  <div class="hidden lg:flex min-w-0 items-center gap-1.5">
     <a
       href={`https://github.com/CraftCanvasMC/Canvas/commit/${commit.hash}`}
       target="_blank"
