@@ -86,7 +86,7 @@ export default {
     sculptor: {
       title: "Launcher Sculptor",
       description:
-        "Sculptor to oficjalny launcher, który automatycznie aktualizuje Canvas. Z nim możesz zawsze być na bieżąco z nowymi wersjami, bez konieczności pobierania ich samemu. Gwarantuje też, że nowe buildy będa pobierane tylko dla określonej przez ciebie wersji Minecrafta",
+        "Sculptor to oficjalny launcher, który automatycznie aktualizuje Canvas. Z nim możesz zawsze być na bieżąco z nowymi wersjami, bez konieczności pobierania ich samemu. Gwarantuje też, że nowe buildy będa pobierane tylko dla określonej przez Ciebie wersji Minecrafta",
       downloadSculptor: "Pobierz Sculptor",
       exampleUsage: "Przykładowe użycie",
       argumentsExplained: "Wyjaśnienie argumentów",
