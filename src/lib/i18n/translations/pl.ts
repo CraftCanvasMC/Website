@@ -10,9 +10,9 @@ export default {
     menu: "menu",
   },
   hero: {
-    title: "Szybkie i wydajne oprogramowanie dla serwera Minecraft",
+    title: "Szybkie i wydajne oprogramowanie dla serwerów Minecraft",
     subtitle:
-      "CanvasMC to fork Folii, oprogramowania dla serwera Minecraft, który naprawia niespójności w rozgrywce, błędy i wprowadza jeszcze więcej ulepszeń dla wydajności serwera",
+      "CanvasMC to fork Folii, oprogramowania serwerowego Minecraft, który naprawia niespójności w rozgrywce, błędy i wprowadza jeszcze więcej ulepszeń dla wydajności serwera",
     downloadCanvas: "Pobierz Canvas",
   },
   features: {
@@ -86,7 +86,7 @@ export default {
     sculptor: {
       title: "Launcher Sculptor",
       description:
-        "Sculptor to oficjalny launcher, który automatycznie aktualizuje Canvas. Z nim możesz zawsze być na bieżąco z nowymi wersjami, bez konieczności pobierania ich samemu. Gwarantuje też, że będzie pobierać nowe buildy tylko dla wersji Minecraft, którą określisz.",
+        "Sculptor to oficjalny launcher, który automatycznie aktualizuje Canvas. Z nim możesz zawsze być na bieżąco z nowymi wersjami, bez konieczności pobierania ich samemu. Gwarantuje też, że nowe buildy będa pobierane tylko dla określonej przez ciebie wersji Minecrafta",
       downloadSculptor: "Pobierz Sculptor",
       exampleUsage: "Przykładowe użycie",
       argumentsExplained: "Wyjaśnienie argumentów",
@@ -131,7 +131,7 @@ export default {
     jenkins: {
       title: "Jenkins",
       description:
-        "Uzyskaj dostęp do naszych najnowszych buildów, wersji deweloperskich i śledź postęp naszej ciągłej integracji.",
+        "Uzyskaj dostęp do naszych najnowszych buildów, wersji deweloperskich i śledź postęp naszego CI.",
       action: "Odwiedź Jenkins",
     },
   },
