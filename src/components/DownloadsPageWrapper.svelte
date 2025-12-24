@@ -69,7 +69,18 @@
         return grouped;
       }, {});
       
-      versions = Object.keys(buildsByVersion).sort().reverse();
+      versions = Object.keys(buildsByVersion).sort((a, b) => {
+        const aParts = a.split('.').map(Number);
+        const bParts = b.split('.').map(Number);
+        for (let i = 0; i < Math.max(aParts.length, bParts.length); i++) {
+          const aPart = aParts[i] || 0;
+          const bPart = bParts[i] || 0;
+          if (aPart !== bPart) {
+            return bPart - aPart;
+          }
+        }
+        return 0;
+      });
       loading = false;
     } catch (err) {
       console.error('Failed to fetch builds:', err);
