@@ -17,9 +17,9 @@ import { jenkinsConfig } from '../../config/jenkins';
       client:load
       titleKey="downloads.products.horizon.title"
       descriptionKey="downloads.products.horizon.description"
-      <!-- downloadHref={`/downloads/latest?job=${encodeURIComponent(jenkinsConfig.horizonJob)}`} -->
       downloadHref="#"
       sourceHref="https://github.com/CraftCanvasMC/Horizon"
+      ><!-- downloadHref={`/downloads/latest?job=${encodeURIComponent(jenkinsConfig.horizonJob)}`} -->
     />
 
     <DownloadsPageContainer client:load job={jenkinsConfig.horizonJob} />
