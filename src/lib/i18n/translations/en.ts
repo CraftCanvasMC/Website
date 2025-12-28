@@ -52,7 +52,8 @@ export default {
   },
   downloads: {
     title: "Downloads",
-    subtitle: "Get the latest builds of CanvasMC for your Minecraft server.",
+    subtitle: "Get the latest builds of our software for your Minecraft server.",
+    selectTitle: "Select the software you want to download",
     downloadLatest: "Download Latest Build",
     sourceCode: "Source Code",
     version: "Minecraft",
@@ -108,6 +109,18 @@ export default {
             "Sets the name of the downloaded server jar file. Defaults to server.jar if not specified.",
           required: "Optional.",
         },
+      },
+    },
+    products: {
+      canvas: {
+        title: "Canvas",
+        description:
+          "Canvas is a fork of the Folia server software that introduces numerous critical fixes and performance enhancements to the dedicated server.",
+      },
+      horizon: {
+        title: "Horizon",
+        description:
+          "Horizon is a Paper MIXIN wrapper and plugin platform for extending Paper-based servers.",
       },
     },
   },

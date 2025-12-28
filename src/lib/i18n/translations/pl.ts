@@ -53,6 +53,7 @@ export default {
     title: "Pobieranie",
     subtitle:
       "Pobierz najnowsze buildy CanvasMC dla swojego serwera Minecraft.",
+    selectTitle: "Wybierz oprogramowanie do pobrania",
     downloadLatest: "Pobierz najnowszy build",
     sourceCode: "Kod źródłowy",
     version: "Minecraft",
@@ -109,6 +110,18 @@ export default {
             "Ustawia nazwę pobranego pliku jar serwera. Domyślnie server.jar",
           required: "Opcjonalne.",
         },
+      },
+    },
+    products: {
+      canvas: {
+        title: "Canvas",
+        description:
+          "Canvas to oprogramowanie serwerowe Minecraft skoncentrowane na wydajności i zaawansowanych funkcjach — odpowiednie do produkcyjnego uruchamiania serwerów.",
+      },
+      horizon: {
+        title: "Horizon",
+        description:
+          "Horizon to wrapper Paper oparty na Mixin oraz platforma wtyczek, pozwalająca rozszerzać serwery Paper o dodatkowe funkcje podobne do moda.",
       },
     },
   },

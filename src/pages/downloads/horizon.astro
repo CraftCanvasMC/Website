@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.svelte';
+import Footer from '../../components/Footer.svelte';
+import GradientBackground from '../../components/ui/GradientBackground.svelte';
+import DownloadsPageContainer from '../../components/DownloadsPageContainer.svelte';
+import ProductDownloadHeader from '../../components/ProductDownloadHeader.svelte';
+import { jenkinsConfig } from '../../config/jenkins';
+---
+
+<Layout>
+  <Navbar slot="navbar" client:load />
+  <GradientBackground client:load />
+
+  <main class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
+    <ProductDownloadHeader
+      client:load
+      titleKey="downloads.products.horizon.title"
+      descriptionKey="downloads.products.horizon.description"
+      <!-- downloadHref={`/downloads/latest?job=${encodeURIComponent(jenkinsConfig.horizonJob)}`} -->
+      downloadHref="#"
+      sourceHref="https://github.com/CraftCanvasMC/Horizon"
+    />
+
+    <DownloadsPageContainer client:load job={jenkinsConfig.horizonJob} />
+  </main>
+  <Footer slot="footer" client:load />
+</Layout>
+

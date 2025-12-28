@@ -71,14 +71,17 @@ function parseBuild(build: JenkinsBuild): Build {
 type BuildOptions = {
   minecraftVersion?: string;
   includeExperimental?: boolean;
+  job?: string;
 };
 
 export async function getAllBuilds(options?: BuildOptions): Promise<Build[]> {
   // throw new JenkinsError('Simulated: Jenkins is currently building');
 
   try {
+    const jobName = options?.job ?? jenkinsConfig.job;
+
     const url = new URL(
-      `job/${jenkinsConfig.job}/api/json?tree=${encodeURIComponent(jenkinsConfig.treeQuery)}`,
+      `job/${jobName}/api/json?tree=${encodeURIComponent(jenkinsConfig.treeQuery)}`,
       jenkinsConfig.baseUrl,
     );
 
@@ -123,8 +126,9 @@ export async function getAllBuilds(options?: BuildOptions): Promise<Build[]> {
 
 export async function getLatestBuild(
   includeExperimental = false,
+  job?: string,
 ): Promise<Build | null> {
-  const builds = await getAllBuilds({ includeExperimental });
+  const builds = await getAllBuilds({ includeExperimental, job });
 
   if (builds.length === 0) throw new JenkinsError("No builds found");
 

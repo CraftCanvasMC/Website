@@ -3,8 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.svelte';
 import Footer from '../../components/Footer.svelte';
 import GradientBackground from '../../components/ui/GradientBackground.svelte';
-import DownloadsPageContainer from '../../components/DownloadsPageContainer.svelte';
+import DownloadsHeading from '../../components/DownloadsHeading.svelte';
 import DownloadsPageHeader from '../../components/DownloadsPageHeader.svelte';
+import DownloadsSelection from '../../components/DownloadsSelection.svelte';
 ---
 
 <Layout>
@@ -13,7 +14,10 @@ import DownloadsPageHeader from '../../components/DownloadsPageHeader.svelte';
   
   <main class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
     <DownloadsPageHeader client:load />
-    <DownloadsPageContainer client:load />
+
+    <DownloadsHeading client:load />
+
+    <DownloadsSelection client:load />
   </main>
 
   <Footer slot="footer" client:load />

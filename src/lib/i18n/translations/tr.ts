@@ -52,7 +52,8 @@ export default {
   },
   downloads: {
     title: "İndirilenler",
-    subtitle: "Minecraft sunucunuz için en son CanvasMC sürümlerini indirin.",
+    subtitle: "Minecraft sunucunuz için en son Canvas & Horizon sürümlerini indirin.",
+    selectTitle: "İndirmek istediğiniz yazılımı seçin",
     downloadLatest: "En Son Sürümü İndir",
     sourceCode: "Kaynak Kodu",
     version: "Minecraft",
@@ -110,6 +111,18 @@ export default {
             "İndirilen sunucu jar dosyasının adını ayarlar. Belirtilmezse varsayılan olarak server.jar kullanılır.",
           required: "İsteğe bağlı.",
         },
+      },
+    },
+    products: {
+      canvas: {
+        title: "Canvas",
+        description:
+          "Canvas, performans ve gelişmiş özelliklere odaklanan bir Minecraft sunucu yazılımıdır — üretim amaçlı sunucular için uygundur.",
+      },
+      horizon: {
+        title: "Horizon",
+        description:
+          "Horizon, Paper tabanlı sunucuları ek mod benzeri işlevsellikle genişletmek için bir Paper MIXIN sarmalayıcısı ve eklenti platformudur.",
       },
     },
   },
