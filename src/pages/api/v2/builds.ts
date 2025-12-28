@@ -9,10 +9,12 @@ export const GET: APIRoute = async ({ url }) => {
     const minecraftVersion =
       url.searchParams.get("minecraft_version") || undefined;
     const includeExperimental = url.searchParams.get("experimental") === "true";
+    const job = url.searchParams.get("job") || undefined;
 
     const builds = await getAllBuilds({
       minecraftVersion,
       includeExperimental,
+      job,
     });
 
     return new Response(

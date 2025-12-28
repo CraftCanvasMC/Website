@@ -1,51 +1,31 @@
 import type { APIRoute } from "astro";
-import { getAllBuilds } from "../../lib/jenkins";
+import { getLatestBuild } from "../../lib/jenkins";
 import { getCachedBuilds } from "../../lib/cache";
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ url }) => {
   try {
-    let allBuilds;
+    const job = (url.searchParams.get('job') as string) || undefined;
 
+    let build;
     try {
-      allBuilds = await getAllBuilds();
+      build = await getLatestBuild(false, job);
     } catch {
-      allBuilds = await getCachedBuilds();
-      if (!allBuilds || allBuilds.length === 0) {
-        return new Response("No builds available", { status: 503 });
+      const cached = await getCachedBuilds();
+      if (!cached || cached.length === 0) {
+        return new Response('No builds available', { status: 503 });
       }
+      const filtered = cached.filter((b) => !job || b.url.includes(job));
+      build = filtered.sort((a, b) => b.buildNumber - a.buildNumber)[0];
     }
 
-    const versions = [
-      ...new Set(allBuilds.map((b) => b.minecraftVersion)),
-    ].sort((a, b) => {
-      const [aMajor, aMinor, aPatch] = a.split(".").map(Number);
-      const [bMajor, bMinor, bPatch] = b.split(".").map(Number);
-
-      if (aMajor !== bMajor) return bMajor - aMajor;
-      if (aMinor !== bMinor) return bMinor - aMinor;
-      return (bPatch || 0) - (aPatch || 0);
-    });
-
-    if (versions.length === 0) {
-      return new Response("No builds available", { status: 503 });
-    }
-
-    const latestMcVersion = versions[0];
-
-    const latestBuild = allBuilds
-      .filter(
-        (b) => b.minecraftVersion === latestMcVersion && !b.isExperimental,
-      )
-      .sort((a, b) => b.buildNumber - a.buildNumber)[0];
-
-    if (!latestBuild || !latestBuild.downloadUrl) {
-      return new Response("Latest build not available", { status: 503 });
+    if (!build || !build.downloadUrl) {
+      return new Response('Latest build not available', { status: 503 });
     }
 
     return new Response(null, {
       status: 302,
       headers: {
-        Location: latestBuild.downloadUrl,
+        Location: build.downloadUrl,
       },
     });
   } catch (error) {

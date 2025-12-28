@@ -8,9 +8,10 @@
 
   interface Props {
     redirecting?: boolean;
+    job?: string;
   }
 
-  let { redirecting = $bindable(false) }: Props = $props();
+  let { redirecting = $bindable(false), job }: Props = $props();
 
   let buildsByVersion = $state<Record<string, Build[]>>({});
   let versions = $state<string[]>([]);
@@ -42,7 +43,8 @@
       loading = true;
       error = null;
 
-      const response = await fetch('/api/v2/builds?experimental=true');
+      const jobParam = job ? `&job=${encodeURIComponent(job)}` : '';
+      const response = await fetch(`/api/v2/builds?experimental=true${jobParam}`);
       
       if (!response.ok && response.status !== 503) {
         throw new Error(`HTTP error! status: ${response.status}`);

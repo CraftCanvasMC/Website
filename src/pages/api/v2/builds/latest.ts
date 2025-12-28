@@ -6,8 +6,9 @@ export const prerender = false;
 export const GET: APIRoute = async ({ url }) => {
   try {
     const includeExperimental = url.searchParams.get("experimental") === "true";
+    const job = url.searchParams.get('job') || undefined;
 
-    const build = await getLatestBuild(includeExperimental);
+    const build = await getLatestBuild(includeExperimental, job);
 
     return new Response(JSON.stringify(build), {
       status: 200,
