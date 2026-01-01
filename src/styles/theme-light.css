@@ -70,6 +70,22 @@
   -webkit-backdrop-filter: blur(12px);
 }
 
+[data-theme="light"] .bg-neutral-900\/30 {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+[data-theme="light"] .bg-neutral-900\/30:hover {
+  background: rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 8px 30px rgba(79, 70, 229, 0.12) !important;
+}
+
+[data-theme="light"] .hover\:border-neutral-700:hover {
+  border-color: rgba(129, 140, 248, 0.5) !important;
+}
+
 [data-theme="light"] .hover\:bg-neutral-800:hover {
   background: rgba(241, 245, 249, 0.9) !important;
 }
@@ -99,6 +115,12 @@
 [data-theme="light"] button.bg-white,
 [data-theme="light"] button.bg-white span,
 [data-theme="light"] button.bg-white svg {
+  color: #ffffff !important;
+}
+
+[data-theme="light"] a.bg-white,
+[data-theme="light"] a.bg-white span,
+[data-theme="light"] a.bg-white svg {
   color: #ffffff !important;
 }
 
