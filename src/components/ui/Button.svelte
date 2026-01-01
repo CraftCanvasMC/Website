@@ -11,6 +11,8 @@
     disabled?: boolean;
     children: Snippet;
     onclick?: (e: MouseEvent) => void;
+    target?: string;
+    rel?: string;
   }
 
   let {
@@ -21,7 +23,9 @@
     class: className = '',
     disabled = false,
     children,
-    onclick
+    onclick,
+    target,
+    rel
   }: Props = $props();
 
   const baseClasses = 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 will-change-transform';
@@ -43,7 +47,7 @@
 </script>
 
 {#if href}
-  <a use:hoverScale={'medium'} href={href} class={classes} onclick={onclick} aria-disabled={disabled}>
+  <a use:hoverScale={'medium'} href={href} class={classes} onclick={onclick} aria-disabled={disabled} target={target} rel={rel}>
     {@render children()}
   </a>
 {:else}
