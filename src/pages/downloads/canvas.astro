@@ -19,6 +19,22 @@ import { jenkinsConfig } from '../../config/jenkins';
       descriptionKey="downloads.products.canvas.description"
       downloadHref={`/downloads/latest?job=${encodeURIComponent(jenkinsConfig.job)}`}
       sourceHref="https://github.com/CraftCanvasMC/Canvas"
+      gradientPattern={`repeating-linear-gradient(
+        90deg,
+        #4fd1c5 0%,
+        #5fd3ff 9%,
+        #4f9dff 18%,
+        #6a7cff 27%,
+        #9b5cff 36%,
+        #ec7cff 45%,
+        #ffb36a 50%,
+        #ec7cff 55%,
+        #9b5cff 64%,
+        #6a7cff 73%,
+        #4f9dff 82%,
+        #5fd3ff 91%,
+        #4fd1c5 100%
+      )`}
     />
 
     <DownloadsPageContainer client:load job={jenkinsConfig.job} />

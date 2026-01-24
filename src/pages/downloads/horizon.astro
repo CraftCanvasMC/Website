@@ -19,7 +19,20 @@ import { jenkinsConfig } from '../../config/jenkins';
       descriptionKey="downloads.products.horizon.description"
       downloadHref="#"
       sourceHref="https://github.com/CraftCanvasMC/Horizon"
-      ><!-- downloadHref={`/downloads/latest?job=${encodeURIComponent(jenkinsConfig.horizonJob)}`} -->
+      gradientPattern={`repeating-linear-gradient(
+        90deg,
+        #ffcc66 0%,
+        #ffb347 11%,
+        #ff944d 22%,
+        #ff7a33 33%,
+        #ff5e3a 44%,
+        #ff3fa4 50%,
+        #ff5e3a 56%,
+        #ff7a33 67%,
+        #ff944d 78%,
+        #ffb347 89%,
+        #ffcc66 100%
+      )`}
     />
 
     <DownloadsPageContainer client:load job={jenkinsConfig.horizonJob} />

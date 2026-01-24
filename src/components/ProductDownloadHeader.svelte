@@ -7,10 +7,16 @@
   export let descriptionKey: string;
   export let downloadHref: string | null = null;
   export let sourceHref: string;
+  export let gradientPattern: string;
 </script>
 
 <header class="max-w-2xl text-center mx-auto mb-8">
-  <h1 class="font-semibold text-3xl text-white">{$t(titleKey)}</h1>
+  <h1
+    class="font-semibold text-3xl gradient-title"
+    style={`--gradient-pattern: ${gradientPattern}`}
+  >
+    {$t(titleKey)}
+  </h1>
   <p class="mt-2 text-neutral-400">{$t(descriptionKey)}</p>
 
   <div class="mt-6 flex flex-col gap-3 sm:flex-row justify-center">
@@ -52,4 +58,38 @@
       {/snippet}
     </Button>
   </div>
+  <style>
+    @keyframes gradient-shift {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .gradient-title {
+      background-image: var(--gradient-pattern);
+
+      background-size: 350% 100%;
+      background-repeat: repeat;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
+      animation: gradient-shift 10s linear infinite;
+
+      text-shadow:
+        0 0 14px rgba(95, 211, 255, 0.25),
+        0 0 28px rgba(236, 124, 255, 0.22);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gradient-title {
+        animation: none;
+        background-position: 50% 50%;
+      }
+    }
+  </style>
 </header>
