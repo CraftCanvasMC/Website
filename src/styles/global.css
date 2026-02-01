@@ -242,3 +242,41 @@ html {
     transform: none;
   }
 }
+
+.gradient-title {
+  background-image: var(--gradient-pattern);
+  background-size: 350% 100%;
+  background-repeat: repeat;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+
+  animation: gradient-shift 10s linear infinite;
+
+  text-shadow:
+    0 0 14px rgba(95, 211, 255, 0.25),
+    0 0 28px rgba(236, 124, 255, 0.22);
+}
+
+.glass-card {
+  position: relative;
+  border-radius: 1.5rem;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.10),
+    rgba(255, 255, 255, 0.04)
+  );
+
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
