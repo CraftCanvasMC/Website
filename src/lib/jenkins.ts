@@ -61,7 +61,7 @@ function parseBuild(build: JenkinsBuild): Build {
     downloadUrl: build.artifacts?.[0]
       ? `${build.url}artifact/${build.artifacts[0].relativePath}`
       : null,
-    minecraftVersion: versionMatch?.[1]?.replace("-", "") || "unknown",
+    channelVersion: versionMatch?.input?.replace(/^#\d+\s*-\s*/, "") || "unknown",
     timestamp: build.timestamp,
     isExperimental,
     commits,
@@ -69,7 +69,7 @@ function parseBuild(build: JenkinsBuild): Build {
 }
 
 type BuildOptions = {
-  minecraftVersion?: string;
+  channelVersion?: string;
   includeExperimental?: boolean;
   job?: string;
 };
@@ -115,8 +115,8 @@ export async function getAllBuilds(options?: BuildOptions): Promise<Build[]> {
 
     return allBuilds.filter(
       (b) =>
-        (!options?.minecraftVersion ||
-          b.minecraftVersion === options.minecraftVersion) &&
+        (!options?.channelVersion ||
+          b.channelVersion === options.channelVersion) &&
         (!b.isExperimental || options?.includeExperimental === true),
     );
   } catch (error) {

@@ -46,9 +46,9 @@
     <h3 class="text-lg font-semibold mb-3 text-neutral-200">{$t('downloads.sculptor.argumentsExplained')}</h3>
     <ul class="list-disc pl-6 space-y-2 text-sm text-neutral-300">
       <li>
-        <code class="text-neutral-100">{$t('downloads.sculptor.args.minecraftVersion.name')}</code> — <br />
+        <code class="text-neutral-100">{$t('downloads.sculptor.args.channelVersion.name')}</code> — <br />
         <span class="text-neutral-400">
-          <strong>{$t('downloads.sculptor.args.minecraftVersion.required')}</strong> {$t('downloads.sculptor.args.minecraftVersion.description')}
+          <strong>{$t('downloads.sculptor.args.channelVersion.required')}</strong> {$t('downloads.sculptor.args.channelVersion.description')}
         </span>
       </li>
       <li>

@@ -63,11 +63,11 @@
       usingCache = data.cached ?? false;
       jenkinsDown = data.jenkinsDown ?? false;
       
-      const filteredBuilds = builds.filter(b => b.minecraftVersion !== 'unknown');
+      const filteredBuilds = builds.filter(b => b.channelVersion !== 'unknown');
       
       buildsByVersion = filteredBuilds.reduce<Record<string, Build[]>>((grouped, build) => {
-        grouped[build.minecraftVersion] ??= [];
-        grouped[build.minecraftVersion].push(build);
+        grouped[build.channelVersion] ??= [];
+        grouped[build.channelVersion].push(build);
         return grouped;
       }, {});
       

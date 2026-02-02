@@ -35,7 +35,7 @@ export const BuildSchema = z.object({
   buildNumber: z.number(),
   url: z.string(),
   downloadUrl: z.string().nullable(),
-  minecraftVersion: z.string(),
+  channelVersion: z.string(),
   timestamp: z.number(),
   isExperimental: z.boolean(),
   commits: z.array(

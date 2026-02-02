@@ -56,7 +56,7 @@ export default {
     selectTitle: "Select the software you want to download",
     downloadLatest: "Download Latest Build",
     sourceCode: "Source Code",
-    version: "Minecraft",
+    version: "Channel",
     build: "Build",
     latest: "Latest",
     experimental: "Experimental",
@@ -91,7 +91,7 @@ export default {
       exampleUsage: "Example Usage",
       argumentsExplained: "Arguments Explained",
       args: {
-        minecraftVersion: {
+        channelVersion: {
           name: "-Dsculptor.minecraftVersion",
           description:
             "Specifies the Minecraft version Sculptor should download and manage builds for. Without this, Sculptor will fail to launch.",

@@ -56,7 +56,7 @@ export default {
     selectTitle: "Wybierz oprogramowanie do pobrania",
     downloadLatest: "Pobierz najnowszy build",
     sourceCode: "Kod źródłowy",
-    version: "Minecraft",
+    version: "Channel",
     build: "Build",
     latest: "Najnowszy",
     experimental: "Eksperymentalny",
@@ -92,7 +92,7 @@ export default {
       exampleUsage: "Przykładowe użycie",
       argumentsExplained: "Wyjaśnienie argumentów",
       args: {
-        minecraftVersion: {
+        channelVersion: {
           name: "-Dsculptor.minecraftVersion",
           description:
             "Określa wersję Minecraft, dla której Sculptor powinien pobierać nowe buildy i nimi zarządzać. Bez tego Sculptor nie uruchomi się.",

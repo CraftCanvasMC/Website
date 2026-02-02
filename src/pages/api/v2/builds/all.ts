@@ -6,12 +6,12 @@ export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
   try {
-    const minecraftVersion =
+    const channelVersion =
       url.searchParams.get("minecraft_version") || undefined;
     const includeExperimental = url.searchParams.get("experimental") === "true";
 
     const builds = await getAllBuilds({
-      minecraftVersion,
+      channelVersion,
       includeExperimental,
     });
 

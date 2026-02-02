@@ -17,7 +17,7 @@ import { jenkinsConfig } from '../../config/jenkins';
       client:load
       titleKey="downloads.products.horizon.title"
       descriptionKey="downloads.products.horizon.description"
-      downloadHref="#"
+      downloadHref={`/downloads/latest?job=${encodeURIComponent(jenkinsConfig.horizonJob)}`}
       sourceHref="https://github.com/CraftCanvasMC/Horizon"
       gradientPattern={`repeating-linear-gradient(
         90deg,

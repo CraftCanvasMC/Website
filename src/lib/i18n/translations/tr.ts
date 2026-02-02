@@ -56,7 +56,7 @@ export default {
     selectTitle: "İndirmek istediğiniz yazılımı seçin",
     downloadLatest: "En Son Sürümü İndir",
     sourceCode: "Kaynak Kodu",
-    version: "Minecraft",
+    version: "Channel",
     build: "Yapı",
     latest: "En Son",
     experimental: "Deneysel",
@@ -93,7 +93,7 @@ export default {
       exampleUsage: "Kullanım Örneği",
       argumentsExplained: "Argümanların Açıklaması",
       args: {
-        minecraftVersion: {
+        channelVersion: {
           name: "-Dsculptor.minecraftVersion",
           description:
             "Sculptor’un hangi Minecraft sürümünü indirip yöneteceğini belirtir. Bu olmadan Sculptor başlatılamaz.",

@@ -10,7 +10,7 @@ export const GET: APIRoute = async ({ url, redirect }) => {
 
     const build = await getLatestBuild(!experimentalParam);
 
-    const mcVer = versionParam ?? build?.minecraftVersion;
+    const mcVer = versionParam ?? build?.channelVersion;
 
     const jdUrl = `https://maven.canvasmc.io/javadoc/snapshots/io/canvasmc/canvas/canvas-api/${mcVer}-R0.1-SNAPSHOT`;
 
