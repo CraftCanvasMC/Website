@@ -35,7 +35,7 @@ import { jenkinsConfig } from '../../config/jenkins';
       )`}
     />
 
-    <DownloadsPageContainer client:load job={jenkinsConfig.horizonJob} />
+    <DownloadsPageContainer client:load job={jenkinsConfig.horizonJob} hideSculptor={true} />
   </main>
   <Footer slot="footer" client:load />
 </Layout>

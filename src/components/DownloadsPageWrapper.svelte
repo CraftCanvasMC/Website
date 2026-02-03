@@ -9,9 +9,10 @@
   interface Props {
     redirecting?: boolean;
     job?: string;
+    hideSculptor?: boolean;
   }
 
-  let { redirecting = $bindable(false), job }: Props = $props();
+  let { redirecting = $bindable(false), job, hideSculptor = false }: Props = $props();
 
   let buildsByVersion = $state<Record<string, Build[]>>({});
   let versions = $state<string[]>([]);
@@ -152,6 +153,7 @@
     {versions}
     {usingCache}
     {jenkinsDown}
+    {hideSculptor}
     bind:redirecting
   />
 {/if}
