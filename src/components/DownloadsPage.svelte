@@ -17,6 +17,7 @@
     usingCache?: boolean;
     jenkinsDown?: boolean;
     redirecting?: boolean;
+    hideSculptor?: boolean;
   }
 
   let {
@@ -24,7 +25,8 @@
     versions,
     usingCache = false,
     jenkinsDown = false,
-    redirecting = $bindable(false)
+    redirecting = $bindable(false),
+    hideSculptor = false
   }: Props = $props();
 
   let selectedVersion = $state(versions[0]);
@@ -152,6 +154,7 @@
         </button>
       </div>
 
+      {#if !hideSculptor}
       <div class="flex items-center gap-2 w-full sm:w-auto">
         <Button
           variant={showNewTab ? 'default' : 'secondary'}
@@ -169,6 +172,7 @@
           {/snippet}
         </Button>
       </div>
+      {/if}
     </div>
 
     <div bind:this={contentContainer}>
