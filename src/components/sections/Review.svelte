@@ -129,6 +129,13 @@
           />
         {/if}
       </div>
+        <div class="mt-10 text-center max-w-3xl mx-auto">
+          <p class="text-xs text-neutral-500 leading-relaxed">
+            All reviews shown are real and provided through a private Google Forms document
+            created and sent by Dueris directly to each reviewer. If you would like proof,
+            feel free to join the Discord server.
+          </p>
+        </div>
 
       <div class="flex items-center justify-center gap-4 mt-6">
         <button
