@@ -1,16 +1,28 @@
 import type { APIRoute } from "astro";
 import { JenkinsError, getAllBuilds } from "../../../../lib/jenkins";
 import { getCachedBuilds } from "../../../../lib/cache";
+import {
+  getFallbackProjectName,
+  getProjectConfig,
+} from "../../../../config/jenkins.ts";
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
+  const project =
+    url.searchParams.get("project") ||
+    getProjectConfig(url.searchParams.get("job"))?.slug ||
+    getFallbackProjectName();
+
   try {
     const channelVersion =
-      url.searchParams.get("minecraft_version") || undefined;
+      url.searchParams.get("minecraft_version") ||
+      url.searchParams.get("version") ||
+      undefined;
     const includeExperimental = url.searchParams.get("experimental") === "true";
 
     const builds = await getAllBuilds({
+      project,
       channelVersion,
       includeExperimental,
     });
@@ -30,7 +42,7 @@ export const GET: APIRoute = async ({ url }) => {
       },
     );
   } catch (error) {
-    const cachedBuilds = await getCachedBuilds(true);
+    const cachedBuilds = await getCachedBuilds(project, true);
 
     if (cachedBuilds && cachedBuilds.length > 0) {
       const isBuilding =

@@ -154,6 +154,7 @@
     {usingCache}
     {jenkinsDown}
     {hideSculptor}
+    {job}
     bind:redirecting
   />
 {/if}

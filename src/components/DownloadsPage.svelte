@@ -18,6 +18,7 @@
     jenkinsDown?: boolean;
     redirecting?: boolean;
     hideSculptor?: boolean;
+    job: string;
   }
 
   let {
@@ -26,7 +27,8 @@
     usingCache = false,
     jenkinsDown = false,
     redirecting = $bindable(false),
-    hideSculptor = false
+    hideSculptor = false,
+    job
   }: Props = $props();
 
   let selectedVersion = $state(versions[0]);
@@ -52,7 +54,7 @@
   function handleJavadocRedirect() {
     redirecting = true;
     setTimeout(() => {
-      window.location.href = `/api/v2/jd/?version=${selectedVersion}&experimental=false`;
+      window.location.href = `/api/v2/jd/?version=${selectedVersion.replace(" (Experimental)", "")}&experimental=false&job=${job}`;
     }, 150);
   }
 

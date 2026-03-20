@@ -1,14 +1,27 @@
 import type { APIRoute } from "astro";
 import { JenkinsError, getLatestBuild } from "../../../../lib/jenkins";
+import {
+  getFallbackProjectName,
+  getProjectConfig,
+} from "../../../../config/jenkins.ts";
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
   try {
     const includeExperimental = url.searchParams.get("experimental") === "true";
-    const job = url.searchParams.get('job') || undefined;
+    const job = url.searchParams.get("job") || undefined;
+    const project =
+      url.searchParams.get("project") ||
+      getProjectConfig(job)?.slug ||
+      getFallbackProjectName();
 
-    const build = await getLatestBuild(includeExperimental, job);
+    const build = await getLatestBuild(
+      project,
+      undefined,
+      includeExperimental,
+      job ?? getProjectConfig(project)?.jenkinsJob,
+    );
 
     return new Response(JSON.stringify(build), {
       status: 200,

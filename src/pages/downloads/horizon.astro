@@ -6,6 +6,7 @@ import GradientBackground from '../../components/ui/GradientBackground.svelte';
 import DownloadsPageContainer from '../../components/DownloadsPageContainer.svelte';
 import ProductDownloadHeader from '../../components/ProductDownloadHeader.svelte';
 import { jenkinsConfig } from '../../config/jenkins';
+import {getProjectConfig} from "../../config/jenkins.ts";
 ---
 
 <Layout>
@@ -17,7 +18,7 @@ import { jenkinsConfig } from '../../config/jenkins';
       client:load
       titleKey="downloads.products.horizon.title"
       descriptionKey="downloads.products.horizon.description"
-      downloadHref={`/downloads/latest?job=${encodeURIComponent(jenkinsConfig.horizonJob)}`}
+      downloadHref={`/downloads/latest?job=${encodeURIComponent(getProjectConfig("horizon")?.jenkinsJob)}`}
       sourceHref="https://github.com/CraftCanvasMC/Horizon"
       gradientPattern={`repeating-linear-gradient(
         90deg,
@@ -35,7 +36,7 @@ import { jenkinsConfig } from '../../config/jenkins';
       )`}
     />
 
-    <DownloadsPageContainer client:load job={jenkinsConfig.horizonJob} hideSculptor={true} />
+    <DownloadsPageContainer client:load job={getProjectConfig("horizon")?.jenkinsJob} hideSculptor={true} />
   </main>
   <Footer slot="footer" client:load />
 </Layout>

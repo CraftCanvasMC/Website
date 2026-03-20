@@ -8,65 +8,82 @@ interface CacheEntry {
   timestamp: number;
 }
 
-let buildCache: CacheEntry | null = null;
+const buildCache = new Map<string, CacheEntry | null>();
 
 const CACHE_DURATION = 5 * 60 * 1000;
 const CACHE_DIR = join(process.cwd(), ".cache");
-const CACHE_FILE = join(CACHE_DIR, "builds.json");
 
-async function loadCacheFromDisk(): Promise<CacheEntry | null> {
+function getCacheFile(project: string) {
+  return join(CACHE_DIR, `builds-${project}.json`);
+}
+
+async function loadCacheFromDisk(project: string): Promise<CacheEntry | null> {
   try {
-    if (!existsSync(CACHE_FILE)) return null;
-    const data = await readFile(CACHE_FILE, "utf-8");
+    const cacheFile = getCacheFile(project);
+    if (!existsSync(cacheFile)) return null;
+    const data = await readFile(cacheFile, "utf-8");
     return JSON.parse(data) as CacheEntry;
   } catch {
     return null;
   }
 }
 
-async function saveCacheToDisk(cache: CacheEntry): Promise<void> {
+async function saveCacheToDisk(
+  project: string,
+  cache: CacheEntry,
+): Promise<void> {
   try {
     if (!existsSync(CACHE_DIR)) {
       await mkdir(CACHE_DIR, { recursive: true });
     }
-    await writeFile(CACHE_FILE, JSON.stringify(cache), "utf-8");
+    await writeFile(getCacheFile(project), JSON.stringify(cache), "utf-8");
   } catch (error) {
     console.error("Failed to save cache to disk:", error);
   }
 }
 
 export async function getCachedBuilds(
+  project: string | undefined,
   allowExpired = false,
 ): Promise<Build[] | null> {
-  if (!buildCache) {
-    buildCache = await loadCacheFromDisk();
+  if (!project) return null;
+  if (!buildCache.has(project)) {
+    buildCache.set(project, await loadCacheFromDisk(project));
   }
 
-  if (!buildCache) return null;
+  const cache = buildCache.get(project);
+  if (!cache) return null;
 
   const now = Date.now();
-  const isExpired = now - buildCache.timestamp > CACHE_DURATION;
+  const isExpired = now - cache.timestamp > CACHE_DURATION;
 
   if (isExpired && !allowExpired) {
-    buildCache = null;
+    buildCache.delete(project);
     return null;
   }
 
-  return buildCache.data;
+  return cache.data;
 }
 
-export async function setCachedBuilds(builds: Build[]): Promise<void> {
-  buildCache = {
+export async function setCachedBuilds(
+  project: string | undefined,
+  builds: Build[],
+): Promise<void> {
+  if (!project) return;
+  const cache = {
     data: builds,
     timestamp: Date.now(),
   };
-  await saveCacheToDisk(buildCache);
+
+  buildCache.set(project, cache);
+  await saveCacheToDisk(project, cache);
 }
 
-export function hasCachedBuilds(): boolean {
-  return buildCache !== null;
-}
+export function clearCache(project?: string | undefined): void {
+  if (project) {
+    buildCache.delete(project);
+    return;
+  }
 
-export function clearCache(): void {
-  buildCache = null;
+  buildCache.clear();
 }

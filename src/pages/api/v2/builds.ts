@@ -1,24 +1,43 @@
 import type { APIRoute } from "astro";
 import { JenkinsError, getAllBuilds } from "../../../lib/jenkins";
 import { getCachedBuilds } from "../../../lib/cache";
+import {
+  getFallbackProjectName,
+  getProjectConfig,
+} from "../../../config/jenkins";
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ params, url }) => {
+  const project = getProjectConfig(params.project);
+  const projectParam =
+    url.searchParams.get("project") ||
+    getProjectConfig(url.searchParams.get("job"))?.slug ||
+    getFallbackProjectName();
+  if (!project && !projectParam) {
+    return new Response(JSON.stringify({ error: "Unknown project" }), {
+      status: 404,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   try {
-    const channelVersion =
-      url.searchParams.get("minecraft_version") || undefined;
+    const version =
+      url.searchParams.get("minecraft_version") ||
+      url.searchParams.get("version") ||
+      undefined;
+
     const includeExperimental = url.searchParams.get("experimental") === "true";
-    const job = url.searchParams.get("job") || undefined;
 
     const builds = await getAllBuilds({
-      channelVersion,
+      project: project?.slug ?? projectParam,
+      channelVersion: version,
       includeExperimental,
-      job,
     });
 
     return new Response(
       JSON.stringify({
+        project: project?.slug ?? projectParam,
         builds,
         cached: false,
         jenkinsDown: false,
@@ -32,7 +51,10 @@ export const GET: APIRoute = async ({ url }) => {
       },
     );
   } catch (error) {
-    const cachedBuilds = await getCachedBuilds(true);
+    const cachedBuilds = await getCachedBuilds(
+      project?.slug ?? projectParam,
+      true,
+    );
 
     if (cachedBuilds && cachedBuilds.length > 0) {
       const isBuilding =
@@ -46,6 +68,7 @@ export const GET: APIRoute = async ({ url }) => {
 
       return new Response(
         JSON.stringify({
+          project: project?.slug ?? projectParam,
           builds: cachedBuilds,
           cached: true,
           jenkinsDown: isUnreachable,
@@ -65,6 +88,7 @@ export const GET: APIRoute = async ({ url }) => {
     if (error instanceof JenkinsError) {
       return new Response(
         JSON.stringify({
+          project: project?.slug ?? projectParam,
           error: error.message,
           cached: false,
           jenkinsDown: true,
@@ -79,6 +103,7 @@ export const GET: APIRoute = async ({ url }) => {
     console.error(error);
     return new Response(
       JSON.stringify({
+        project: project?.slug ?? projectParam,
         error: "Internal server error",
         cached: false,
         jenkinsDown: false,

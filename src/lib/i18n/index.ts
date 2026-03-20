@@ -3,10 +3,7 @@ import enTranslations from "./translations/en";
 import plTranslations from "./translations/pl";
 import trTranslations from "./translations/tr";
 
-export type Language =
-  | "en"
-  | "pl"
-  | "tr";
+export type Language = "en" | "pl" | "tr";
 
 export interface Translation {
   [key: string]: string | Translation;
@@ -49,8 +46,7 @@ export const currentLanguage = writable<Language>(
 
 const translations = writable<Translations>(allTranslations);
 
-export async function loadTranslations(lang: Language) {
-}
+export async function loadTranslations(lang: Language) {}
 
 export function setLanguage(lang: Language) {
   currentLanguage.set(lang);

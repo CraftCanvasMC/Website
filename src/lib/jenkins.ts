@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { jenkinsConfig } from "../config/jenkins";
+import {
+  jenkinsConfig,
+  getProjectConfig,
+  getFallbackProjectName,
+} from "../config/jenkins";
 import {
   type Build,
   type JenkinsBuild,
@@ -61,7 +65,8 @@ function parseBuild(build: JenkinsBuild): Build {
     downloadUrl: build.artifacts?.[0]
       ? `${build.url}artifact/${build.artifacts[0].relativePath}`
       : null,
-    channelVersion: versionMatch?.input?.replace(/^#\d+\s*-\s*/, "") || "unknown",
+    channelVersion:
+      versionMatch?.input?.replace(/^#\d+\s*-\s*/, "") || "unknown",
     timestamp: build.timestamp,
     isExperimental,
     commits,
@@ -69,16 +74,19 @@ function parseBuild(build: JenkinsBuild): Build {
 }
 
 type BuildOptions = {
+  project?: string;
   channelVersion?: string;
   includeExperimental?: boolean;
   job?: string;
 };
 
 export async function getAllBuilds(options?: BuildOptions): Promise<Build[]> {
-  // throw new JenkinsError('Simulated: Jenkins is currently building');
-
   try {
-    const jobName = options?.job ?? jenkinsConfig.job;
+    const projectConfig = getProjectConfig(options?.project);
+    const jobName =
+      options?.job ??
+      projectConfig?.jenkinsJob ??
+      getProjectConfig(getFallbackProjectName())?.jenkinsJob;
 
     const url = new URL(
       `job/${jobName}/api/json?tree=${encodeURIComponent(jenkinsConfig.treeQuery)}`,
@@ -111,7 +119,10 @@ export async function getAllBuilds(options?: BuildOptions): Promise<Build[]> {
       .filter((b) => !b.building)
       .map(parseBuild);
 
-    await setCachedBuilds(allBuilds);
+    await setCachedBuilds(
+      projectConfig?.slug ?? getFallbackProjectName(),
+      allBuilds,
+    );
 
     return allBuilds.filter(
       (b) =>
@@ -125,12 +136,31 @@ export async function getAllBuilds(options?: BuildOptions): Promise<Build[]> {
 }
 
 export async function getLatestBuild(
+  project?: string | undefined,
+  channelVersion?: string | undefined,
   includeExperimental = false,
   job?: string,
 ): Promise<Build | null> {
-  const builds = await getAllBuilds({ includeExperimental, job });
+  if (!project) return null;
+  const builds = channelVersion
+    ? await getAllBuilds({ project, channelVersion, includeExperimental, job })
+    : await getAllBuilds({ project, includeExperimental, job });
 
   if (builds.length === 0) throw new JenkinsError("No builds found");
 
   return builds[0];
+}
+
+export function getProjectJavadocUrl(
+  project: string | null | undefined,
+  version: string,
+  build?: string | undefined | null,
+) {
+  const projectConfig = getProjectConfig(project);
+  const baseUrl = projectConfig?.javadocBaseUrl ?? null;
+  // account for horizon's special versioning scheme
+  if (projectConfig?.slug === "horizon" && build) {
+    return `${baseUrl}/${version}${projectConfig?.versionSuffix}.${build}`;
+  }
+  return `${baseUrl}/${version}${projectConfig?.versionSuffix}`;
 }

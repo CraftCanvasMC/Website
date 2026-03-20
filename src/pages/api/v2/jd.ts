@@ -1,18 +1,54 @@
 import type { APIRoute } from "astro";
-import { JenkinsError, getLatestBuild } from "../../../lib/jenkins";
+import {
+  JenkinsError,
+  getLatestBuild,
+  getProjectJavadocUrl,
+} from "../../../lib/jenkins";
+import {
+  getFallbackProjectName,
+  getProjectConfig,
+} from "../../../config/jenkins";
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ url, redirect }) => {
+export const GET: APIRoute = async ({ params, url, redirect }) => {
+  const project = getProjectConfig(params.project);
+  const jobParam = url.searchParams.get("job");
+  const projectParam =
+    url.searchParams.get("project") ||
+    getProjectConfig(jobParam)?.slug ||
+    getFallbackProjectName();
+  if (!project && !projectParam) {
+    return new Response(JSON.stringify({ error: "Unknown project" }), {
+      status: 404,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   try {
-    const versionParam = url.searchParams.get("version");
+    const versionParam = url.searchParams.get("version") || undefined;
     const experimentalParam = url.searchParams.get("experimental") === "true";
 
-    const build = await getLatestBuild(!experimentalParam);
+    const build = await getLatestBuild(
+      project?.slug ?? projectParam,
+      versionParam,
+      !experimentalParam,
+      jobParam || project?.jenkinsJob || undefined,
+    );
 
-    const mcVer = versionParam ?? build?.channelVersion;
+    const projectVer = versionParam ?? build?.channelVersion;
 
-    const jdUrl = `https://maven.canvasmc.io/javadoc/snapshots/io/canvasmc/canvas/canvas-api/${mcVer}-R0.1-SNAPSHOT`;
+    if (!projectVer) {
+      return new Response(JSON.stringify({ error: "No version found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    const jdUrl = getProjectJavadocUrl(
+      project?.slug ?? projectParam,
+      projectVer,
+      build?.buildNumber.toString(),
+    );
 
     return redirect(jdUrl, 302);
   } catch (error) {
