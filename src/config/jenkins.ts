@@ -32,6 +32,10 @@ export function extractProjectFromUrl(url: URL) {
   return getProjectConfig(url.searchParams.get("project"));
 }
 
+export function extractChannelFromUrl(url: URL) {
+  return url.searchParams.get("channel") || undefined;
+}
+
 /**
  * @deprecated Subject to removal in the future.
  */
@@ -62,4 +66,16 @@ export function extractProjectFromJob(url: URL) {
  */
 export function extractProjectFromJobOrFallback(url: URL) {
   return extractProjectFromJob(url) ?? getFallbackProject();
+}
+
+/**
+ * @deprecated Subject to removal in the future.
+ */
+export function extractVersionFromUrl(url: URL) {
+  console.warn("Legacy extractVersionFromUrl was called.");
+  return (
+    url.searchParams.get("minecraft_version") ||
+    url.searchParams.get("version") ||
+    undefined
+  );
 }

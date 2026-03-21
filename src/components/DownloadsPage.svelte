@@ -54,7 +54,7 @@
   function handleJavadocRedirect() {
     redirecting = true;
     setTimeout(() => {
-      window.location.href = `/api/v2/jd/?version=${selectedVersion.replace(" (Experimental)", "")}&experimental=false&project=${project}`;
+      window.location.href = `/api/v2/jd/?channel=${selectedVersion.replace(" (Experimental)", "")}&experimental=false&project=${project}`;
     }, 150);
   }
 

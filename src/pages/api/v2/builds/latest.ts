@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { JenkinsError, getLatestBuild } from "../../../../lib/jenkins";
 import {
+  extractChannelFromUrl,
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
 } from "../../../../config/jenkins.ts";
@@ -19,9 +20,10 @@ export const GET: APIRoute = async ({ url }) => {
       });
     }
 
+    const channelVersion = extractChannelFromUrl(url);
     const build = await getLatestBuild(
       project.slug,
-      undefined,
+      channelVersion,
       includeExperimental,
     );
 

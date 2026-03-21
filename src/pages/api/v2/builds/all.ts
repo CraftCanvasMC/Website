@@ -2,8 +2,10 @@ import type { APIRoute } from "astro";
 import { JenkinsError, getAllBuilds } from "../../../../lib/jenkins";
 import { getCachedBuilds } from "../../../../lib/cache";
 import {
+  extractChannelFromUrl,
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
+  extractVersionFromUrl,
 } from "../../../../config/jenkins.ts";
 
 export const prerender = false;
@@ -20,9 +22,7 @@ export const GET: APIRoute = async ({ url }) => {
 
   try {
     const channelVersion =
-      url.searchParams.get("minecraft_version") ||
-      url.searchParams.get("version") ||
-      undefined;
+      extractChannelFromUrl(url) || extractVersionFromUrl(url);
     const includeExperimental = url.searchParams.get("experimental") === "true";
 
     const builds = await getAllBuilds({

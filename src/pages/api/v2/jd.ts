@@ -5,8 +5,10 @@ import {
   getProjectJavadocUrl,
 } from "../../../lib/jenkins";
 import {
+  extractChannelFromUrl,
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
+  extractVersionFromUrl,
   getProjectConfig,
 } from "../../../config/jenkins";
 
@@ -25,28 +27,32 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
   }
 
   try {
-    const versionParam = url.searchParams.get("version") || undefined;
+    const channelVersion =
+      extractChannelFromUrl(url) || extractVersionFromUrl(url);
     const experimentalParam = url.searchParams.get("experimental") === "true";
 
     const build = await getLatestBuild(
       project.slug,
-      versionParam,
+      channelVersion,
       !experimentalParam,
     );
 
-    const projectVer = versionParam ?? build?.channelVersion;
+    const projectChannel = channelVersion ?? build?.channelVersion;
 
-    if (!projectVer) {
-      return new Response(JSON.stringify({ error: "No version found" }), {
-        status: 404,
-        headers: { "Content-Type": "application/json" },
-      });
+    if (!projectChannel) {
+      return new Response(
+        JSON.stringify({ error: "No channel version found" }),
+        {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
     let jdUrl = "";
     try {
       jdUrl = getProjectJavadocUrl(
         project.slug,
-        projectVer,
+        projectChannel,
         build?.buildNumber.toString(),
       );
     } catch (error) {
