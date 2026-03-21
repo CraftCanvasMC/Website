@@ -5,20 +5,19 @@ import {
   getProjectJavadocUrl,
 } from "../../../lib/jenkins";
 import {
-  getFallbackProjectName,
+  extractProjectFromJobOrFallback,
+  extractProjectFromUrl,
   getProjectConfig,
 } from "../../../config/jenkins";
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ params, url, redirect }) => {
-  const project = getProjectConfig(params.project);
-  const jobParam = url.searchParams.get("job");
+  const defaultProject = getProjectConfig(params.project);
   const projectParam =
-    url.searchParams.get("project") ||
-    getProjectConfig(jobParam)?.slug ||
-    getFallbackProjectName();
-  if (!project && !projectParam) {
+    extractProjectFromUrl(url) || extractProjectFromJobOrFallback(url);
+  const project = defaultProject || projectParam;
+  if (!project) {
     return new Response(JSON.stringify({ error: "Unknown project" }), {
       status: 404,
       headers: { "Content-Type": "application/json" },
@@ -30,10 +29,9 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
     const experimentalParam = url.searchParams.get("experimental") === "true";
 
     const build = await getLatestBuild(
-      project?.slug ?? projectParam,
+      project.slug,
       versionParam,
       !experimentalParam,
-      jobParam || project?.jenkinsJob || undefined,
     );
 
     const projectVer = versionParam ?? build?.channelVersion;
@@ -44,11 +42,21 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
         headers: { "Content-Type": "application/json" },
       });
     }
-    const jdUrl = getProjectJavadocUrl(
-      project?.slug ?? projectParam,
-      projectVer,
-      build?.buildNumber.toString(),
-    );
+    let jdUrl = "";
+    try {
+      jdUrl = getProjectJavadocUrl(
+        project.slug,
+        projectVer,
+        build?.buildNumber.toString(),
+      );
+    } catch (error) {
+      if (error instanceof JenkinsError) {
+        return new Response(JSON.stringify({ error: error.message }), {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
 
     return redirect(jdUrl, 302);
   } catch (error) {

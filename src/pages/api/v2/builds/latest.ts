@@ -1,8 +1,8 @@
 import type { APIRoute } from "astro";
 import { JenkinsError, getLatestBuild } from "../../../../lib/jenkins";
 import {
-  getFallbackProjectName,
-  getProjectConfig,
+  extractProjectFromJobOrFallback,
+  extractProjectFromUrl,
 } from "../../../../config/jenkins.ts";
 
 export const prerender = false;
@@ -10,17 +10,19 @@ export const prerender = false;
 export const GET: APIRoute = async ({ url }) => {
   try {
     const includeExperimental = url.searchParams.get("experimental") === "true";
-    const job = url.searchParams.get("job") || undefined;
     const project =
-      url.searchParams.get("project") ||
-      getProjectConfig(job)?.slug ||
-      getFallbackProjectName();
+      extractProjectFromUrl(url) || extractProjectFromJobOrFallback(url);
+    if (!project) {
+      return new Response(JSON.stringify({ error: "Unknown project" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
 
     const build = await getLatestBuild(
-      project,
+      project.slug,
       undefined,
       includeExperimental,
-      job ?? getProjectConfig(project)?.jenkinsJob,
     );
 
     return new Response(JSON.stringify(build), {

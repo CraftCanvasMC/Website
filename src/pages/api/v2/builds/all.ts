@@ -2,17 +2,21 @@ import type { APIRoute } from "astro";
 import { JenkinsError, getAllBuilds } from "../../../../lib/jenkins";
 import { getCachedBuilds } from "../../../../lib/cache";
 import {
-  getFallbackProjectName,
-  getProjectConfig,
+  extractProjectFromJobOrFallback,
+  extractProjectFromUrl,
 } from "../../../../config/jenkins.ts";
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
   const project =
-    url.searchParams.get("project") ||
-    getProjectConfig(url.searchParams.get("job"))?.slug ||
-    getFallbackProjectName();
+    extractProjectFromUrl(url) || extractProjectFromJobOrFallback(url);
+  if (!project) {
+    return new Response(JSON.stringify({ error: "Unknown project" }), {
+      status: 404,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
   try {
     const channelVersion =
@@ -22,7 +26,7 @@ export const GET: APIRoute = async ({ url }) => {
     const includeExperimental = url.searchParams.get("experimental") === "true";
 
     const builds = await getAllBuilds({
-      project,
+      project: project.slug,
       channelVersion,
       includeExperimental,
     });
@@ -42,7 +46,7 @@ export const GET: APIRoute = async ({ url }) => {
       },
     );
   } catch (error) {
-    const cachedBuilds = await getCachedBuilds(project, true);
+    const cachedBuilds = await getCachedBuilds(project.slug, true);
 
     if (cachedBuilds && cachedBuilds.length > 0) {
       const isBuilding =

@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
   jenkinsConfig,
   getProjectConfig,
-  getFallbackProjectName,
+  getFallbackProject,
 } from "../config/jenkins";
 import {
   type Build,
@@ -74,77 +74,68 @@ function parseBuild(build: JenkinsBuild): Build {
 }
 
 type BuildOptions = {
-  project?: string;
+  project: string;
   channelVersion?: string;
   includeExperimental?: boolean;
-  job?: string;
 };
 
 export async function getAllBuilds(options?: BuildOptions): Promise<Build[]> {
-  try {
-    const projectConfig = getProjectConfig(options?.project);
-    const jobName =
-      options?.job ??
-      projectConfig?.jenkinsJob ??
-      getProjectConfig(getFallbackProjectName())?.jenkinsJob;
-
-    const url = new URL(
-      `job/${jobName}/api/json?tree=${encodeURIComponent(jenkinsConfig.treeQuery)}`,
-      jenkinsConfig.baseUrl,
-    );
-
-    const res = await fetch(url.toString()).catch(() => {
-      throw new JenkinsError("Failed to connect to Jenkins API");
-    });
-
-    if (!res.ok) {
-      throw new JenkinsError(
-        `Jenkins API returned ${res.status}${res.statusText ? ` ${res.statusText}` : ""}`,
-      );
-    }
-
-    const json = await res.json().catch(() => {
-      throw new JenkinsError("Jenkins API returned invalid JSON");
-    });
-
-    const parseResult = z
-      .object({ allBuilds: z.array(JenkinsBuildSchema) })
-      .safeParse(json);
-
-    if (!parseResult.success) {
-      throw new JenkinsError("Jenkins API returned invalid data format");
-    }
-
-    const allBuilds = parseResult.data.allBuilds
-      .filter((b) => !b.building)
-      .map(parseBuild);
-
-    await setCachedBuilds(
-      projectConfig?.slug ?? getFallbackProjectName(),
-      allBuilds,
-    );
-
-    return allBuilds.filter(
-      (b) =>
-        (!options?.channelVersion ||
-          b.channelVersion === options.channelVersion) &&
-        (!b.isExperimental || options?.includeExperimental === true),
-    );
-  } catch (error) {
-    throw error;
+  const projectConfig =
+    getProjectConfig(options?.project) || getFallbackProject();
+  if (!projectConfig) {
+    throw new JenkinsError("Project not found");
   }
+  const jobName = projectConfig.jenkinsJob;
+
+  const url = new URL(
+    `job/${jobName}/api/json?tree=${encodeURIComponent(jenkinsConfig.treeQuery)}`,
+    jenkinsConfig.baseUrl,
+  );
+
+  const res = await fetch(url.toString()).catch(() => {
+    throw new JenkinsError("Failed to connect to Jenkins API");
+  });
+
+  if (!res.ok) {
+    throw new JenkinsError(
+      `Jenkins API returned ${res.status}${res.statusText ? ` ${res.statusText}` : ""}`,
+    );
+  }
+
+  const json = await res.json().catch(() => {
+    throw new JenkinsError("Jenkins API returned invalid JSON");
+  });
+
+  const parseResult = z
+    .object({ allBuilds: z.array(JenkinsBuildSchema) })
+    .safeParse(json);
+
+  if (!parseResult.success) {
+    throw new JenkinsError("Jenkins API returned invalid data format");
+  }
+
+  const allBuilds = parseResult.data.allBuilds
+    .filter((b) => !b.building)
+    .map(parseBuild);
+
+  await setCachedBuilds(projectConfig.slug, allBuilds);
+
+  return allBuilds.filter(
+    (b) =>
+      (!options?.channelVersion ||
+        b.channelVersion === options.channelVersion) &&
+      (!b.isExperimental || options?.includeExperimental === true),
+  );
 }
 
 export async function getLatestBuild(
-  project?: string | undefined,
+  project: string,
   channelVersion?: string | undefined,
   includeExperimental = false,
-  job?: string,
-): Promise<Build | null> {
-  if (!project) return null;
+): Promise<Build> {
   const builds = channelVersion
-    ? await getAllBuilds({ project, channelVersion, includeExperimental, job })
-    : await getAllBuilds({ project, includeExperimental, job });
+    ? await getAllBuilds({ project, channelVersion, includeExperimental })
+    : await getAllBuilds({ project, includeExperimental });
 
   if (builds.length === 0) throw new JenkinsError("No builds found");
 
@@ -152,15 +143,19 @@ export async function getLatestBuild(
 }
 
 export function getProjectJavadocUrl(
-  project: string | null | undefined,
+  project: string,
   version: string,
   build?: string | undefined | null,
 ) {
   const projectConfig = getProjectConfig(project);
-  const baseUrl = projectConfig?.javadocBaseUrl ?? null;
+  // it is guaranteed to exist anyway so this shouldn't ever run
+  if (!projectConfig) {
+    throw new JenkinsError("Project not found");
+  }
+  const baseUrl = projectConfig.javadocBaseUrl;
   // account for horizon's special versioning scheme
   if (projectConfig?.slug === "horizon" && build) {
-    return `${baseUrl}/${version}${projectConfig?.versionSuffix}.${build}`;
+    return `${baseUrl}/${version}${projectConfig.versionSuffix}.${build}`;
   }
-  return `${baseUrl}/${version}${projectConfig?.versionSuffix}`;
+  return `${baseUrl}/${version}${projectConfig.versionSuffix}`;
 }

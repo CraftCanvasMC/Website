@@ -43,7 +43,7 @@ async function saveCacheToDisk(
 }
 
 export async function getCachedBuilds(
-  project: string | undefined,
+  project: string,
   allowExpired = false,
 ): Promise<Build[] | null> {
   if (!project) return null;
@@ -66,7 +66,7 @@ export async function getCachedBuilds(
 }
 
 export async function setCachedBuilds(
-  project: string | undefined,
+  project: string,
   builds: Build[],
 ): Promise<void> {
   if (!project) return;
@@ -79,7 +79,7 @@ export async function setCachedBuilds(
   await saveCacheToDisk(project, cache);
 }
 
-export function clearCache(project?: string | undefined): void {
+export function clearCache(project?: string): void {
   if (project) {
     buildCache.delete(project);
     return;

@@ -28,9 +28,34 @@ export function getProjectConfig(project: string | undefined | null) {
   return projects[project.toLowerCase() as ProjectSlug] ?? null;
 }
 
+export function extractProjectFromUrl(url: URL) {
+  return getProjectConfig(url.searchParams.get("project"));
+}
+
 /**
  * @deprecated Subject to removal in the future.
  */
 export function getFallbackProjectName(): string {
   return "canvas";
+}
+
+/**
+ * @deprecated Subject to removal in the future.
+ */
+export function getFallbackProject() {
+  return getProjectConfig(getFallbackProjectName());
+}
+
+/**
+ * @deprecated Subject to removal in the future.
+ */
+export function extractProjectFromJob(url: URL) {
+  return getProjectConfig(url.searchParams.get("job"));
+}
+
+/**
+ * @deprecated Subject to removal in the future.
+ */
+export function extractProjectFromJobOrFallback(url: URL) {
+  return extractProjectFromJob(url) ?? getFallbackProject();
 }
