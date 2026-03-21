@@ -46,7 +46,7 @@ export const GET: APIRoute = async ({ url }) => {
       },
     );
   } catch (error) {
-    const cachedBuilds = await getCachedBuilds(project.slug, true);
+    const cachedBuilds = await getCachedBuilds(project, true);
 
     if (cachedBuilds && cachedBuilds.length > 0) {
       const isBuilding =
