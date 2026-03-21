@@ -111,12 +111,18 @@ export async function getAllBuilds(options: BuildOptions): Promise<Build[]> {
 
   await setCachedBuilds(project, allBuilds);
 
-  return allBuilds.filter(
-    (b) =>
-      (!options.channelVersion ||
-        b.channelVersion === options.channelVersion) &&
-      (!b.isExperimental || options.includeExperimental === true),
-  );
+  return allBuilds.filter((b) => {
+    const matchesChannel =
+      !options.channelVersion ||
+      b.channelVersion === options.channelVersion ||
+      (options.includeExperimental &&
+        b.channelVersion === `${options.channelVersion} (Experimental)`);
+
+    const matchesExperimental =
+      !b.isExperimental || options.includeExperimental === true;
+
+    return matchesChannel && matchesExperimental;
+  });
 }
 
 export async function getLatestBuild(
