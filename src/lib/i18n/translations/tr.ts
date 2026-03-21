@@ -52,7 +52,8 @@ export default {
   },
   downloads: {
     title: "İndirilenler",
-    subtitle: "Minecraft sunucunuz için en son Canvas & Horizon sürümlerini indirin.",
+    subtitle:
+      "Minecraft sunucunuz için en son Canvas & Horizon sürümlerini indirin.",
     selectTitle: "İndirmek istediğiniz yazılımı seçin",
     downloadLatest: "En Son Sürümü İndir",
     sourceCode: "Kaynak Kodu",

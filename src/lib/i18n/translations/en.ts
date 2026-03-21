@@ -52,7 +52,8 @@ export default {
   },
   downloads: {
     title: "Downloads",
-    subtitle: "Get the latest builds of our software for your Minecraft server.",
+    subtitle:
+      "Get the latest builds of our software for your Minecraft server.",
     selectTitle: "Select the software you want to download",
     downloadLatest: "Download Latest Build",
     sourceCode: "Source Code",

@@ -1,14 +1,31 @@
 import type { APIRoute } from "astro";
 import { JenkinsError, getLatestBuild } from "../../../../lib/jenkins";
+import {
+  extractChannelFromUrl,
+  extractProjectFromJobOrFallback,
+  extractProjectFromUrl,
+} from "../../../../config/jenkins.ts";
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
   try {
     const includeExperimental = url.searchParams.get("experimental") === "true";
-    const job = url.searchParams.get('job') || undefined;
+    const project =
+      extractProjectFromUrl(url) || extractProjectFromJobOrFallback(url);
+    if (!project) {
+      return new Response(JSON.stringify({ error: "Unknown project" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
 
-    const build = await getLatestBuild(includeExperimental, job);
+    const channelVersion = extractChannelFromUrl(url);
+    const build = await getLatestBuild(
+      project.slug,
+      channelVersion,
+      includeExperimental,
+    );
 
     return new Response(JSON.stringify(build), {
       status: 200,

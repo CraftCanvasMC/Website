@@ -8,11 +8,11 @@
 
   interface Props {
     redirecting?: boolean;
-    job?: string;
+    project: string;
     hideSculptor?: boolean;
   }
 
-  let { redirecting = $bindable(false), job, hideSculptor = false }: Props = $props();
+  let { redirecting = $bindable(false), project, hideSculptor = false }: Props = $props();
 
   let buildsByVersion = $state<Record<string, Build[]>>({});
   let versions = $state<string[]>([]);
@@ -25,13 +25,13 @@
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
-      
+
       const response = await fetch(jenkinsConfig.baseUrl, {
         method: 'HEAD',
         signal: controller.signal,
         cache: 'no-store',
       });
-      
+
       clearTimeout(timeoutId);
       return response.ok || response.status < 500;
     } catch {
@@ -44,9 +44,9 @@
       loading = true;
       error = null;
 
-      const jobParam = job ? `&job=${encodeURIComponent(job)}` : '';
-      const response = await fetch(`/api/v2/builds?experimental=true${jobParam}`);
-      
+      const projectParam = `&project=${encodeURIComponent(project)}`
+      const response = await fetch(`/api/v2/builds?experimental=true${projectParam}`);
+
       if (!response.ok && response.status !== 503) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -63,15 +63,15 @@
       const builds: Build[] = data.builds || [];
       usingCache = data.cached ?? false;
       jenkinsDown = data.jenkinsDown ?? false;
-      
+
       const filteredBuilds = builds.filter(b => b.channelVersion !== 'unknown');
-      
+
       buildsByVersion = filteredBuilds.reduce<Record<string, Build[]>>((grouped, build) => {
         grouped[build.channelVersion] ??= [];
         grouped[build.channelVersion].push(build);
         return grouped;
       }, {});
-      
+
       versions = Object.keys(buildsByVersion).sort((a, b) => {
         const aParts = a.split('.').map(Number);
         const bParts = b.split('.').map(Number);
@@ -87,11 +87,11 @@
       loading = false;
     } catch (err) {
       console.error('Failed to fetch builds:', err);
-      
+
       const isReachable = await isJenkinsReachable();
       jenkinsDown = !isReachable;
       usingCache = false;
-      
+
       error = err instanceof Error ? err.message : 'Failed to fetch builds';
       loading = false;
     }
@@ -131,7 +131,7 @@
       </div>
     </div>
   </div>
-  
+
   <section class="mt-12 sm:mt-16">
     <div class="border border-neutral-800 rounded-lg p-6 relative bg-neutral-900/30 backdrop-blur-sm overflow-hidden">
       <div class="flex flex-col items-center justify-center py-24 text-center">
@@ -148,12 +148,13 @@
     </div>
   </section>
 {:else}
-  <DownloadsPage 
-    {buildsByVersion}
-    {versions}
-    {usingCache}
-    {jenkinsDown}
-    {hideSculptor}
-    bind:redirecting
+  <DownloadsPage
+          {buildsByVersion}
+          {versions}
+          {usingCache}
+          {jenkinsDown}
+          {hideSculptor}
+          {project}
+          bind:redirecting
   />
 {/if}

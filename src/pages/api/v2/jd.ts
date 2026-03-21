@@ -1,18 +1,68 @@
 import type { APIRoute } from "astro";
-import { JenkinsError, getLatestBuild } from "../../../lib/jenkins";
+import {
+  JenkinsError,
+  getLatestBuild,
+  getProjectJavadocUrl,
+} from "../../../lib/jenkins";
+import {
+  extractChannelFromUrl,
+  extractProjectFromJobOrFallback,
+  extractProjectFromUrl,
+  extractVersionFromUrl,
+  getProjectConfig,
+} from "../../../config/jenkins";
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ url, redirect }) => {
+export const GET: APIRoute = async ({ params, url, redirect }) => {
+  const defaultProject = getProjectConfig(params.project);
+  const projectParam =
+    extractProjectFromUrl(url) || extractProjectFromJobOrFallback(url);
+  const project = defaultProject || projectParam;
+  if (!project) {
+    return new Response(JSON.stringify({ error: "Unknown project" }), {
+      status: 404,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   try {
-    const versionParam = url.searchParams.get("version");
+    const channelVersion =
+      extractChannelFromUrl(url) || extractVersionFromUrl(url);
     const experimentalParam = url.searchParams.get("experimental") === "true";
 
-    const build = await getLatestBuild(!experimentalParam);
+    const build = await getLatestBuild(
+      project.slug,
+      channelVersion,
+      !experimentalParam,
+    );
 
-    const mcVer = versionParam ?? build?.channelVersion;
+    const projectChannel = channelVersion ?? build?.channelVersion;
 
-    const jdUrl = `https://maven.canvasmc.io/javadoc/snapshots/io/canvasmc/canvas/canvas-api/${mcVer}-R0.1-SNAPSHOT`;
+    if (!projectChannel) {
+      return new Response(
+        JSON.stringify({ error: "No channel version found" }),
+        {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+    }
+    let jdUrl = "";
+    try {
+      jdUrl = getProjectJavadocUrl(
+        project.slug,
+        projectChannel,
+        build?.buildNumber.toString(),
+      );
+    } catch (error) {
+      if (error instanceof JenkinsError) {
+        return new Response(JSON.stringify({ error: error.message }), {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
 
     return redirect(jdUrl, 302);
   } catch (error) {
