@@ -43,6 +43,8 @@ export function getFallbackProjectName(): string {
  * @deprecated Subject to removal in the future.
  */
 export function getFallbackProject() {
+  // to let us better gather usage info
+  console.warn("Legacy getFallbackProject was called.");
   return getProjectConfig(getFallbackProjectName());
 }
 
@@ -50,6 +52,8 @@ export function getFallbackProject() {
  * @deprecated Subject to removal in the future.
  */
 export function extractProjectFromJob(url: URL) {
+  // to let us better gather usage info
+  console.warn("Legacy extractProjectFromJob was called.");
   return getProjectConfig(url.searchParams.get("job"));
 }
 
