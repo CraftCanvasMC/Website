@@ -1,9 +1,5 @@
 import { z } from "zod";
-import {
-  jenkinsConfig,
-  getProjectConfig,
-  getFallbackProject,
-} from "../config/jenkins";
+import { jenkinsConfig, type Project } from "../config/jenkins";
 import {
   type Build,
   type JenkinsBuild,
@@ -74,22 +70,17 @@ function parseBuild(build: JenkinsBuild): Build {
 }
 
 type BuildOptions = {
-  project: string;
+  project: Project;
   channelVersion?: string;
   includeExperimental?: boolean;
 };
 
-export async function getAllBuilds(options?: BuildOptions): Promise<Build[]> {
-  const projectConfig =
-    getProjectConfig(options?.project) || getFallbackProject();
-  if (!projectConfig) {
-    throw new JenkinsError("Project not found");
-  }
-  const jobName = projectConfig.jenkinsJob;
+export async function getAllBuilds(options: BuildOptions): Promise<Build[]> {
+  const project = options.project;
 
   const url = new URL(
-    `job/${jobName}/api/json?tree=${encodeURIComponent(jenkinsConfig.treeQuery)}`,
-    jenkinsConfig.baseUrl,
+    `api/json?tree=${encodeURIComponent(jenkinsConfig.treeQuery)}`,
+    project.ciJobUrl,
   );
 
   const res = await fetch(url.toString()).catch(() => {
@@ -118,18 +109,18 @@ export async function getAllBuilds(options?: BuildOptions): Promise<Build[]> {
     .filter((b) => !b.building)
     .map(parseBuild);
 
-  await setCachedBuilds(projectConfig.slug, allBuilds);
+  await setCachedBuilds(project, allBuilds);
 
   return allBuilds.filter(
     (b) =>
-      (!options?.channelVersion ||
+      (!options.channelVersion ||
         b.channelVersion === options.channelVersion) &&
-      (!b.isExperimental || options?.includeExperimental === true),
+      (!b.isExperimental || options.includeExperimental === true),
   );
 }
 
 export async function getLatestBuild(
-  project: string,
+  project: Project,
   channelVersion?: string | undefined,
   includeExperimental = false,
 ): Promise<Build> {
@@ -143,19 +134,14 @@ export async function getLatestBuild(
 }
 
 export function getProjectJavadocUrl(
-  project: string,
-  version: string,
+  project: Project,
+  channelVersion: string,
   build?: string | undefined | null,
 ) {
-  const projectConfig = getProjectConfig(project);
-  // it is guaranteed to exist anyway so this shouldn't ever run
-  if (!projectConfig) {
-    throw new JenkinsError("Project not found");
-  }
-  const baseUrl = projectConfig.javadocBaseUrl;
+  const baseUrl = project.javadocBaseUrl;
   // account for horizon's special versioning scheme
-  if (projectConfig?.slug === "horizon" && build) {
-    return `${baseUrl}/${version}${projectConfig.versionSuffix}.${build}`;
+  if (project.slug === "horizon" && build) {
+    return `${baseUrl}/${channelVersion}${project.versionSuffix}.${build}`;
   }
-  return `${baseUrl}/${version}${projectConfig.versionSuffix}`;
+  return `${baseUrl}/${channelVersion}${project.versionSuffix}`;
 }

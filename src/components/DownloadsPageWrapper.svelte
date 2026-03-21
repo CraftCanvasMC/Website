@@ -2,13 +2,13 @@
   import DownloadsPage from './DownloadsPage.svelte';
   import type { Build } from '../lib/schemas/jenkins';
   import { onMount } from 'svelte';
-  import { jenkinsConfig } from '../config/jenkins';
+  import type { Project } from '../config/jenkins';
   import { Palette } from 'lucide-svelte';
   import { t } from '../lib/i18n';
 
   interface Props {
     redirecting?: boolean;
-    project: string;
+    project: Project;
     hideSculptor?: boolean;
   }
 
@@ -26,7 +26,7 @@
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-      const response = await fetch(jenkinsConfig.baseUrl, {
+      const response = await fetch(project.ciJobUrl, {
         method: 'HEAD',
         signal: controller.signal,
         cache: 'no-store',
@@ -44,7 +44,7 @@
       loading = true;
       error = null;
 
-      const projectParam = `&project=${encodeURIComponent(project)}`
+      const projectParam = `&project=${encodeURIComponent(project.slug)}`
       const response = await fetch(`/api/v2/builds?experimental=true${projectParam}`);
 
       if (!response.ok && response.status !== 503) {

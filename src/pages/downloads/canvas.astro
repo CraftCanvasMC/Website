@@ -5,7 +5,7 @@ import Footer from '../../components/Footer.svelte';
 import GradientBackground from '../../components/ui/GradientBackground.svelte';
 import DownloadsPageContainer from '../../components/DownloadsPageContainer.svelte';
 import ProductDownloadHeader from '../../components/ProductDownloadHeader.svelte';
-import { jenkinsConfig, getProjectConfig } from '../../config/jenkins';
+import { projects } from '../../config/jenkins';
 ---
 
 <Layout>
@@ -17,7 +17,7 @@ import { jenkinsConfig, getProjectConfig } from '../../config/jenkins';
         client:load
         titleKey="downloads.products.canvas.title"
         descriptionKey="downloads.products.canvas.description"
-        downloadHref={`/downloads/latest?project=${encodeURIComponent(getProjectConfig("canvas")!!.slug)}`}
+        downloadHref={`/downloads/latest?project=${encodeURIComponent(projects.canvas.slug)}`}
         sourceHref="https://github.com/CraftCanvasMC/Canvas"
         gradientPattern={`repeating-linear-gradient(
         90deg,
@@ -37,7 +37,7 @@ import { jenkinsConfig, getProjectConfig } from '../../config/jenkins';
       )`}
     />
 
-    <DownloadsPageContainer client:load project={getProjectConfig("canvas")!!.slug} />
+    <DownloadsPageContainer client:load project={projects.canvas} />
   </main>
 
   <Footer slot="footer" client:load />

@@ -29,7 +29,7 @@ export const GET: APIRoute = async ({ params, url }) => {
     const includeExperimental = url.searchParams.get("experimental") === "true";
 
     const builds = await getAllBuilds({
-      project: project.slug,
+      project: project,
       channelVersion: channelVersion,
       includeExperimental,
     });
@@ -50,7 +50,7 @@ export const GET: APIRoute = async ({ params, url }) => {
       },
     );
   } catch (error) {
-    const cachedBuilds = await getCachedBuilds(project.slug, true);
+    const cachedBuilds = await getCachedBuilds(project, true);
 
     if (cachedBuilds && cachedBuilds.length > 0) {
       const isBuilding =

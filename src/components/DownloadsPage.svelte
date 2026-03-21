@@ -10,6 +10,7 @@
   import { onMount } from 'svelte';
   import { scrollReveal, scrollStagger } from '../lib/animations';
   import { t } from '../lib/i18n';
+  import type { Project } from "../config/jenkins.ts";
 
   interface Props {
     buildsByVersion: Record<string, Build[]>;
@@ -18,7 +19,7 @@
     jenkinsDown?: boolean;
     redirecting?: boolean;
     hideSculptor?: boolean;
-    project: string;
+    project: Project;
   }
 
   let {
@@ -54,7 +55,7 @@
   function handleJavadocRedirect() {
     redirecting = true;
     setTimeout(() => {
-      window.location.href = `/api/v2/jd/?channel=${selectedVersion.replace(" (Experimental)", "")}&experimental=false&project=${project}`;
+      window.location.href = `/api/v2/jd/?channel=${selectedVersion.replace(" (Experimental)", "")}&experimental=false&project=${project.slug}`;
     }, 150);
   }
 

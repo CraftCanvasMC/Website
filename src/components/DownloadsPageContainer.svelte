@@ -1,7 +1,8 @@
 <script lang="ts">
     import DownloadsPageWrapper from './DownloadsPageWrapper.svelte';
     import Redirecting from './Redirecting.svelte';
-    interface Props { project: string; hideSculptor?: boolean }
+    import type { Project } from "../config/jenkins.ts";
+    interface Props { project: Project; hideSculptor?: boolean }
 
     let { project, hideSculptor = false }: Props = $props();
 

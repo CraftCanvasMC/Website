@@ -26,7 +26,7 @@ export const GET: APIRoute = async ({ url }) => {
     const includeExperimental = url.searchParams.get("experimental") === "true";
 
     const builds = await getAllBuilds({
-      project: project.slug,
+      project: project,
       channelVersion,
       includeExperimental,
     });

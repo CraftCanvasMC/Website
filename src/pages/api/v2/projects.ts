@@ -9,7 +9,8 @@ export const GET: APIRoute = async () => {
       JSON.stringify({
         projects: Object.values(projects).map((p) => ({
           slug: p.slug,
-          jenkinsJob: p.jenkinsJob,
+          ciJob: p.ciJob,
+          ciJobUrl: p.ciJobUrl,
           javadocBaseUrl: p.javadocBaseUrl,
         })),
       }),

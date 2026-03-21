@@ -19,9 +19,9 @@ export const GET: APIRoute = async ({ url }) => {
 
     let build;
     try {
-      build = await getLatestBuild(project.slug, undefined, false);
+      build = await getLatestBuild(project, undefined, false);
     } catch {
-      const cached = await getCachedBuilds(project.slug);
+      const cached = await getCachedBuilds(project);
       if (!cached || cached.length === 0) {
         return new Response("No builds available", { status: 503 });
       }

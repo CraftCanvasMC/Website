@@ -4,24 +4,32 @@ export const jenkinsConfig = {
     "allBuilds[number,url,displayName,result,timestamp,artifacts[relativePath],changeSet[items[msg,commitId,comment,author[fullName]]]]",
 } as const;
 
+const javadocConfig = {
+  baseUrl: import.meta.env.JAVADOC_BASE_URL || "https://maven.canvasmc.io",
+};
+
 export const projects = {
   canvas: {
     slug: "canvas",
-    jenkinsJob: "Canvas",
+    ciJob: "Canvas",
+    ciJobUrl: jenkinsConfig.baseUrl + "/job/Canvas/",
     javadocBaseUrl:
-      "https://maven.canvasmc.io/javadoc/snapshots/io/canvasmc/canvas/canvas-api",
+      javadocConfig.baseUrl +
+      "/javadoc/snapshots/io/canvasmc/canvas/canvas-api",
     versionSuffix: "-R0.1-SNAPSHOT",
   },
   horizon: {
     slug: "horizon",
-    jenkinsJob: "Horizon",
+    ciJob: "Horizon",
+    ciJobUrl: jenkinsConfig.baseUrl + "/job/Horizon/",
     javadocBaseUrl:
-      "https://maven.canvasmc.io/javadoc/releases/io/canvasmc/horizon/core",
+      javadocConfig.baseUrl + "/javadoc/releases/io/canvasmc/horizon/core",
     versionSuffix: "",
   },
 } as const;
 
 export type ProjectSlug = keyof typeof projects;
+export type Project = NonNullable<(typeof projects)[ProjectSlug]>;
 
 export function getProjectConfig(project: string | undefined | null) {
   if (!project) return null;

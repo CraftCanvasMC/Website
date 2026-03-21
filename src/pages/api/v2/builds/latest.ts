@@ -22,7 +22,7 @@ export const GET: APIRoute = async ({ url }) => {
 
     const channelVersion = extractChannelFromUrl(url);
     const build = await getLatestBuild(
-      project.slug,
+      project,
       channelVersion,
       includeExperimental,
     );

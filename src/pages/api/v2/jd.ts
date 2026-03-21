@@ -32,7 +32,7 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
     const experimentalParam = url.searchParams.get("experimental") === "true";
 
     const build = await getLatestBuild(
-      project.slug,
+      project,
       channelVersion,
       !experimentalParam,
     );
@@ -51,7 +51,7 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
     let jdUrl = "";
     try {
       jdUrl = getProjectJavadocUrl(
-        project.slug,
+        project,
         projectChannel,
         build?.buildNumber.toString(),
       );

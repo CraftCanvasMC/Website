@@ -2,22 +2,23 @@ import type { Build } from "./schemas/jenkins";
 import { writeFile, readFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
+import type { Project } from "../config/jenkins.ts";
 
 interface CacheEntry {
   data: Build[];
   timestamp: number;
 }
 
-const buildCache = new Map<string, CacheEntry | null>();
+const buildCache = new Map<Project, CacheEntry | null>();
 
 const CACHE_DURATION = 5 * 60 * 1000;
 const CACHE_DIR = join(process.cwd(), ".cache");
 
-function getCacheFile(project: string) {
-  return join(CACHE_DIR, `builds-${project}.json`);
+function getCacheFile(project: Project) {
+  return join(CACHE_DIR, `builds-${project.slug}.json`);
 }
 
-async function loadCacheFromDisk(project: string): Promise<CacheEntry | null> {
+async function loadCacheFromDisk(project: Project): Promise<CacheEntry | null> {
   try {
     const cacheFile = getCacheFile(project);
     if (!existsSync(cacheFile)) return null;
@@ -29,7 +30,7 @@ async function loadCacheFromDisk(project: string): Promise<CacheEntry | null> {
 }
 
 async function saveCacheToDisk(
-  project: string,
+  project: Project,
   cache: CacheEntry,
 ): Promise<void> {
   try {
@@ -43,10 +44,9 @@ async function saveCacheToDisk(
 }
 
 export async function getCachedBuilds(
-  project: string,
+  project: Project,
   allowExpired = false,
 ): Promise<Build[] | null> {
-  if (!project) return null;
   if (!buildCache.has(project)) {
     buildCache.set(project, await loadCacheFromDisk(project));
   }
@@ -66,10 +66,9 @@ export async function getCachedBuilds(
 }
 
 export async function setCachedBuilds(
-  project: string,
+  project: Project,
   builds: Build[],
 ): Promise<void> {
-  if (!project) return;
   const cache = {
     data: builds,
     timestamp: Date.now(),
@@ -79,11 +78,10 @@ export async function setCachedBuilds(
   await saveCacheToDisk(project, cache);
 }
 
-export function clearCache(project?: string): void {
-  if (project) {
-    buildCache.delete(project);
-    return;
-  }
+export function clearCache(project: Project) {
+  buildCache.delete(project);
+}
 
+export function clearAllCaches() {
   buildCache.clear();
 }
