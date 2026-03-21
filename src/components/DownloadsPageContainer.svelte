@@ -1,12 +1,12 @@
 <script lang="ts">
-  import DownloadsPageWrapper from './DownloadsPageWrapper.svelte';
-  import Redirecting from './Redirecting.svelte';
-  interface Props { job?: string; hideSculptor?: boolean }
+    import DownloadsPageWrapper from './DownloadsPageWrapper.svelte';
+    import Redirecting from './Redirecting.svelte';
+    interface Props { project: string; hideSculptor?: boolean }
 
-  let { job, hideSculptor = false }: Props = $props();
+    let { project, hideSculptor = false }: Props = $props();
 
-  let redirecting = $state(false);
+    let redirecting = $state(false);
 </script>
 
-<DownloadsPageWrapper bind:redirecting job={job} {hideSculptor} />
+<DownloadsPageWrapper bind:redirecting project={project} {hideSculptor} />
 <Redirecting bind:show={redirecting} target="Javadocs" />

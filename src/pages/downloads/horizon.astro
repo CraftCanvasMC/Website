@@ -15,12 +15,12 @@ import {getProjectConfig} from "../../config/jenkins.ts";
 
   <main class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
     <ProductDownloadHeader
-      client:load
-      titleKey="downloads.products.horizon.title"
-      descriptionKey="downloads.products.horizon.description"
-      downloadHref={`/downloads/latest?job=${encodeURIComponent(getProjectConfig("horizon")?.jenkinsJob)}`}
-      sourceHref="https://github.com/CraftCanvasMC/Horizon"
-      gradientPattern={`repeating-linear-gradient(
+        client:load
+        titleKey="downloads.products.horizon.title"
+        descriptionKey="downloads.products.horizon.description"
+        downloadHref={`/downloads/latest?project=${encodeURIComponent(getProjectConfig("horizon")!!.slug)}`}
+        sourceHref="https://github.com/CraftCanvasMC/Horizon"
+        gradientPattern={`repeating-linear-gradient(
         90deg,
         #ffcc66 0%,
         #ffb347 11%,
@@ -36,7 +36,7 @@ import {getProjectConfig} from "../../config/jenkins.ts";
       )`}
     />
 
-    <DownloadsPageContainer client:load job={getProjectConfig("horizon")?.jenkinsJob} hideSculptor={true} />
+    <DownloadsPageContainer client:load project={getProjectConfig("horizon")!!.slug} hideSculptor={true} />
   </main>
   <Footer slot="footer" client:load />
 </Layout>
