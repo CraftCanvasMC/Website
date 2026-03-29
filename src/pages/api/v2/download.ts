@@ -23,17 +23,22 @@ function isAllowedDownloadUrl(value: string) {
     return false;
   }
 
-  return parsed.pathname.includes("/job/") && parsed.pathname.includes("/artifact/");
+  return (
+    parsed.pathname.includes("/job/") && parsed.pathname.includes("/artifact/")
+  );
 }
 
 export const GET: APIRoute = async ({ url }) => {
   const target = url.searchParams.get("url");
 
   if (!target) {
-    return new Response(JSON.stringify({ error: "Missing url query parameter" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "Missing url query parameter" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 
   if (!isAllowedDownloadUrl(target)) {

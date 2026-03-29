@@ -1,11 +1,11 @@
 import type { APIRoute } from "astro";
 import {
   extractChannelFromUrl,
-  extractVersionFromUrl,
+  extractProjectFromUrl,
   getProjectConfig,
   jenkinsConfig,
-  projects,
   type Project,
+  projects,
 } from "../../../config/jenkins";
 import { getCachedBuilds } from "../../../lib/cache";
 import { getDownloadCounts } from "../../../lib/download-counts";
@@ -29,28 +29,8 @@ type ProjectSummary = {
   error?: string;
 };
 
-function createProjectFromJob(job: string, slugOverride?: string): Project {
-  const ciJob = job.trim();
-  const slug = (slugOverride || ciJob).trim().toLowerCase();
-
-  return {
-    slug,
-    ciJob,
-    ciJobUrl: `${jenkinsConfig.baseUrl}/job/${encodeURIComponent(ciJob)}/`,
-    javadocBaseUrl: "",
-    versionSuffix: "",
-  };
-}
-
 function getDefaultProjectList(): Project[] {
-  const configuredProjects = Object.values(projects) as Project[];
-  const sculptor = createProjectFromJob("Sculptor", "sculptor");
-
-  if (configuredProjects.some((project) => project.slug === sculptor.slug)) {
-    return configuredProjects;
-  }
-
-  return [...configuredProjects, sculptor];
+  return Object.values(projects) as Project[];
 }
 
 function toSummary(
@@ -64,7 +44,9 @@ function toSummary(
   builds: Build[],
   error?: string,
 ): ProjectSummary {
-  const downloadableBuilds = builds.filter((build) => Boolean(build.downloadUrl));
+  const downloadableBuilds = builds.filter((build) =>
+    Boolean(build.downloadUrl),
+  );
   const latestDownloadableBuild = downloadableBuilds[0] ?? null;
 
   return {
@@ -103,23 +85,19 @@ async function countDownloadEvents(project: Project, builds: Build[]) {
 }
 
 export const GET: APIRoute = async ({ url }) => {
-  const channelVersion = extractChannelFromUrl(url) || extractVersionFromUrl(url);
+  const channelVersion = extractChannelFromUrl(url);
   const includeExperimental = url.searchParams.get("experimental") === "true";
 
-  const projectParam = url.searchParams.get("project");
-  const jobParam = url.searchParams.get("job");
+  const projectParam = extractProjectFromUrl(url);
 
   let requestedProjects: Project[];
 
-  if (jobParam) {
-    requestedProjects = [createProjectFromJob(jobParam, projectParam ?? undefined)];
-  } else if (projectParam) {
+  if (projectParam) {
     const configuredProject = getProjectConfig(projectParam);
     if (!configuredProject) {
       return new Response(
         JSON.stringify({
-          error:
-            "Unknown project. Use a configured project slug, or pass job=<Jenkins job name> for future projects.",
+          error: "Unknown project. Use a configured project slug.",
         }),
         {
           status: 404,
@@ -164,12 +142,16 @@ export const GET: APIRoute = async ({ url }) => {
               (includeExperimental &&
                 build.channelVersion === `${channelVersion} (Experimental)`);
 
-            const matchesExperimental = !build.isExperimental || includeExperimental;
+            const matchesExperimental =
+              !build.isExperimental || includeExperimental;
 
             return matchesChannel && matchesExperimental;
           });
 
-          const analytics = await countDownloadEvents(project, filteredCachedBuilds);
+          const analytics = await countDownloadEvents(
+            project,
+            filteredCachedBuilds,
+          );
           const totalDownloads = analytics.totalDownloads;
 
           const isUnreachable =

@@ -26,6 +26,13 @@ export const projects = {
       javadocConfig.baseUrl + "/javadoc/releases/io/canvasmc/horizon/core",
     versionSuffix: "",
   },
+  sculptor: {
+    slug: "sculptor",
+    ciJob: "Sculptor",
+    ciJobUrl: jenkinsConfig.baseUrl + "/job/Sculptor/",
+    javadocBaseUrl: "",
+    versionSuffix: "",
+  },
 } as const;
 
 export type ProjectSlug = keyof typeof projects;
@@ -72,7 +79,9 @@ export function getFallbackProject() {
  */
 export function extractProjectFromJob(url: URL) {
   // to let us better gather usage info
-  console.warn("Legacy extractProjectFromJob was called.");
+  console.warn(
+    `Legacy extractProjectFromJob was called from ${url.toString()}.`,
+  );
   return getProjectConfig(url.searchParams.get("job"));
 }
 
@@ -87,7 +96,9 @@ export function extractProjectFromJobOrFallback(url: URL) {
  * @deprecated Subject to removal in the future.
  */
 export function extractVersionFromUrl(url: URL) {
-  console.warn("Legacy extractVersionFromUrl was called.");
+  console.warn(
+    `Legacy extractVersionFromUrl was called from ${url.toString()}.`,
+  );
   return (
     url.searchParams.get("minecraft_version") ||
     url.searchParams.get("version") ||

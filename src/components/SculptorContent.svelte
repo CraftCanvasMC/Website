@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
   import { Download } from 'lucide-svelte';
   import Button from './ui/Button.svelte';
   import CodeBlock from './ui/CodeBlock.svelte';
@@ -10,6 +12,18 @@
   }
 
   let { selectedVersion, jenkinsDown }: Props = $props();
+
+  const sculptorDownloadUrl = writable<string | undefined>(undefined);
+
+  onMount(async () => {
+    try {
+      const res = await fetch('/api/v2/builds/latest?project=sculptor');
+      const data = await res.json();
+      sculptorDownloadUrl.set(data.downloadUrl);
+    } catch (err) {
+      console.error('Failed to fetch:', err);
+    }
+  });
 </script>
 
 <div class="sculptor-content text-center sm:text-left animate-fade-in">
@@ -28,7 +42,7 @@
           <Download class="size-4" />
           {$t('downloads.unavailable')}
         {:else}
-          <a href="/api/v2/download?url=https%3A%2F%2Fjenkins.canvasmc.io%2Fjob%2FSculptor%2FlastSuccessfulBuild%2Fartifact%2Fbuild%2Flibs%2FSculptor-1.0.0-SNAPSHOT.jar" class="flex items-center gap-2">
+          <a href={$sculptorDownloadUrl} class="flex items-center gap-2">
             <Download class="size-4" />
             {$t('downloads.sculptor.downloadSculptor')}
           </a>
