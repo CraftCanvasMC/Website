@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -26,7 +26,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Check TypeScript
-        run: bun astro check
+        run: bun astro check && bun run typecheck
 
       - name: Build project
         run: bun run build
