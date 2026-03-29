@@ -10,6 +10,8 @@ import {
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  let responseHeaders: Record<string, string>;
   try {
     let fallbackUsed = false;
     const includeExperimental = url.searchParams.get("experimental") === "true";
@@ -22,14 +24,11 @@ export const GET: APIRoute = async ({ url }) => {
     if (!project) {
       return new Response(JSON.stringify({ error: "Unknown project" }), {
         status: 404,
-        headers: { "Content-Type": "application/json" },
+        headers: { ...headers },
       });
     }
 
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-    const responseHeaders = applyDeprecationHeaders(
+    responseHeaders = applyDeprecationHeaders(
       headers,
       fallbackUsed,
       false,
