@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { projects } from "@/config/jenkins.ts";
+import { projects } from "@/config/jenkins";
 
 export const prerender = false;
 

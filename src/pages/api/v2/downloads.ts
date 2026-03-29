@@ -4,7 +4,7 @@ import {
   extractProjectFromUrl,
   type Project,
   projects,
-} from "@/config/jenkins.ts";
+} from "@/config/jenkins";
 import { getCachedBuilds } from "@/lib/cache";
 import { getDownloadCounts } from "@/lib/download-counts";
 import { getAllBuilds, JenkinsError } from "@/lib/jenkins";

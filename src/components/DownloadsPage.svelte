@@ -10,7 +10,7 @@
   import { onMount } from 'svelte';
   import { scrollReveal } from '@/lib/animations';
   import { t } from '@/lib/i18n';
-  import type { Project } from "@/config/jenkins.ts";
+  import type { Project } from "@/config/jenkins";
 
   interface Props {
     buildsByVersion: Record<string, Build[]>;

@@ -1,10 +1,10 @@
 import type { APIRoute } from "astro";
-import { JenkinsError, getLatestBuild } from "@/lib/jenkins.ts";
+import { JenkinsError, getLatestBuild } from "@/lib/jenkins";
 import {
   extractChannelFromUrl,
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
-} from "@/config/jenkins.ts";
+} from "@/config/jenkins";
 
 export const prerender = false;
 

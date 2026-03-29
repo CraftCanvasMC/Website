@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
-import { jenkinsConfig } from "@/config/jenkins.ts";
-import { incrementDownloadCount } from "@/lib/download-counts.ts";
+import { jenkinsConfig } from "@/config/jenkins";
+import { incrementDownloadCount } from "@/lib/download-counts";
 
 export const prerender = false;
 
