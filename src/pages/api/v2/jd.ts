@@ -5,6 +5,7 @@ import {
   getProjectJavadocUrl,
 } from "../../../lib/jenkins";
 import {
+  applyDeprecationHeaders,
   extractChannelFromUrl,
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
@@ -15,10 +16,17 @@ import {
 export const prerender = false;
 
 export const GET: APIRoute = async ({ params, url, redirect }) => {
+  let fallbackUsed = false;
+  let fallbackVersionUsed = false;
+
   const defaultProject = getProjectConfig(params.project);
-  const projectParam =
-    extractProjectFromUrl(url) || extractProjectFromJobOrFallback(url);
-  const project = defaultProject || projectParam;
+  const project =
+    defaultProject ||
+    extractProjectFromUrl(url) ||
+    (() => {
+      fallbackUsed = true;
+      return extractProjectFromJobOrFallback(url);
+    })();
   if (!project) {
     return new Response(JSON.stringify({ error: "Unknown project" }), {
       status: 404,
@@ -28,13 +36,27 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
 
   try {
     const channelVersion =
-      extractChannelFromUrl(url) || extractVersionFromUrl(url);
+      extractChannelFromUrl(url) ||
+      (() => {
+        const v = extractVersionFromUrl(url);
+        if (v) fallbackVersionUsed = true;
+        return v;
+      })();
     const experimentalParam = url.searchParams.get("experimental") === "true";
 
     const build = await getLatestBuild(
       project,
       channelVersion,
       !experimentalParam,
+    );
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    const responseHeaders = applyDeprecationHeaders(
+      headers,
+      fallbackUsed,
+      fallbackVersionUsed,
     );
 
     const projectChannel = channelVersion ?? build?.channelVersion;
@@ -44,7 +66,7 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
         JSON.stringify({ error: "No channel version found" }),
         {
           status: 404,
-          headers: { "Content-Type": "application/json" },
+          headers: { ...responseHeaders },
         },
       );
     }
@@ -59,7 +81,7 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
       if (error instanceof JenkinsError) {
         return new Response(JSON.stringify({ error: error.message }), {
           status: 404,
-          headers: { "Content-Type": "application/json" },
+          headers: { ...responseHeaders },
         });
       }
     }
@@ -69,14 +91,14 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
     if (error instanceof JenkinsError) {
       return new Response(JSON.stringify({ error: error.message }), {
         status: 400,
-        headers: { "Content-Type": "application/json" },
+        headers: { ...responseHeaders },
       });
     }
 
     console.error(error);
     return new Response(JSON.stringify({ error: "Internal server error" }), {
       status: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: { ...responseHeaders },
     });
   }
 };

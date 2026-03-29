@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { JenkinsError, getLatestBuild } from "../../../../lib/jenkins";
 import {
+  applyDeprecationHeaders,
   extractChannelFromUrl,
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
@@ -10,15 +11,29 @@ export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
   try {
+    let fallbackUsed = false;
     const includeExperimental = url.searchParams.get("experimental") === "true";
     const project =
-      extractProjectFromUrl(url) || extractProjectFromJobOrFallback(url);
+      extractProjectFromUrl(url) ||
+      (() => {
+        fallbackUsed = true;
+        return extractProjectFromJobOrFallback(url);
+      })();
     if (!project) {
       return new Response(JSON.stringify({ error: "Unknown project" }), {
         status: 404,
         headers: { "Content-Type": "application/json" },
       });
     }
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    const responseHeaders = applyDeprecationHeaders(
+      headers,
+      fallbackUsed,
+      false,
+    );
 
     const channelVersion = extractChannelFromUrl(url);
     const build = await getLatestBuild(
@@ -30,7 +45,7 @@ export const GET: APIRoute = async ({ url }) => {
     return new Response(JSON.stringify(build), {
       status: 200,
       headers: {
-        "Content-Type": "application/json",
+        ...responseHeaders,
         "Cache-Control": "public, s-maxage=600, stale-while-revalidate=300",
       },
     });
@@ -38,14 +53,14 @@ export const GET: APIRoute = async ({ url }) => {
     if (error instanceof JenkinsError) {
       return new Response(JSON.stringify({ error: error.message }), {
         status: 400,
-        headers: { "Content-Type": "application/json" },
+        headers: { ...responseHeaders },
       });
     }
 
     console.error(error);
     return new Response(JSON.stringify({ error: "Internal server error" }), {
       status: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: { ...responseHeaders },
     });
   }
 };
