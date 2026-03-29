@@ -88,26 +88,24 @@ export const GET: APIRoute = async ({ url }) => {
   const channelVersion = extractChannelFromUrl(url);
   const includeExperimental = url.searchParams.get("experimental") === "true";
 
-  const projectParam = extractProjectFromUrl(url);
+  const configuredProject = extractProjectFromUrl(url);
 
   let requestedProjects: Project[];
 
-  if (projectParam) {
-    const configuredProject = getProjectConfig(projectParam);
-    if (!configuredProject) {
-      return new Response(
-        JSON.stringify({
-          error: "Unknown project. Use a configured project slug.",
-        }),
-        {
-          status: 404,
-          headers: { "Content-Type": "application/json" },
-        },
-      );
-    }
+  if (configuredProject) {
     requestedProjects = [configuredProject];
-  } else {
+  } else if (!url.searchParams.has("project")) {
     requestedProjects = getDefaultProjectList();
+  } else {
+    return new Response(
+      JSON.stringify({
+        error: "Unknown project. Use a configured project slug.",
+      }),
+      {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 
   const summaries = await Promise.all(
