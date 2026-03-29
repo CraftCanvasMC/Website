@@ -28,7 +28,7 @@
           <Download class="size-4" />
           {$t('downloads.unavailable')}
         {:else}
-          <a href="https://jenkins.canvasmc.io/job/Sculptor/lastSuccessfulBuild/artifact/build/libs/Sculptor-1.0.0-SNAPSHOT.jar" download class="flex items-center gap-2">
+          <a href="/api/v2/download?url=https%3A%2F%2Fjenkins.canvasmc.io%2Fjob%2FSculptor%2FlastSuccessfulBuild%2Fartifact%2Fbuild%2Flibs%2FSculptor-1.0.0-SNAPSHOT.jar" class="flex items-center gap-2">
             <Download class="size-4" />
             {$t('downloads.sculptor.downloadSculptor')}
           </a>

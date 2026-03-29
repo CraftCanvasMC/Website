@@ -29,7 +29,14 @@ export const projects = {
 } as const;
 
 export type ProjectSlug = keyof typeof projects;
-export type Project = NonNullable<(typeof projects)[ProjectSlug]>;
+
+export interface Project {
+  slug: string;
+  ciJob: string;
+  ciJobUrl: string;
+  javadocBaseUrl: string;
+  versionSuffix: string;
+}
 
 export function getProjectConfig(project: string | undefined | null) {
   if (!project) return null;

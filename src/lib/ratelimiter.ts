@@ -58,6 +58,8 @@ export const apiRateLimiter = new RateLimiter({
     "/api/v2/builds",
     "/api/v2/builds/all",
     "/api/v2/builds/latest",
+    "/api/v2/download",
+    "/api/v2/downloads",
     "/api/v2/jd",
   ],
   limit: 100,

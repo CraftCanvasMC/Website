@@ -15,6 +15,11 @@
 
   let { build, isLatest, dateFormatter }: Props = $props();
   let rowElement: HTMLDivElement | undefined = $state();
+  const trackedDownloadUrl = $derived(
+    build.downloadUrl
+      ? `/api/v2/download?url=${encodeURIComponent(build.downloadUrl)}`
+      : null,
+  );
 
   const formattedDate = $derived(dateFormatter.format(new Date(build.timestamp)).replace(',', ''));
   
@@ -125,7 +130,7 @@
   >
     {#snippet children()}
       {#if build.downloadUrl}
-        <a href={build.downloadUrl} download class="inline-flex items-center gap-2">
+        <a href={trackedDownloadUrl || '#'} class="inline-flex items-center gap-2">
           <Download class="size-4" />
           {$t('downloads.download')}
         </a>
