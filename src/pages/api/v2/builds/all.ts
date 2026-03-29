@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { JenkinsError, getAllBuilds } from "@/lib/jenkins";
 import { getCachedBuilds } from "@/lib/cache";
 import {
+  applyDeprecationHeaders,
   extractChannelFromUrl,
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
@@ -11,8 +12,15 @@ import {
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
+  let fallbackUsed = false;
+  let fallbackVersionUsed = false;
+
   const project =
-    extractProjectFromUrl(url) || extractProjectFromJobOrFallback(url);
+    extractProjectFromUrl(url) ||
+    (() => {
+      fallbackUsed = true;
+      return extractProjectFromJobOrFallback(url);
+    })();
   if (!project) {
     return new Response(JSON.stringify({ error: "Unknown project" }), {
       status: 404,
@@ -22,7 +30,12 @@ export const GET: APIRoute = async ({ url }) => {
 
   try {
     const channelVersion =
-      extractChannelFromUrl(url) || extractVersionFromUrl(url);
+      extractChannelFromUrl(url) ||
+      (() => {
+        const v = extractVersionFromUrl(url);
+        if (v) fallbackVersionUsed = true;
+        return v;
+      })();
     const includeExperimental = url.searchParams.get("experimental") === "true";
 
     const builds = await getAllBuilds({
@@ -30,6 +43,15 @@ export const GET: APIRoute = async ({ url }) => {
       channelVersion,
       includeExperimental,
     });
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    const responseHeaders = applyDeprecationHeaders(
+      headers,
+      fallbackUsed,
+      fallbackVersionUsed,
+    );
 
     return new Response(
       JSON.stringify({
@@ -40,7 +62,7 @@ export const GET: APIRoute = async ({ url }) => {
       {
         status: 200,
         headers: {
-          "Content-Type": "application/json",
+          ...responseHeaders,
           "Cache-Control": "public, s-maxage=600, stale-while-revalidate=300",
         },
       },
@@ -68,7 +90,7 @@ export const GET: APIRoute = async ({ url }) => {
         {
           status: 200,
           headers: {
-            "Content-Type": "application/json",
+            ...responseHeaders,
             "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30",
             "X-Cache-Status": "HIT",
           },
@@ -85,7 +107,7 @@ export const GET: APIRoute = async ({ url }) => {
         }),
         {
           status: 503,
-          headers: { "Content-Type": "application/json" },
+          headers: { ...responseHeaders },
         },
       );
     }
@@ -99,7 +121,7 @@ export const GET: APIRoute = async ({ url }) => {
       }),
       {
         status: 500,
-        headers: { "Content-Type": "application/json" },
+        headers: { ...responseHeaders },
       },
     );
   }
