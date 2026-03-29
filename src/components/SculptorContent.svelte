@@ -42,7 +42,7 @@
           <Download class="size-4" />
           {$t('downloads.unavailable')}
         {:else}
-          <a href={$sculptorDownloadUrl} class="flex items-center gap-2">
+          <a href="/api/v2/download?url={encodeURIComponent($sculptorDownloadUrl)}" class="flex items-center gap-2">
             <Download class="size-4" />
             {$t('downloads.sculptor.downloadSculptor')}
           </a>
