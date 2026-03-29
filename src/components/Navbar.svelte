@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ExternalLink, Menu, X } from 'lucide-svelte';
-  import { siteConfig } from '../config/site';
+  import { siteConfig } from '@/config/site';
   import GithubIcon from './icons/GithubIcon.svelte';
   import DiscordIcon from './icons/DiscordIcon.svelte';
   import DonateIcon from './icons/DonateIcon.svelte';
@@ -8,8 +8,8 @@
   import ThemeToggle from './ThemeToggle.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
   import gsap from 'gsap';
-  import { hoverLift } from '../lib/animations';
-  import { t } from '../lib/i18n';
+  import { hoverLift } from '@/lib/animations';
+  import { t } from '@/lib/i18n';
 
   interface NavbarItem {
     href: string;

@@ -2,7 +2,7 @@ import type { Build } from "./schemas/jenkins";
 import { writeFile, readFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import type { Project } from "../config/jenkins.ts";
+import type { Project } from "@/config/jenkins";
 
 interface CacheEntry {
   data: Build[];

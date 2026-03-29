@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { t } from '../lib/i18n';
-  import { hoverScale } from '../lib/animations';
+  import { t } from '@/lib/i18n';
+  import { hoverScale } from '@/lib/animations';
 </script>
 
 <section class="max-w-5xl mx-auto">

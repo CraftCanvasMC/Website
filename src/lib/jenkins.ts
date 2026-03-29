@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { jenkinsConfig, type Project } from "../config/jenkins";
+import { jenkinsConfig, type Project } from "@/config/jenkins";
 import {
   type Build,
   type JenkinsBuild,

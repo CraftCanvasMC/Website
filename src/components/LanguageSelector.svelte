@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Languages } from 'lucide-svelte';
-  import { currentLanguage, setLanguage, LANGUAGES } from '../lib/i18n';
+  import { currentLanguage, setLanguage, LANGUAGES } from '@/lib/i18n';
   import { onMount } from 'svelte';
 
   interface Props {

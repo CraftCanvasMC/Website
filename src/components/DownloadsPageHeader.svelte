@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { t } from '../lib/i18n';
+  import { t } from '@/lib/i18n';
 </script>
 
 <header class="max-w-2xl text-center mx-auto mb-12 scroll-animate-header">

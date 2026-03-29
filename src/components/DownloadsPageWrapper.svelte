@@ -1,10 +1,10 @@
 <script lang="ts">
   import DownloadsPage from './DownloadsPage.svelte';
-  import type { Build } from '../lib/schemas/jenkins';
+  import type { Build } from '@/lib/schemas/jenkins';
   import { onMount } from 'svelte';
-  import type { Project } from '../config/jenkins';
+  import type { Project } from '@/config/jenkins';
   import { Palette } from 'lucide-svelte';
-  import { t } from '../lib/i18n';
+  import { t } from '@/lib/i18n';
 
   interface Props {
     redirecting?: boolean;

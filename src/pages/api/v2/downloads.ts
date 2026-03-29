@@ -2,15 +2,13 @@ import type { APIRoute } from "astro";
 import {
   extractChannelFromUrl,
   extractProjectFromUrl,
-  getProjectConfig,
-  jenkinsConfig,
   type Project,
   projects,
-} from "../../../config/jenkins";
-import { getCachedBuilds } from "../../../lib/cache";
-import { getDownloadCounts } from "../../../lib/download-counts";
-import { getAllBuilds, JenkinsError } from "../../../lib/jenkins";
-import type { Build } from "../../../lib/schemas/jenkins";
+} from "@/config/jenkins.ts";
+import { getCachedBuilds } from "@/lib/cache";
+import { getDownloadCounts } from "@/lib/download-counts";
+import { getAllBuilds, JenkinsError } from "@/lib/jenkins";
+import type { Build } from "@/lib/schemas/jenkins";
 
 export const prerender = false;
 

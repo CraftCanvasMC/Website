@@ -4,7 +4,7 @@
   import { Download } from 'lucide-svelte';
   import Button from './ui/Button.svelte';
   import CodeBlock from './ui/CodeBlock.svelte';
-  import { t } from '../lib/i18n';
+  import { t } from '@/lib/i18n';
 
   interface Props {
     selectedVersion: string;

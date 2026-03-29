@@ -1,11 +1,11 @@
 <script lang="ts">
   import { Heart } from 'lucide-svelte';
-  import { jenkinsConfig } from '../config/jenkins';
-  import { siteConfig } from '../config/site';
+  import { jenkinsConfig } from '@/config/jenkins';
+  import { siteConfig } from '@/config/site';
   import GithubIcon from './icons/GithubIcon.svelte';
   import DiscordIcon from './icons/DiscordIcon.svelte';
-  import { hoverLift } from '../lib/animations';
-  import { t } from '../lib/i18n';
+  import { hoverLift } from '@/lib/animations';
+  import { t } from '@/lib/i18n';
 
   const LINKS = {
     projectDev: [

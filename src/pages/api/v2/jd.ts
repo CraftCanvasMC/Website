@@ -3,14 +3,14 @@ import {
   JenkinsError,
   getLatestBuild,
   getProjectJavadocUrl,
-} from "../../../lib/jenkins";
+} from "@/lib/jenkins.ts";
 import {
   extractChannelFromUrl,
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
   extractVersionFromUrl,
   getProjectConfig,
-} from "../../../config/jenkins";
+} from "@/config/jenkins.ts";
 
 export const prerender = false;
 

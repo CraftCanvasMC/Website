@@ -1,13 +1,13 @@
 import type { APIRoute } from "astro";
-import { JenkinsError, getAllBuilds } from "../../../lib/jenkins";
-import { getCachedBuilds } from "../../../lib/cache";
+import { JenkinsError, getAllBuilds } from "@/lib/jenkins.ts";
+import { getCachedBuilds } from "@/lib/cache.ts";
 import {
   extractChannelFromUrl,
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
   extractVersionFromUrl,
   getProjectConfig,
-} from "../../../config/jenkins";
+} from "@/config/jenkins.ts";
 
 export const prerender = false;
 

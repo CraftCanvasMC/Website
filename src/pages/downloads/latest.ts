@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
-import { getLatestBuild } from "../../lib/jenkins";
-import { getCachedBuilds } from "../../lib/cache";
-import { incrementDownloadCount } from "../../lib/download-counts";
+import { getLatestBuild } from "@/lib/jenkins.ts";
+import { getCachedBuilds } from "@/lib/cache.ts";
+import { incrementDownloadCount } from "@/lib/download-counts.ts";
 import {
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,

@@ -5,12 +5,12 @@
   import Select from './ui/Select.svelte';
   import BuildRow from './BuildRow.svelte';
   import SculptorContent from './SculptorContent.svelte';
-  import type { Build } from '../lib/schemas/jenkins';
+  import type { Build } from '@/lib/schemas/jenkins';
   import gsap from 'gsap';
   import { onMount } from 'svelte';
-  import { scrollReveal, scrollStagger } from '../lib/animations';
-  import { t } from '../lib/i18n';
-  import type { Project } from "../config/jenkins.ts";
+  import { scrollReveal } from '@/lib/animations';
+  import { t } from '@/lib/i18n';
+  import type { Project } from "@/config/jenkins.ts";
 
   interface Props {
     buildsByVersion: Record<string, Build[]>;

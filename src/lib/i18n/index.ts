@@ -1,4 +1,4 @@
-import { writable, derived, get } from "svelte/store";
+import { writable, derived } from "svelte/store";
 import enTranslations from "./translations/en";
 import plTranslations from "./translations/pl";
 import trTranslations from "./translations/tr";
