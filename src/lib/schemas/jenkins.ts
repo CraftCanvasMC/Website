@@ -21,7 +21,7 @@ export const JenkinsBuildSchema = z.object({
                 fullName: z.string(),
               })
               .optional(),
-          }),
+          })
         )
         .optional(),
     })
@@ -44,7 +44,7 @@ export const BuildSchema = z.object({
       extraDescription: z.string().nullable(),
       hash: z.string().nullable(),
       author: z.string().nullable(),
-    }),
+    })
   ),
 });
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { ChevronDown } from 'lucide-svelte';
-  
+  import { ChevronDown } from "lucide-svelte";
+
   interface Props {
     value: string;
     onValueChange: (value: string) => void;
@@ -9,10 +9,18 @@
     class?: string;
   }
 
-  let { value, onValueChange, options, placeholder = 'Select...', class: className = '' }: Props = $props();
-  
+  let {
+    value,
+    onValueChange,
+    options,
+    placeholder = "Select...",
+    class: className = "",
+  }: Props = $props();
+
   let isOpen = $state(false);
-  let selectedLabel = $derived(options.find(opt => opt.value === value)?.label || placeholder);
+  let selectedLabel = $derived(
+    options.find((opt) => opt.value === value)?.label || placeholder
+  );
 
   function handleSelect(optionValue: string) {
     onValueChange(optionValue);
@@ -21,15 +29,15 @@
 
   function handleClickOutside(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    if (!target.closest('.select-container')) {
+    if (!target.closest(".select-container")) {
       isOpen = false;
     }
   }
 
   $effect(() => {
     if (isOpen) {
-      document.addEventListener('click', handleClickOutside);
-      return () => document.removeEventListener('click', handleClickOutside);
+      document.addEventListener("click", handleClickOutside);
+      return () => document.removeEventListener("click", handleClickOutside);
     }
   });
 </script>
@@ -51,7 +59,7 @@
       class="absolute z-50 mt-1 max-h-96 w-full overflow-auto rounded-md border border-neutral-800 bg-neutral-900 text-neutral-200 shadow-md animate-in fade-in-0 zoom-in-95"
     >
       <div class="p-1">
-        {#each options as option}
+        {#each options as option (option.value)}
           <button
             type="button"
             onclick={() => handleSelect(option.value)}
@@ -85,6 +93,8 @@
   }
 
   .animate-in {
-    animation: fadeIn 0.15s ease-out, zoomIn 0.15s ease-out;
+    animation:
+      fadeIn 0.15s ease-out,
+      zoomIn 0.15s ease-out;
   }
 </style>

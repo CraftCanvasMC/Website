@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { GitCommit, ChevronRight } from 'lucide-svelte';
-  import { t } from '../lib/i18n';
+  import { GitCommit, ChevronRight } from "lucide-svelte";
+  import { t } from "../lib/i18n";
 
   interface Props {
     commit: {
@@ -33,20 +33,25 @@
         <button
           onclick={() => (isOpen = !isOpen)}
           class="text-neutral-500 hover:text-neutral-300 transition-colors"
-          title={isOpen ? 'Hide details' : 'Show details'}
+          title={isOpen ? "Hide details" : "Show details"}
           aria-expanded={isOpen}
         >
           <ChevronRight
-            class="size-4 transition-transform duration-200 {isOpen ? 'rotate-90' : ''}"
+            class="size-4 transition-transform duration-200 {isOpen
+              ? 'rotate-90'
+              : ''}"
           />
         </button>
       {/if}
     </div>
     <p class="break-words text-neutral-300 text-sm mt-1">
-      {commit.message || 'No commit message'}
+      {commit.message || "No commit message"}
     </p>
     {#if commit.author}
-      <p class="text-neutral-500 text-xs mt-1">{$t('common.by')} {commit.author}</p>
+      <p class="text-neutral-500 text-xs mt-1">
+        {$t("common.by")}
+        {commit.author}
+      </p>
     {/if}
   </div>
 
@@ -63,9 +68,11 @@
     </a>
 
     <p class="min-w-0 break-words text-neutral-300 text-sm flex-1">
-      {commit.message || 'No commit message'}
+      {commit.message || "No commit message"}
       {#if commit.author}
-        <span class="text-neutral-500 text-xs ml-1">{$t('common.by')} {commit.author}</span>
+        <span class="text-neutral-500 text-xs ml-1"
+          >{$t("common.by")} {commit.author}</span
+        >
       {/if}
     </p>
 
@@ -73,11 +80,13 @@
       <button
         onclick={() => (isOpen = !isOpen)}
         class="ml-1 text-neutral-500 hover:text-neutral-300 transition-colors"
-        title={isOpen ? 'Hide details' : 'Show details'}
+        title={isOpen ? "Hide details" : "Show details"}
         aria-expanded={isOpen}
       >
         <ChevronRight
-          class="size-4 transition-transform duration-200 {isOpen ? 'rotate-90' : ''}"
+          class="size-4 transition-transform duration-200 {isOpen
+            ? 'rotate-90'
+            : ''}"
         />
       </button>
     {/if}
@@ -85,10 +94,14 @@
 
   {#if commit.extraDescription}
     <div
-      class="overflow-hidden transition-all duration-200 {isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}"
+      class="overflow-hidden transition-all duration-200 {isOpen
+        ? 'max-h-96 opacity-100'
+        : 'max-h-0 opacity-0'}"
     >
-      <div class="pl-6 text-sm text-neutral-400 border-l border-neutral-700 whitespace-pre-wrap font-mono">
-        {commit.extraDescription.replace(/^\n/, '')}
+      <div
+        class="pl-6 text-sm text-neutral-400 border-l border-neutral-700 whitespace-pre-wrap font-mono"
+      >
+        {commit.extraDescription.replace(/^\n/, "")}
       </div>
     </div>
   {/if}

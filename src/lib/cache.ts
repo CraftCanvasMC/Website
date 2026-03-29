@@ -1,8 +1,8 @@
-import type { Build } from "./schemas/jenkins";
-import { writeFile, readFile, mkdir } from "node:fs/promises";
-import { existsSync } from "node:fs";
-import { join } from "node:path";
 import type { Project } from "@/config/jenkins";
+import { existsSync } from "node:fs";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import type { Build } from "./schemas/jenkins";
 
 interface CacheEntry {
   data: Build[];
@@ -31,7 +31,7 @@ async function loadCacheFromDisk(project: Project): Promise<CacheEntry | null> {
 
 async function saveCacheToDisk(
   project: Project,
-  cache: CacheEntry,
+  cache: CacheEntry
 ): Promise<void> {
   try {
     if (!existsSync(CACHE_DIR)) {
@@ -45,7 +45,7 @@ async function saveCacheToDisk(
 
 export async function getCachedBuilds(
   project: Project,
-  allowExpired = false,
+  allowExpired = false
 ): Promise<Build[] | null> {
   if (!buildCache.has(project)) {
     buildCache.set(project, await loadCacheFromDisk(project));
@@ -67,7 +67,7 @@ export async function getCachedBuilds(
 
 export async function setCachedBuilds(
   project: Project,
-  builds: Build[],
+  builds: Build[]
 ): Promise<void> {
   const cache = {
     data: builds,

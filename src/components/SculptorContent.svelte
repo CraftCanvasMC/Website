@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { writable } from 'svelte/store';
-  import { Download } from 'lucide-svelte';
-  import Button from './ui/Button.svelte';
-  import CodeBlock from './ui/CodeBlock.svelte';
-  import { t } from '@/lib/i18n';
+  import { onMount } from "svelte";
+  import { writable } from "svelte/store";
+  import { Download } from "lucide-svelte";
+  import Button from "./ui/Button.svelte";
+  import CodeBlock from "./ui/CodeBlock.svelte";
+  import { t } from "@/lib/i18n";
 
   interface Props {
     selectedVersion: string;
@@ -17,64 +17,94 @@
 
   onMount(async () => {
     try {
-      const res = await fetch('/api/v2/builds/latest?project=sculptor');
+      const res = await fetch("/api/v2/builds/latest?project=sculptor");
       const data = await res.json();
       sculptorDownloadUrl.set(data.downloadUrl);
     } catch (err) {
-      console.error('Failed to fetch:', err);
+      console.error("Failed to fetch:", err);
     }
   });
 </script>
 
 <div class="sculptor-content text-center sm:text-left animate-fade-in">
-  <h2 class="text-xl font-semibold mb-2 text-center">{$t('downloads.sculptor.title')}</h2>
+  <h2 class="text-xl font-semibold mb-2 text-center">
+    {$t("downloads.sculptor.title")}
+  </h2>
   <p class="text-sm text-neutral-400 max-w-2xl mx-auto">
-    {$t('downloads.sculptor.description')}
+    {$t("downloads.sculptor.description")}
   </p>
 
   <div class="mt-6 text-center">
-    <Button 
+    <Button
       disabled={jenkinsDown}
       class="inline-flex items-center gap-2 px-6 py-2"
     >
-      {#snippet children()}
-        {#if jenkinsDown}
+      {#if jenkinsDown}
+        <Download class="size-4" />
+        {$t("downloads.unavailable")}
+      {:else}
+        <a
+          href="/api/v2/download?url={encodeURIComponent($sculptorDownloadUrl)}"
+          class="flex items-center gap-2"
+        >
           <Download class="size-4" />
-          {$t('downloads.unavailable')}
-        {:else}
-          <a href="/api/v2/download?url={encodeURIComponent($sculptorDownloadUrl)}" class="flex items-center gap-2">
-            <Download class="size-4" />
-            {$t('downloads.sculptor.downloadSculptor')}
-          </a>
-        {/if}
-      {/snippet}
+          {$t("downloads.sculptor.downloadSculptor")}
+        </a>
+      {/if}
     </Button>
   </div>
 
   <div class="mt-8 text-left">
-    <h3 class="text-lg font-semibold mb-3 text-neutral-200">{$t('downloads.sculptor.exampleUsage')}</h3>
-    <CodeBlock language="cmd" code={`$ java -Dsculptor.minecraftVersion=${selectedVersion} -Dsculptor.includeExperimental=true -jar sculptor.jar`} />
+    <h3 class="text-lg font-semibold mb-3 text-neutral-200">
+      {$t("downloads.sculptor.exampleUsage")}
+    </h3>
+    <CodeBlock
+      language="cmd"
+      code={`$ java -Dsculptor.minecraftVersion=${selectedVersion} -Dsculptor.includeExperimental=true -jar sculptor.jar`}
+    />
   </div>
 
   <div class="mt-8 text-left">
-    <h3 class="text-lg font-semibold mb-3 text-neutral-200">{$t('downloads.sculptor.argumentsExplained')}</h3>
+    <h3 class="text-lg font-semibold mb-3 text-neutral-200">
+      {$t("downloads.sculptor.argumentsExplained")}
+    </h3>
     <ul class="list-disc pl-6 space-y-2 text-sm text-neutral-300">
       <li>
-        <code class="text-neutral-100">{$t('downloads.sculptor.args.channelVersion.name')}</code> — <br />
+        <code class="text-neutral-100"
+          >{$t("downloads.sculptor.args.channelVersion.name")}</code
+        >
+        — <br />
         <span class="text-neutral-400">
-          <strong>{$t('downloads.sculptor.args.channelVersion.required')}</strong> {$t('downloads.sculptor.args.channelVersion.description')}
+          <strong
+            >{$t("downloads.sculptor.args.channelVersion.required")}</strong
+          >
+          {$t("downloads.sculptor.args.channelVersion.description")}
         </span>
       </li>
       <li>
-        <code class="text-neutral-100">{$t('downloads.sculptor.args.includeExperimental.name')}</code> — <br />
+        <code class="text-neutral-100"
+          >{$t("downloads.sculptor.args.includeExperimental.name")}</code
+        >
+        — <br />
         <span class="text-neutral-400">
-          <strong>{$t('downloads.sculptor.args.includeExperimental.required')}</strong> {$t('downloads.sculptor.args.includeExperimental.description')}
+          <strong
+            >{$t(
+              "downloads.sculptor.args.includeExperimental.required"
+            )}</strong
+          >
+          {$t("downloads.sculptor.args.includeExperimental.description")}
         </span>
       </li>
       <li>
-        <code class="text-neutral-100">{$t('downloads.sculptor.args.serverFileName.name')}</code> — <br />
+        <code class="text-neutral-100"
+          >{$t("downloads.sculptor.args.serverFileName.name")}</code
+        >
+        — <br />
         <span class="text-neutral-400">
-          <strong>{$t('downloads.sculptor.args.serverFileName.required')}</strong> {$t('downloads.sculptor.args.serverFileName.description')}
+          <strong
+            >{$t("downloads.sculptor.args.serverFileName.required")}</strong
+          >
+          {$t("downloads.sculptor.args.serverFileName.description")}
         </span>
       </li>
     </ul>

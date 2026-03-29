@@ -1,5 +1,5 @@
 {
-  "name": "apparent-axis",
+  "name": "canvasmc-website",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -8,6 +8,9 @@
     "start": "astro preview --port 3000",
     "astro": "astro",
     "format": "prettier --write .",
+    "lint:eslint": "eslint . --cache",
+    "lint:prettier": "prettier --check .",
+    "lint": "bun run lint:eslint && bun run lint:prettier",
     "typecheck": "bun astro sync && tsc --noEmit"
   },
   "dependencies": {
@@ -30,8 +33,18 @@
   },
   "devDependencies": {
     "@types/node": "^25.5.0",
-    "prettier": "^3.6.2",
+    "@typescript-eslint/eslint-plugin": "^8.57.2",
+    "@typescript-eslint/parser": "^8.57.2",
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "^1.6.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-svelte": "^3.16.0",
+    "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-svelte": "^3.4.0"
+    "prettier-plugin-organize-imports": "^4.3.0",
+    "prettier-plugin-svelte": "^3.5.1",
+    "svelte-eslint-parser": "^1.6.0",
+    "typescript-eslint": "^8.57.2"
   }
 }

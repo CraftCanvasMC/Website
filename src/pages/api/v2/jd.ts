@@ -1,9 +1,3 @@
-import type { APIRoute } from "astro";
-import {
-  JenkinsError,
-  getLatestBuild,
-  getProjectJavadocUrl,
-} from "@/lib/jenkins";
 import {
   applyDeprecationHeaders,
   extractChannelFromUrl,
@@ -12,6 +6,12 @@ import {
   extractVersionFromUrl,
   getProjectConfig,
 } from "@/config/jenkins";
+import {
+  JenkinsError,
+  getLatestBuild,
+  getProjectJavadocUrl,
+} from "@/lib/jenkins";
+import type { APIRoute } from "astro";
 
 export const prerender = false;
 
@@ -51,13 +51,13 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
     const build = await getLatestBuild(
       project,
       channelVersion,
-      !experimentalParam,
+      !experimentalParam
     );
 
     responseHeaders = applyDeprecationHeaders(
       headers,
       fallbackUsed,
-      fallbackVersionUsed,
+      fallbackVersionUsed
     );
 
     const projectChannel = channelVersion ?? build?.channelVersion;
@@ -68,7 +68,7 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
         {
           status: 404,
           headers: { ...responseHeaders },
-        },
+        }
       );
     }
     let jdUrl = "";
@@ -76,7 +76,7 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
       jdUrl = getProjectJavadocUrl(
         project,
         projectChannel,
-        build?.buildNumber.toString(),
+        build?.buildNumber.toString()
       );
     } catch (error) {
       if (error instanceof JenkinsError) {

@@ -1,11 +1,11 @@
-import type { APIRoute } from "astro";
-import { JenkinsError, getLatestBuild } from "@/lib/jenkins";
 import {
   applyDeprecationHeaders,
   extractChannelFromUrl,
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
 } from "@/config/jenkins";
+import { JenkinsError, getLatestBuild } from "@/lib/jenkins";
+import type { APIRoute } from "astro";
 
 export const prerender = false;
 
@@ -36,7 +36,7 @@ export const GET: APIRoute = async ({ url }) => {
     const build = await getLatestBuild(
       project,
       channelVersion,
-      includeExperimental,
+      includeExperimental
     );
 
     return new Response(JSON.stringify(build), {

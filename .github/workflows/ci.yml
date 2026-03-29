@@ -28,6 +28,9 @@ jobs:
       - name: Check TypeScript
         run: bun astro check && bun run typecheck
 
+      - name: Check linting
+        run: bun run lint
+
       - name: Build project
         run: bun run build
         env:

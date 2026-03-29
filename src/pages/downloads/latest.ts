@@ -1,11 +1,11 @@
-import type { APIRoute } from "astro";
-import { getLatestBuild } from "@/lib/jenkins";
-import { getCachedBuilds } from "@/lib/cache";
-import { incrementDownloadCount } from "@/lib/download-counts";
 import {
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
 } from "@/config/jenkins";
+import { getCachedBuilds } from "@/lib/cache";
+import { incrementDownloadCount } from "@/lib/download-counts";
+import { getLatestBuild } from "@/lib/jenkins";
+import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async ({ url }) => {
   try {

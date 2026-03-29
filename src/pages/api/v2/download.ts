@@ -1,6 +1,6 @@
-import type { APIRoute } from "astro";
 import { jenkinsConfig } from "@/config/jenkins";
 import { incrementDownloadCount } from "@/lib/download-counts";
+import type { APIRoute } from "astro";
 
 export const prerender = false;
 
@@ -37,7 +37,7 @@ export const GET: APIRoute = async ({ url }) => {
       {
         status: 400,
         headers: { "Content-Type": "application/json" },
-      },
+      }
     );
   }
 

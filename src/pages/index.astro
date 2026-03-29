@@ -1,22 +1,22 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import Navbar from '@/components/Navbar.svelte';
-import Footer from '@/components/Footer.svelte';
-import GradientBackground from '@/components/ui/GradientBackground.svelte';
-import Hero from '@/components/sections/Hero.svelte';
-import Features from '@/components/sections/Features.svelte';
-import Community from '@/components/sections/Community.svelte';
-import Review from '@/components/sections/Review.svelte';
+import Layout from "@/layouts/Layout.astro";
+import Navbar from "@/components/Navbar.svelte";
+import Footer from "@/components/Footer.svelte";
+import GradientBackground from "@/components/ui/GradientBackground.svelte";
+import Hero from "@/components/sections/Hero.svelte";
+import Features from "@/components/sections/Features.svelte";
+import Community from "@/components/sections/Community.svelte";
+import Review from "@/components/sections/Review.svelte";
 
 export const prerender = true;
 ---
 
 <Layout>
-	<Navbar slot="navbar" client:load />
-	<GradientBackground client:load />
-	<Hero client:idle />
-	<Features client:idle />
-	<Review client:idle />
-	<Community client:idle />
-	<Footer slot="footer" client:idle />
+  <Navbar slot="navbar" client:load />
+  <GradientBackground client:load />
+  <Hero client:idle />
+  <Features client:idle />
+  <Review client:idle />
+  <Community client:idle />
+  <Footer slot="footer" client:idle />
 </Layout>

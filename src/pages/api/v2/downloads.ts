@@ -1,4 +1,3 @@
-import type { APIRoute } from "astro";
 import {
   extractChannelFromUrl,
   extractProjectFromUrl,
@@ -9,6 +8,7 @@ import { getCachedBuilds } from "@/lib/cache";
 import { getDownloadCounts } from "@/lib/download-counts";
 import { getAllBuilds, JenkinsError } from "@/lib/jenkins";
 import type { Build } from "@/lib/schemas/jenkins";
+import type { APIRoute } from "astro";
 
 export const prerender = false;
 
@@ -40,10 +40,10 @@ function toSummary(
   cached: boolean,
   jenkinsDown: boolean,
   builds: Build[],
-  error?: string,
+  error?: string
 ): ProjectSummary {
   const downloadableBuilds = builds.filter((build) =>
-    Boolean(build.downloadUrl),
+    Boolean(build.downloadUrl)
   );
   const latestDownloadableBuild = downloadableBuilds[0] ?? null;
 
@@ -68,8 +68,8 @@ async function countDownloadEvents(project: Project, builds: Build[]) {
     new Set(
       builds
         .map((build) => build.downloadUrl)
-        .filter((downloadUrl): downloadUrl is string => Boolean(downloadUrl)),
-    ),
+        .filter((downloadUrl): downloadUrl is string => Boolean(downloadUrl))
+    )
   );
 
   if (downloadableUrls.length === 0) {
@@ -102,7 +102,7 @@ export const GET: APIRoute = async ({ url }) => {
       {
         status: 404,
         headers: { "Content-Type": "application/json" },
-      },
+      }
     );
   }
 
@@ -126,7 +126,7 @@ export const GET: APIRoute = async ({ url }) => {
           builds.length,
           false,
           false,
-          builds,
+          builds
         );
       } catch (error) {
         const cachedBuilds = await getCachedBuilds(project, true);
@@ -146,7 +146,7 @@ export const GET: APIRoute = async ({ url }) => {
 
           const analytics = await countDownloadEvents(
             project,
-            filteredCachedBuilds,
+            filteredCachedBuilds
           );
           const totalDownloads = analytics.totalDownloads;
 
@@ -163,7 +163,7 @@ export const GET: APIRoute = async ({ url }) => {
             filteredCachedBuilds.length,
             true,
             isUnreachable,
-            filteredCachedBuilds,
+            filteredCachedBuilds
           );
         }
 
@@ -177,7 +177,7 @@ export const GET: APIRoute = async ({ url }) => {
             false,
             true,
             [],
-            error.message,
+            error.message
           );
         }
 
@@ -191,15 +191,15 @@ export const GET: APIRoute = async ({ url }) => {
           false,
           false,
           [],
-          "Internal server error",
+          "Internal server error"
         );
       }
-    }),
+    })
   );
 
   const totalDownloads = summaries.reduce(
     (sum, projectSummary) => sum + projectSummary.totalDownloads,
-    0,
+    0
   );
 
   const anyErrors = summaries.some((summary) => Boolean(summary.error));
@@ -217,6 +217,6 @@ export const GET: APIRoute = async ({ url }) => {
         "Content-Type": "application/json",
         "Cache-Control": "public, s-maxage=600, stale-while-revalidate=300",
       },
-    },
+    }
   );
 };

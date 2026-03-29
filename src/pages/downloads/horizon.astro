@@ -1,11 +1,11 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import Navbar from '@/components/Navbar.svelte';
-import Footer from '@/components/Footer.svelte';
-import GradientBackground from '@/components/ui/GradientBackground.svelte';
-import DownloadsPageContainer from '@/components/DownloadsPageContainer.svelte';
-import ProductDownloadHeader from '@/components/ProductDownloadHeader.svelte';
-import { projects } from '@/config/jenkins';
+import Layout from "@/layouts/Layout.astro";
+import Navbar from "@/components/Navbar.svelte";
+import Footer from "@/components/Footer.svelte";
+import GradientBackground from "@/components/ui/GradientBackground.svelte";
+import DownloadsPageContainer from "@/components/DownloadsPageContainer.svelte";
+import ProductDownloadHeader from "@/components/ProductDownloadHeader.svelte";
+import { projects } from "@/config/jenkins";
 ---
 
 <Layout>
@@ -14,12 +14,12 @@ import { projects } from '@/config/jenkins';
 
   <main class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
     <ProductDownloadHeader
-        client:load
-        titleKey="downloads.products.horizon.title"
-        descriptionKey="downloads.products.horizon.description"
-        downloadHref={`/downloads/latest?project=${encodeURIComponent(projects.horizon.slug)}`}
-        sourceHref="https://github.com/CraftCanvasMC/Horizon"
-        gradientPattern={`repeating-linear-gradient(
+      client:load
+      titleKey="downloads.products.horizon.title"
+      descriptionKey="downloads.products.horizon.description"
+      downloadHref={`/downloads/latest?project=${encodeURIComponent(projects.horizon.slug)}`}
+      sourceHref="https://github.com/CraftCanvasMC/Horizon"
+      gradientPattern={`repeating-linear-gradient(
         90deg,
         #ffcc66 0%,
         #ffb347 11%,
@@ -35,8 +35,11 @@ import { projects } from '@/config/jenkins';
       )`}
     />
 
-    <DownloadsPageContainer client:load project={projects.horizon} hideSculptor={true} />
+    <DownloadsPageContainer
+      client:load
+      project={projects.horizon}
+      hideSculptor={true}
+    />
   </main>
   <Footer slot="footer" client:load />
 </Layout>
-

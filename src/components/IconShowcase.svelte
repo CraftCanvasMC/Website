@@ -1,42 +1,45 @@
 <script lang="ts">
-  import { Home, Download, Github, Heart, Sparkles } from 'lucide-svelte';
-  import { gsap } from 'gsap';
-  import { onMount } from 'svelte';
+  import { Home, Download, Github, Heart, Sparkles } from "lucide-svelte";
+  import { gsap } from "gsap";
+  import { onMount } from "svelte";
 
   let iconContainer: HTMLDivElement;
 
   onMount(() => {
-    gsap.from('.icon-item', {
+    gsap.from(".icon-item", {
       scale: 0,
       rotation: -180,
       duration: 0.6,
       stagger: 0.1,
-      ease: 'back.out(1.7)'
+      ease: "back.out(1.7)",
     });
 
-    const icons = iconContainer.querySelectorAll('.icon-item');
+    const icons = iconContainer.querySelectorAll(".icon-item");
     icons.forEach((icon) => {
-      icon.addEventListener('mouseenter', () => {
-        gsap.to(icon, { 
-          scale: 1.2, 
-          rotation: 360, 
+      icon.addEventListener("mouseenter", () => {
+        gsap.to(icon, {
+          scale: 1.2,
+          rotation: 360,
           duration: 0.4,
-          ease: 'power2.out'
+          ease: "power2.out",
         });
       });
-      icon.addEventListener('mouseleave', () => {
-        gsap.to(icon, { 
-          scale: 1, 
-          rotation: 0, 
+      icon.addEventListener("mouseleave", () => {
+        gsap.to(icon, {
+          scale: 1,
+          rotation: 0,
           duration: 0.4,
-          ease: 'power2.out'
+          ease: "power2.out",
         });
       });
     });
   });
 </script>
 
-<div bind:this={iconContainer} class="flex gap-6 p-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl">
+<div
+  bind:this={iconContainer}
+  class="flex gap-6 p-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl"
+>
   <div class="icon-item cursor-pointer">
     <Home size={32} color="white" />
   </div>

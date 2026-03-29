@@ -38,7 +38,7 @@ export const ENTRANCE_ANIMATIONS = {
 
 export function hoverScale(
   node: HTMLElement,
-  intensity: "small" | "medium" | "large" = "medium",
+  intensity: "small" | "medium" | "large" = "medium"
 ) {
   const config = HOVER_ANIMATIONS.scale[intensity];
 
@@ -83,7 +83,7 @@ export function hoverScale(
 
 export function hoverLift(
   node: HTMLElement,
-  intensity: "small" | "medium" | "large" = "medium",
+  intensity: "small" | "medium" | "large" = "medium"
 ) {
   const config = HOVER_ANIMATIONS.lift[intensity];
   const handleMouseEnter = () => {
@@ -135,7 +135,7 @@ export function entrance(
     type?: keyof typeof ENTRANCE_ANIMATIONS;
     delay?: number;
     duration?: number;
-  } = {},
+  } = {}
 ) {
   const config = ENTRANCE_ANIMATIONS[type];
   const animConfig = duration !== undefined ? { ...config, duration } : config;
@@ -180,7 +180,7 @@ export function staggerEntrance(
     type?: keyof typeof ENTRANCE_ANIMATIONS;
     stagger?: number;
     selector?: string;
-  } = {},
+  } = {}
 ) {
   const config = ENTRANCE_ANIMATIONS[type];
   const children = node.querySelectorAll(selector);
@@ -232,7 +232,7 @@ export function shake(node: HTMLElement, intensity: number = 10) {
 export function pulse(
   node: HTMLElement,
   scale: number = 1.05,
-  duration: number = 0.6,
+  duration: number = 0.6
 ) {
   gsap.to(node, {
     scale,
@@ -246,7 +246,7 @@ export function pulse(
 export function rotate(
   node: HTMLElement,
   rotation: number = 360,
-  duration: number = 0.6,
+  duration: number = 0.6
 ) {
   gsap.to(node, {
     rotation,
@@ -263,7 +263,6 @@ export function scrollReveal(
     duration,
     start = "top 80%",
     end = "bottom 20%",
-    scrub = false,
     markers = false,
   }: {
     type?: keyof typeof ENTRANCE_ANIMATIONS;
@@ -271,9 +270,8 @@ export function scrollReveal(
     duration?: number;
     start?: string;
     end?: string;
-    scrub?: boolean | number;
     markers?: boolean;
-  } = {},
+  } = {}
 ) {
   const config = ENTRANCE_ANIMATIONS[type];
   const animConfig = duration !== undefined ? { ...config, duration } : config;
@@ -329,7 +327,7 @@ export function scrollStagger(
     selector?: string;
     start?: string;
     markers?: boolean;
-  } = {},
+  } = {}
 ) {
   const config = ENTRANCE_ANIMATIONS[type];
   const children = node.querySelectorAll(selector);
@@ -382,7 +380,7 @@ export function scrollParallax(
     start?: string;
     end?: string;
     markers?: boolean;
-  } = {},
+  } = {}
 ) {
   const scrollTrigger = ScrollTrigger.create({
     trigger: node,
@@ -409,7 +407,7 @@ export function scrollParallax(
 }
 
 if (typeof window !== "undefined") {
-  (window as any).gsapDebug = () => {
+  (window as unknown).gsapDebug = () => {
     const activeTweens = gsap.globalTimeline.getChildren().length;
     const scrollTriggers = ScrollTrigger.getAll().length;
     console.log("[GSAP] Active tweens:", activeTweens);

@@ -1,4 +1,4 @@
-import { writable, derived } from "svelte/store";
+import { derived, writable } from "svelte/store";
 import enTranslations from "./translations/en";
 import plTranslations from "./translations/pl";
 import trTranslations from "./translations/tr";
@@ -41,12 +41,10 @@ function getBrowserLanguage(): Language {
 }
 
 export const currentLanguage = writable<Language>(
-  typeof window !== "undefined" ? getBrowserLanguage() : "en",
+  typeof window !== "undefined" ? getBrowserLanguage() : "en"
 );
 
 const translations = writable<Translations>(allTranslations);
-
-export async function loadTranslations(lang: Language) {}
 
 export function setLanguage(lang: Language) {
   currentLanguage.set(lang);
@@ -58,7 +56,7 @@ export function setLanguage(lang: Language) {
 
 function getNestedTranslation(obj: Translation, path: string): string {
   const keys = path.split(".");
-  let current: any = obj;
+  let current: unknown = obj;
 
   for (const key of keys) {
     if (current && typeof current === "object" && key in current) {
@@ -83,7 +81,7 @@ export const t = derived(
       const translation = getNestedTranslation(langTranslations, key);
       return translation === key ? fallback || key : translation;
     };
-  },
+  }
 );
 
 export function initI18n() {

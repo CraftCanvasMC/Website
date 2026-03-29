@@ -28,7 +28,7 @@ export class RateLimiter {
     const now = Date.now();
     const timestamps = this.cache.get(identifier) || [];
     const validTimestamps = timestamps.filter(
-      (timestamp) => now - timestamp < this.windowMs,
+      (timestamp) => now - timestamp < this.windowMs
     );
 
     if (validTimestamps.length >= this.limit) {

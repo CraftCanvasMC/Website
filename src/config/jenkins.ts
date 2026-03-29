@@ -80,7 +80,7 @@ export function getFallbackProject() {
 export function extractProjectFromJob(url: URL) {
   // to let us better gather usage info
   console.warn(
-    `Legacy extractProjectFromJob was called from ${url.toString()}.`,
+    `Legacy extractProjectFromJob was called from ${url.toString()}.`
   );
   return getProjectConfig(url.searchParams.get("job"));
 }
@@ -97,7 +97,7 @@ export function extractProjectFromJobOrFallback(url: URL) {
  */
 export function extractVersionFromUrl(url: URL) {
   console.warn(
-    `Legacy extractVersionFromUrl was called from ${url.toString()}.`,
+    `Legacy extractVersionFromUrl was called from ${url.toString()}.`
   );
   return (
     url.searchParams.get("minecraft_version") ||
@@ -112,7 +112,7 @@ export function extractVersionFromUrl(url: URL) {
 export function applyDeprecationHeaders(
   headers: Record<string, string>,
   fallbackUsed: boolean,
-  fallbackVersionUsed: boolean,
+  fallbackVersionUsed: boolean
 ): Record<string, string> {
   const newHeaders = { ...headers };
   if (fallbackUsed && fallbackVersionUsed) {

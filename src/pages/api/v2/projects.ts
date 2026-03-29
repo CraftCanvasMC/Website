@@ -1,5 +1,5 @@
-import type { APIRoute } from "astro";
 import { projects } from "@/config/jenkins";
+import type { APIRoute } from "astro";
 
 export const prerender = false;
 
@@ -20,7 +20,7 @@ export const GET: APIRoute = async () => {
           "Content-Type": "application/json",
           "Cache-Control": "public, s-maxage=600, stale-while-revalidate=300",
         },
-      },
+      }
     );
   } catch (error) {
     console.error(error);
@@ -34,7 +34,7 @@ export const GET: APIRoute = async () => {
         headers: {
           "Content-Type": "application/json",
         },
-      },
+      }
     );
   }
 };
