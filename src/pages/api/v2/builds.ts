@@ -13,8 +13,10 @@ import {
 export const prerender = false;
 
 export const GET: APIRoute = async ({ params, url }) => {
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  let responseHeaders: Record<string, string>;
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  let responseHeaders: Record<string, string> = { ...headers };
   let fallbackUsed = false;
   let fallbackVersionUsed = false;
   const defaultProject = getProjectConfig(params.project);

@@ -16,8 +16,10 @@ import {
 export const prerender = false;
 
 export const GET: APIRoute = async ({ params, url, redirect }) => {
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  let responseHeaders: Record<string, string>;
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  let responseHeaders: Record<string, string> = { ...headers };
   let fallbackUsed = false;
   let fallbackVersionUsed = false;
 

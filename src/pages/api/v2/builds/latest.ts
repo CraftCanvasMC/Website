@@ -10,8 +10,10 @@ import {
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  let responseHeaders: Record<string, string>;
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  let responseHeaders: Record<string, string> = { ...headers };
   try {
     let fallbackUsed = false;
     const includeExperimental = url.searchParams.get("experimental") === "true";
@@ -28,11 +30,7 @@ export const GET: APIRoute = async ({ url }) => {
       });
     }
 
-    responseHeaders = applyDeprecationHeaders(
-      headers,
-      fallbackUsed,
-      false,
-    );
+    responseHeaders = applyDeprecationHeaders(headers, fallbackUsed, false);
 
     const channelVersion = extractChannelFromUrl(url);
     const build = await getLatestBuild(
