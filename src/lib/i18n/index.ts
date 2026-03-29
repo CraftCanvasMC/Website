@@ -60,7 +60,7 @@ function getNestedTranslation(obj: Translation, path: string): string {
 
   for (const key of keys) {
     if (current && typeof current === "object" && key in current) {
-      current = current[key];
+      current = (current as Record<string, unknown>)[key];
     } else {
       return path;
     }

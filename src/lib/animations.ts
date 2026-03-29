@@ -407,7 +407,7 @@ export function scrollParallax(
 }
 
 if (typeof window !== "undefined") {
-  (window as unknown).gsapDebug = () => {
+  (window as { gsapDebug?: () => void }).gsapDebug = () => {
     const activeTweens = gsap.globalTimeline.getChildren().length;
     const scrollTriggers = ScrollTrigger.getAll().length;
     console.log("[GSAP] Active tweens:", activeTweens);
