@@ -142,12 +142,14 @@ export async function getLatestBuild(
 export function getProjectJavadocUrl(
   project: Project,
   channelVersion: string,
-  build?: string | undefined | null
+  build?: string | undefined | null,
+  redirect?: string | null
 ) {
   const baseUrl = project.javadocBaseUrl;
+  const redirectUrl = redirect ? `/.cache/unpack/${redirect}` : ``;
   // account for horizon's special versioning scheme
   if (project.slug === "horizon" && build) {
-    return `${baseUrl}/${channelVersion}${project.versionSuffix}.${build}`;
+    return `${baseUrl}/${channelVersion}${project.versionSuffix}.${build}${redirectUrl}`;
   }
-  return `${baseUrl}/${channelVersion}${project.versionSuffix}`;
+  return `${baseUrl}/${channelVersion}${project.versionSuffix}${redirectUrl}`;
 }

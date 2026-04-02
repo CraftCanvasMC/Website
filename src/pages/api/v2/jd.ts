@@ -73,10 +73,12 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
     }
     let jdUrl = "";
     try {
+      const redirect = url.searchParams.get("redirect");
       jdUrl = getProjectJavadocUrl(
         project,
         projectChannel,
-        build?.buildNumber.toString()
+        build?.buildNumber.toString(),
+        redirect
       );
     } catch (error) {
       if (error instanceof JenkinsError) {
