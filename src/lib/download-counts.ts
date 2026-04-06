@@ -1,11 +1,22 @@
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, isAbsolute, join } from "node:path";
 
 type DownloadCountsData = Record<string, number>;
 
-const CACHE_DIR = join(process.cwd(), ".cache");
-const COUNTS_FILE = join(CACHE_DIR, "download-counts.json");
+const DEFAULT_COUNTS_FILE = join(process.cwd(), ".cache", "download-counts.json");
+
+function resolveCountsFilePath() {
+  const configuredPath = process.env.DOWNLOAD_COUNTS_FILE?.trim();
+  if (!configuredPath) {
+    return DEFAULT_COUNTS_FILE;
+  }
+
+  return isAbsolute(configuredPath) ? configuredPath : join(process.cwd(), configuredPath);
+}
+
+const COUNTS_FILE = resolveCountsFilePath();
+const COUNTS_DIR = dirname(COUNTS_FILE);
 
 let counts: DownloadCountsData = {};
 let loaded = false;
@@ -29,8 +40,8 @@ async function ensureLoaded() {
 }
 
 async function save() {
-  if (!existsSync(CACHE_DIR)) {
-    await mkdir(CACHE_DIR, { recursive: true });
+  if (!existsSync(COUNTS_DIR)) {
+    await mkdir(COUNTS_DIR, { recursive: true });
   }
   await writeFile(COUNTS_FILE, JSON.stringify(counts), "utf-8");
 }
