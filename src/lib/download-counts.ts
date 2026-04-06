@@ -94,20 +94,21 @@ function getAllRows<T>(
   });
 }
 
-function ensureSchema(connection: sqlite3.Database) {
-  return Promise.all([
-    run(
-      connection,
-      `
+async function ensureSchema(connection: sqlite3.Database) {
+  // Keep schema statements ordered to avoid races during first-time DB setup.
+  await run(
+    connection,
+    `
     CREATE TABLE IF NOT EXISTS download_totals (
       download_url TEXT PRIMARY KEY,
       count INTEGER NOT NULL DEFAULT 0
     )
   `
-    ),
-    run(
-      connection,
-      `
+  );
+
+  await run(
+    connection,
+    `
     CREATE TABLE IF NOT EXISTS download_daily (
       download_url TEXT NOT NULL,
       day TEXT NOT NULL,
@@ -115,15 +116,15 @@ function ensureSchema(connection: sqlite3.Database) {
       PRIMARY KEY (download_url, day)
     )
   `
-    ),
-    run(
-      connection,
-      `
+  );
+
+  await run(
+    connection,
+    `
     CREATE INDEX IF NOT EXISTS idx_download_daily_day
     ON download_daily(day)
   `
-    ),
-  ]).then(() => undefined);
+  );
 }
 
 function openDatabase(filePath: string): Promise<sqlite3.Database> {
@@ -172,7 +173,10 @@ async function createDatabase() {
 
 async function getDatabase() {
   if (!dbPromise) {
-    dbPromise = createDatabase();
+    dbPromise = createDatabase().catch((error) => {
+      dbPromise = null;
+      throw error;
+    });
   }
   return dbPromise;
 }
