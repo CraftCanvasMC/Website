@@ -1,10 +1,11 @@
-import type { APIRoute } from "astro";
-import { getLatestBuild } from "../../lib/jenkins";
-import { getCachedBuilds } from "../../lib/cache";
 import {
   extractProjectFromJobOrFallback,
   extractProjectFromUrl,
-} from "../../config/jenkins.ts";
+} from "@/config/jenkins";
+import { getCachedBuilds } from "@/lib/cache";
+import { incrementDownloadCount } from "@/lib/download-counts";
+import { getLatestBuild } from "@/lib/jenkins";
+import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async ({ url }) => {
   try {
@@ -30,6 +31,12 @@ export const GET: APIRoute = async ({ url }) => {
 
     if (!build || !build.downloadUrl) {
       return new Response("Latest build not available", { status: 503 });
+    }
+
+    try {
+      await incrementDownloadCount(build.downloadUrl);
+    } catch (countError) {
+      console.error("Failed to increment latest download count", countError);
     }
 
     return new Response(null, {

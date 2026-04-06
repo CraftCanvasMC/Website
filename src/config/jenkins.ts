@@ -26,10 +26,24 @@ export const projects = {
       javadocConfig.baseUrl + "/javadoc/releases/io/canvasmc/horizon/core",
     versionSuffix: "",
   },
+  sculptor: {
+    slug: "sculptor",
+    ciJob: "Sculptor",
+    ciJobUrl: jenkinsConfig.baseUrl + "/job/Sculptor/",
+    javadocBaseUrl: "",
+    versionSuffix: "",
+  },
 } as const;
 
 export type ProjectSlug = keyof typeof projects;
-export type Project = NonNullable<(typeof projects)[ProjectSlug]>;
+
+export interface Project {
+  slug: string;
+  ciJob: string;
+  ciJobUrl: string;
+  javadocBaseUrl: string;
+  versionSuffix: string;
+}
 
 export function getProjectConfig(project: string | undefined | null) {
   if (!project) return null;
@@ -65,7 +79,9 @@ export function getFallbackProject() {
  */
 export function extractProjectFromJob(url: URL) {
   // to let us better gather usage info
-  console.warn("Legacy extractProjectFromJob was called.");
+  console.warn(
+    `Legacy extractProjectFromJob was called from ${url.toString()}.`
+  );
   return getProjectConfig(url.searchParams.get("job"));
 }
 
@@ -80,7 +96,9 @@ export function extractProjectFromJobOrFallback(url: URL) {
  * @deprecated Subject to removal in the future.
  */
 export function extractVersionFromUrl(url: URL) {
-  console.warn("Legacy extractVersionFromUrl was called.");
+  console.warn(
+    `Legacy extractVersionFromUrl was called from ${url.toString()}.`
+  );
   return (
     url.searchParams.get("minecraft_version") ||
     url.searchParams.get("version") ||
@@ -94,7 +112,7 @@ export function extractVersionFromUrl(url: URL) {
 export function applyDeprecationHeaders(
   headers: Record<string, string>,
   fallbackUsed: boolean,
-  fallbackVersionUsed: boolean,
+  fallbackVersionUsed: boolean
 ): Record<string, string> {
   const newHeaders = { ...headers };
   if (fallbackUsed && fallbackVersionUsed) {

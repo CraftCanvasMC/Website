@@ -24,13 +24,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
           headers: {
             "Content-Type": "application/json",
             "Retry-After": String(
-              Math.ceil((result.reset - Date.now()) / 1000),
+              Math.ceil((result.reset - Date.now()) / 1000)
             ),
             "X-RateLimit-Limit": String(100),
             "X-RateLimit-Remaining": String(result.remaining),
             "X-RateLimit-Reset": String(result.reset),
           },
-        },
+        }
       );
     }
 

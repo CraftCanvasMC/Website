@@ -1,6 +1,3 @@
-import type { APIRoute } from "astro";
-import { JenkinsError, getAllBuilds } from "../../../lib/jenkins";
-import { getCachedBuilds } from "../../../lib/cache";
 import {
   applyDeprecationHeaders,
   extractChannelFromUrl,
@@ -8,7 +5,10 @@ import {
   extractProjectFromUrl,
   extractVersionFromUrl,
   getProjectConfig,
-} from "../../../config/jenkins";
+} from "@/config/jenkins";
+import { getCachedBuilds } from "@/lib/cache";
+import { JenkinsError, getAllBuilds } from "@/lib/jenkins";
+import type { APIRoute } from "astro";
 
 export const prerender = false;
 
@@ -52,7 +52,7 @@ export const GET: APIRoute = async ({ params, url }) => {
     responseHeaders = applyDeprecationHeaders(
       headers,
       fallbackUsed,
-      fallbackVersionUsed,
+      fallbackVersionUsed
     );
 
     return new Response(
@@ -68,7 +68,7 @@ export const GET: APIRoute = async ({ params, url }) => {
           ...responseHeaders,
           "Cache-Control": "public, s-maxage=600, stale-while-revalidate=300",
         },
-      },
+      }
     );
   } catch (error) {
     const cachedBuilds = await getCachedBuilds(project, true);
@@ -98,7 +98,7 @@ export const GET: APIRoute = async ({ params, url }) => {
             "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30",
             "X-Cache-Status": "HIT",
           },
-        },
+        }
       );
     }
 
@@ -113,7 +113,7 @@ export const GET: APIRoute = async ({ params, url }) => {
         {
           status: 503,
           headers: { ...responseHeaders },
-        },
+        }
       );
     }
 
@@ -128,7 +128,7 @@ export const GET: APIRoute = async ({ params, url }) => {
       {
         status: 500,
         headers: { ...responseHeaders },
-      },
+      }
     );
   }
 };

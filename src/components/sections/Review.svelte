@@ -1,8 +1,8 @@
 <script lang="ts">
-  import ReviewCard from '../ui/ReviewCard.svelte';
-  import { scrollReveal } from '../../lib/animations';
-  import { ChevronLeft, ChevronRight } from 'lucide-svelte';
-  import { onMount } from 'svelte';
+  import ReviewCard from "../ui/ReviewCard.svelte";
+  import { scrollReveal } from "../../lib/animations";
+  import { ChevronLeft, ChevronRight } from "lucide-svelte";
+  import { onMount } from "svelte";
 
   interface Review {
     rating: number;
@@ -19,7 +19,7 @@
 
   function parseCSVLine(line: string): string[] {
     const fields: string[] = [];
-    let current = '';
+    let current = "";
     let inQuotes = false;
 
     for (let i = 0; i < line.length; i++) {
@@ -32,9 +32,9 @@
         } else {
           inQuotes = !inQuotes;
         }
-      } else if (char === ',' && !inQuotes) {
+      } else if (char === "," && !inQuotes) {
         fields.push(current);
-        current = '';
+        current = "";
       } else {
         current += char;
       }
@@ -45,7 +45,7 @@
   }
 
   function parseCSV(text: string): Review[] {
-    const lines = text.split('\n').filter(line => line.trim());
+    const lines = text.split("\n").filter((line) => line.trim());
     const parsed: Review[] = [];
 
     for (let i = 0; i < lines.length; i++) {
@@ -54,16 +54,16 @@
       if (fields.length >= 6) {
         parsed.push({
           rating: parseInt(fields[0]) || 5,
-          review: fields[1] || '',
-          avatarUrl: fields[2] || '',
-          name: fields[3] || 'Anonymous',
-          role: fields[4] || '',
-          server: fields[5] || ''
+          review: fields[1] || "",
+          avatarUrl: fields[2] || "",
+          name: fields[3] || "Anonymous",
+          role: fields[4] || "",
+          server: fields[5] || "",
         });
       }
     }
 
-    return parsed.filter(review => review.review && review.avatarUrl);
+    return parsed.filter((review) => review.review && review.avatarUrl);
   }
 
   function next() {
@@ -76,12 +76,12 @@
 
   onMount(async () => {
     try {
-      const response = await fetch('/data/CanvasMC_Experience_form.csv');
+      const response = await fetch("/data/CanvasMC_Experience_form.csv");
       const csvText = await response.text();
       reviews = parseCSV(csvText);
       loading = false;
     } catch (error) {
-      console.error('Error loading reviews:', error);
+      console.error("Error loading reviews:", error);
       loading = false;
     }
   });
@@ -89,7 +89,7 @@
 
 <section class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
   <header
-    use:scrollReveal={{ type: 'fadeIn', start: 'top 85%' }}
+    use:scrollReveal={{ type: "fadeIn", start: "top 85%" }}
     class="max-w-2xl text-center mx-auto"
   >
     <h2 class="font-semibold text-3xl text-white">What Users Say</h2>
@@ -102,11 +102,10 @@
     <div class="mt-10 text-center">
       <p class="text-neutral-400">Loading reviews...</p>
     </div>
-
   {:else if reviews.length > 0}
     <div
       class="mt-10 max-w-5xl mx-auto"
-      use:scrollReveal={{ type: 'fadeIn', start: 'top 85%' }}
+      use:scrollReveal={{ type: "fadeIn", start: "top 85%" }}
     >
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <ReviewCard
@@ -129,13 +128,13 @@
           />
         {/if}
       </div>
-        <div class="mt-10 text-center max-w-3xl mx-auto">
-          <p class="text-xs text-neutral-500 leading-relaxed">
-            All reviews shown are real and provided through a private Google Forms document
-            created and sent by Dueris directly to each reviewer. If you would like proof,
-            feel free to join the Discord server.
-          </p>
-        </div>
+      <div class="mt-10 text-center max-w-3xl mx-auto">
+        <p class="text-xs text-neutral-500 leading-relaxed">
+          All reviews shown are real and provided through a private Google Forms
+          document created and sent by Dueris directly to each reviewer. If you
+          would like proof, feel free to join the Discord server.
+        </p>
+      </div>
 
       <div class="flex items-center justify-center gap-4 mt-6">
         <button
@@ -149,15 +148,19 @@
         </button>
 
         <div class="flex gap-2">
-          {#each Array(Math.ceil(reviews.length / 2)) as _, index}
+          {#each Array(Math.ceil(reviews.length / 2)) as _, index (index)}
             <button
-              onclick={() => currentIndex = index * 2}
+              onclick={() => (currentIndex = index * 2)}
               class="size-2 rounded-full transition-all
                 {index === Math.floor(currentIndex / 2)
-                  ? 'bg-neutral-300 w-6'
-                  : 'bg-neutral-600 hover:bg-neutral-500'}"
-              aria-label="Go to reviews {index * 2 + 1}-{Math.min(index * 2 + 2, reviews.length)}"
-            />
+                ? 'bg-neutral-300 w-6'
+                : 'bg-neutral-600 hover:bg-neutral-500'}"
+              aria-label="Go to reviews {index * 2 + 1}-{Math.min(
+                index * 2 + 2,
+                reviews.length
+              )}"
+            >
+            </button>
           {/each}
         </div>
 
@@ -172,7 +175,6 @@
         </button>
       </div>
     </div>
-
   {:else}
     <div class="mt-10 text-center">
       <p class="text-neutral-400">No reviews available yet.</p>

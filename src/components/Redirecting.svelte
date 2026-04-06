@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import gsap from 'gsap';
+  import { onMount } from "svelte";
+  import gsap from "gsap";
 
   interface Props {
     show: boolean;
@@ -16,11 +16,11 @@
 
   onMount(() => {
     mounted = true;
-    portalTarget = document.createElement('div');
-    portalTarget.style.position = 'fixed';
-    portalTarget.style.inset = '0';
-    portalTarget.style.zIndex = '99999';
-    portalTarget.style.pointerEvents = 'none';
+    portalTarget = document.createElement("div");
+    portalTarget.style.position = "fixed";
+    portalTarget.style.inset = "0";
+    portalTarget.style.zIndex = "99999";
+    portalTarget.style.pointerEvents = "none";
     document.body.appendChild(portalTarget);
 
     return () => {
@@ -33,22 +33,22 @@
   $effect(() => {
     if (show && mounted && overlayElement && portalTarget) {
       portalTarget.appendChild(overlayElement);
-      
+
       gsap.fromTo(
         overlayElement,
         { opacity: 0 },
-        { opacity: 1, duration: 0.3, ease: 'power2.out' }
+        { opacity: 1, duration: 0.3, ease: "power2.out" }
       );
 
       gsap.fromTo(
         dotElements,
         { scale: 0, opacity: 0 },
-        { 
-          scale: 1, 
-          opacity: 1, 
-          duration: 0.4, 
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.4,
           stagger: 0.1,
-          ease: 'back.out(1.7)' 
+          ease: "back.out(1.7)",
         }
       );
 
@@ -58,7 +58,7 @@
         stagger: 0.15,
         repeat: -1,
         yoyo: true,
-        ease: 'power1.inOut',
+        ease: "power1.inOut",
         delay: 0.5,
       });
 
@@ -66,7 +66,7 @@
         gsap.fromTo(
           textElement,
           { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.5, delay: 0.3, ease: 'power2.out' }
+          { y: 0, opacity: 1, duration: 0.5, delay: 0.3, ease: "power2.out" }
         );
       }
     } else if (!show && overlayElement) {
@@ -81,16 +81,25 @@
     class="absolute inset-0 flex flex-col items-center justify-center bg-black/70 backdrop-blur-sm text-white pointer-events-auto"
   >
     <div class="flex flex-row gap-2">
-      <div bind:this={dotElements[0]} class="w-4 h-4 rounded-full bg-white will-change-transform"></div>
-      <div bind:this={dotElements[1]} class="w-4 h-4 rounded-full bg-white will-change-transform"></div>
-      <div bind:this={dotElements[2]} class="w-4 h-4 rounded-full bg-white will-change-transform"></div>
+      <div
+        bind:this={dotElements[0]}
+        class="w-4 h-4 rounded-full bg-white will-change-transform"
+      ></div>
+      <div
+        bind:this={dotElements[1]}
+        class="w-4 h-4 rounded-full bg-white will-change-transform"
+      ></div>
+      <div
+        bind:this={dotElements[2]}
+        class="w-4 h-4 rounded-full bg-white will-change-transform"
+      ></div>
     </div>
 
-    <p 
+    <p
       bind:this={textElement}
       class="mt-8 text-lg font-semibold text-center will-change-transform"
     >
-      Redirecting{target ? ` to ${target}` : ''}, please wait...
+      Redirecting{target ? ` to ${target}` : ""}, please wait...
     </p>
   </div>
 {/if}

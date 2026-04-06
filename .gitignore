@@ -21,3 +21,6 @@ pnpm-debug.log*
 
 # IntelliJ IDEA
 /.idea
+
+.eslintcache
+

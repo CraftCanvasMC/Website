@@ -1,11 +1,11 @@
+import { jenkinsConfig, type Project } from "@/config/jenkins";
 import { z } from "zod";
-import { jenkinsConfig, type Project } from "../config/jenkins";
+import { setCachedBuilds } from "./cache";
 import {
   type Build,
   type JenkinsBuild,
   JenkinsBuildSchema,
 } from "./schemas/jenkins";
-import { setCachedBuilds } from "./cache";
 
 export class JenkinsError extends Error {
   constructor(message: string) {
@@ -16,7 +16,7 @@ export class JenkinsError extends Error {
 
 function extractExtraDescription(
   msg?: string | null,
-  comment?: string | null,
+  comment?: string | null
 ): string | null {
   if (!comment) return null;
 
@@ -80,7 +80,7 @@ export async function getAllBuilds(options: BuildOptions): Promise<Build[]> {
 
   const url = new URL(
     `api/json?tree=${encodeURIComponent(jenkinsConfig.treeQuery)}`,
-    project.ciJobUrl,
+    project.ciJobUrl
   );
 
   const res = await fetch(url.toString()).catch(() => {
@@ -89,7 +89,7 @@ export async function getAllBuilds(options: BuildOptions): Promise<Build[]> {
 
   if (!res.ok) {
     throw new JenkinsError(
-      `Jenkins API returned ${res.status}${res.statusText ? ` ${res.statusText}` : ""}`,
+      `Jenkins API returned ${res.status}${res.statusText ? ` ${res.statusText}` : ""}`
     );
   }
 
@@ -128,7 +128,7 @@ export async function getAllBuilds(options: BuildOptions): Promise<Build[]> {
 export async function getLatestBuild(
   project: Project,
   channelVersion?: string | undefined,
-  includeExperimental = false,
+  includeExperimental = false
 ): Promise<Build> {
   const builds = channelVersion
     ? await getAllBuilds({ project, channelVersion, includeExperimental })
@@ -143,7 +143,7 @@ export function getProjectJavadocUrl(
   project: Project,
   channelVersion: string,
   build?: string | undefined | null,
-  redirect?: string | null,
+  redirect?: string | null
 ) {
   const baseUrl = project.javadocBaseUrl;
   const redirectUrl = redirect ? `/.cache/unpack/${redirect}` : ``;

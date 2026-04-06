@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount, onDestroy } from "svelte";
 
   interface Props {
     layers?: number;
@@ -18,7 +18,7 @@
     speed = 0.00002,
     pulseSpeed = 0.0002,
     frozen = false,
-    class: className = ''
+    class: className = "",
   }: Props = $props();
 
   let innerDiv: HTMLDivElement;
@@ -38,7 +38,14 @@
     yTarget: number;
   }
 
-  function randomHSL(hMin: number, hMax: number, sMin = 80, sMax = 100, lMin = 40, lMax = 60) {
+  function randomHSL(
+    hMin: number,
+    hMax: number,
+    sMin = 80,
+    sMax = 100,
+    lMin = 40,
+    lMax = 60
+  ) {
     const h = Math.floor(Math.random() * (hMax - hMin) + hMin);
     const s = Math.floor(Math.random() * (sMax - sMin) + sMin);
     const l = Math.floor(Math.random() * (lMax - lMin) + lMin);
@@ -98,8 +105,8 @@
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     const animate = (time: number) => {
       animationFrame = requestAnimationFrame(animate);
@@ -134,9 +141,11 @@
           (g) =>
             `linear-gradient(${g.angle}deg, hsl(${g.from.h},${g.from.s}%,${g.from.l}%) 0%, hsl(${g.via.h},${g.via.s}%,${g.via.l}%) 50%, hsl(${g.to.h},${g.to.s}%,${g.to.l}%) 100%)`
         )
-        .join(', ');
-      const polygonString = polyPoints.map((p) => `${p.x.toFixed(1)}% ${p.y.toFixed(1)}%`).join(', ');
-      
+        .join(", ");
+      const polygonString = polyPoints
+        .map((p) => `${p.x.toFixed(1)}% ${p.y.toFixed(1)}%`)
+        .join(", ");
+
       innerDiv.style.background = gradientStyle;
       innerDiv.style.clipPath = `polygon(${polygonString})`;
       innerDiv.style.opacity = pulse.toString();
@@ -151,8 +160,8 @@
       if (scrollTimeout) {
         window.clearTimeout(scrollTimeout);
       }
-      window.removeEventListener('scroll', handleScroll);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   });
 
@@ -167,9 +176,11 @@
       (g) =>
         `linear-gradient(${g.angle}deg, hsl(${g.from.h},${g.from.s}%,${g.from.l}%) 0%, hsl(${g.via.h},${g.via.s}%,${g.via.l}%) 50%, hsl(${g.to.h},${g.to.s}%,${g.to.l}%) 100%)`
     )
-    .join(', ');
+    .join(", ");
 
-  const initialPolygonString = polyPoints.map((p) => `${p.x.toFixed(1)}% ${p.y.toFixed(1)}%`).join(', ');
+  const initialPolygonString = polyPoints
+    .map((p) => `${p.x.toFixed(1)}% ${p.y.toFixed(1)}%`)
+    .join(", ");
 </script>
 
 <div

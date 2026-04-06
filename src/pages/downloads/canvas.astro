@@ -1,11 +1,11 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/Navbar.svelte';
-import Footer from '../../components/Footer.svelte';
-import GradientBackground from '../../components/ui/GradientBackground.svelte';
-import DownloadsPageContainer from '../../components/DownloadsPageContainer.svelte';
-import ProductDownloadHeader from '../../components/ProductDownloadHeader.svelte';
-import { projects } from '../../config/jenkins';
+import Layout from "@/layouts/Layout.astro";
+import Navbar from "@/components/Navbar.svelte";
+import Footer from "@/components/Footer.svelte";
+import GradientBackground from "@/components/ui/GradientBackground.svelte";
+import DownloadsPageContainer from "@/components/DownloadsPageContainer.svelte";
+import ProductDownloadHeader from "@/components/ProductDownloadHeader.svelte";
+import { projects } from "@/config/jenkins";
 ---
 
 <Layout>
@@ -14,12 +14,12 @@ import { projects } from '../../config/jenkins';
 
   <main class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
     <ProductDownloadHeader
-        client:load
-        titleKey="downloads.products.canvas.title"
-        descriptionKey="downloads.products.canvas.description"
-        downloadHref={`/downloads/latest?project=${encodeURIComponent(projects.canvas.slug)}`}
-        sourceHref="https://github.com/CraftCanvasMC/Canvas"
-        gradientPattern={`repeating-linear-gradient(
+      client:load
+      titleKey="downloads.products.canvas.title"
+      descriptionKey="downloads.products.canvas.description"
+      downloadHref={`/downloads/latest?project=${encodeURIComponent(projects.canvas.slug)}`}
+      sourceHref="https://github.com/CraftCanvasMC/Canvas"
+      gradientPattern={`repeating-linear-gradient(
         90deg,
         #4fd1c5 0%,
         #5fd3ff 9%,
@@ -42,4 +42,3 @@ import { projects } from '../../config/jenkins';
 
   <Footer slot="footer" client:load />
 </Layout>
-
