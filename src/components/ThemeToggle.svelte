@@ -7,7 +7,8 @@
   }
 
   let { class: className = "", size = 24 }: Props = $props();
-  const maskId = `moon-mask-${size}-${Math.random().toString(36).slice(2, 8)}`;
+  const maskRandomSuffix = Math.random().toString(36).slice(2, 8);
+  const maskId = $derived(`moon-mask-${size}-${maskRandomSuffix}`);
 
   const storageKey = "theme-preference";
   let theme = $state<"light" | "dark">("light");

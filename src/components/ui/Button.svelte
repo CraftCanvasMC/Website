@@ -44,7 +44,9 @@
     icon: "h-9 w-9",
   };
 
-  const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+  const classes = $derived(
+    `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`
+  );
 </script>
 
 {#if href}

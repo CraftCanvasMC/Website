@@ -10,7 +10,8 @@ export {
 } from "lucide-svelte";
 
 // Social
-export { MessageSquare as Discord, Github, Mail, Twitter } from "lucide-svelte";
+export { default as Github } from "@/components/icons/GithubIcon.svelte";
+export { MessageSquare as Discord, Mail, Send as Twitter } from "lucide-svelte";
 
 // UI
 export {

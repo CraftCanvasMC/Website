@@ -23,7 +23,9 @@
     scrollDelay = 0,
   }: Props = $props();
 
-  const classes = `rounded-xl bg-neutral-800/50 p-8 ring-1 ring-neutral-700/50 backdrop-blur-sm will-change-transform ${className}`;
+  const classes = $derived(
+    `rounded-xl bg-neutral-800/50 p-8 ring-1 ring-neutral-700/50 backdrop-blur-sm will-change-transform ${className}`
+  );
 </script>
 
 {#if enableHover && enableScroll}

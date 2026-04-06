@@ -74,11 +74,14 @@
     }));
   }
 
-  let gradientColors = createGradients(layers);
-  let polyPoints = generatePoints(points);
+  let gradientColors = $state<GradientColor[]>([]);
+  let polyPoints = $state<Point[]>([]);
 
   onMount(() => {
     if (frozen || !innerDiv) return;
+
+    gradientColors = createGradients(layers);
+    polyPoints = generatePoints(points);
 
     let lastTime = performance.now();
     let lastFrameTime = 0;
@@ -171,16 +174,18 @@
     }
   });
 
-  const initialGradientStyle = gradientColors
-    .map(
-      (g) =>
-        `linear-gradient(${g.angle}deg, hsl(${g.from.h},${g.from.s}%,${g.from.l}%) 0%, hsl(${g.via.h},${g.via.s}%,${g.via.l}%) 50%, hsl(${g.to.h},${g.to.s}%,${g.to.l}%) 100%)`
-    )
-    .join(", ");
+  const initialGradientStyle = $derived(
+    gradientColors
+      .map(
+        (g) =>
+          `linear-gradient(${g.angle}deg, hsl(${g.from.h},${g.from.s}%,${g.from.l}%) 0%, hsl(${g.via.h},${g.via.s}%,${g.via.l}%) 50%, hsl(${g.to.h},${g.to.s}%,${g.to.l}%) 100%)`
+      )
+      .join(", ")
+  );
 
-  const initialPolygonString = polyPoints
-    .map((p) => `${p.x.toFixed(1)}% ${p.y.toFixed(1)}%`)
-    .join(", ");
+  const initialPolygonString = $derived(
+    polyPoints.map((p) => `${p.x.toFixed(1)}% ${p.y.toFixed(1)}%`).join(", ")
+  );
 </script>
 
 <div

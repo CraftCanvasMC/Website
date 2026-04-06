@@ -16,6 +16,7 @@ type ProjectSummary = {
   project: string;
   ciJob: string;
   channel: string | null;
+  date: string | null;
   includeExperimental: boolean;
   totalDownloads: number;
   totalBuilds: number;
@@ -34,6 +35,7 @@ function getDefaultProjectList(): Project[] {
 function toSummary(
   project: Project,
   channelVersion: string | undefined,
+  date: string | null,
   includeExperimental: boolean,
   totalDownloads: number,
   totalBuilds: number,
@@ -51,6 +53,7 @@ function toSummary(
     project: project.slug,
     ciJob: project.ciJob,
     channel: channelVersion ?? null,
+    date,
     includeExperimental,
     totalDownloads,
     totalBuilds,
@@ -63,7 +66,46 @@ function toSummary(
   };
 }
 
-async function countDownloadEvents(project: Project, builds: Build[]) {
+function parseDateParam(dateParam: string | null) {
+  if (!dateParam) {
+    return { dayKey: null, normalizedDate: null, error: null };
+  }
+
+  const normalizedDate = dateParam.trim();
+  if (!/^\d{6}$/.test(normalizedDate)) {
+    return {
+      dayKey: null,
+      normalizedDate,
+      error: "Invalid date format. Expected DDMMYY.",
+    };
+  }
+
+  const day = Number(normalizedDate.slice(0, 2));
+  const month = Number(normalizedDate.slice(2, 4));
+  const year = 2000 + Number(normalizedDate.slice(4, 6));
+
+  const date = new Date(Date.UTC(year, month - 1, day));
+  const isValidDate =
+    date.getUTCFullYear() === year &&
+    date.getUTCMonth() === month - 1 &&
+    date.getUTCDate() === day;
+
+  if (!isValidDate) {
+    return {
+      dayKey: null,
+      normalizedDate,
+      error: "Invalid date value. Expected DDMMYY.",
+    };
+  }
+
+  const dayKey = `${year.toString().padStart(4, "0")}-${month
+    .toString()
+    .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+
+  return { dayKey, normalizedDate, error: null };
+}
+
+async function countDownloadEvents(builds: Build[], dayKey: string | null) {
   const downloadableUrls = Array.from(
     new Set(
       builds
@@ -76,7 +118,9 @@ async function countDownloadEvents(project: Project, builds: Build[]) {
     return { totalDownloads: 0 };
   }
 
-  const counts = await getDownloadCounts(downloadableUrls);
+  const counts = await getDownloadCounts(downloadableUrls, {
+    day: dayKey,
+  });
   const totalDownloads = counts.total;
 
   return { totalDownloads };
@@ -84,7 +128,21 @@ async function countDownloadEvents(project: Project, builds: Build[]) {
 
 export const GET: APIRoute = async ({ url }) => {
   const channelVersion = extractChannelFromUrl(url);
+  const dateParam = url.searchParams.get("date");
+  const dateParse = parseDateParam(dateParam);
   const includeExperimental = url.searchParams.get("experimental") === "true";
+
+  if (dateParse.error) {
+    return new Response(
+      JSON.stringify({
+        error: dateParse.error,
+      }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
 
   const configuredProject = extractProjectFromUrl(url);
 
@@ -115,12 +173,13 @@ export const GET: APIRoute = async ({ url }) => {
           includeExperimental,
         });
 
-        const analytics = await countDownloadEvents(project, builds);
+        const analytics = await countDownloadEvents(builds, dateParse.dayKey);
         const totalDownloads = analytics.totalDownloads;
 
         return toSummary(
           project,
           channelVersion,
+          dateParse.normalizedDate,
           includeExperimental,
           totalDownloads,
           builds.length,
@@ -145,8 +204,8 @@ export const GET: APIRoute = async ({ url }) => {
           });
 
           const analytics = await countDownloadEvents(
-            project,
-            filteredCachedBuilds
+            filteredCachedBuilds,
+            dateParse.dayKey
           );
           const totalDownloads = analytics.totalDownloads;
 
@@ -158,6 +217,7 @@ export const GET: APIRoute = async ({ url }) => {
           return toSummary(
             project,
             channelVersion,
+            dateParse.normalizedDate,
             includeExperimental,
             totalDownloads,
             filteredCachedBuilds.length,
@@ -171,6 +231,7 @@ export const GET: APIRoute = async ({ url }) => {
           return toSummary(
             project,
             channelVersion,
+            dateParse.normalizedDate,
             includeExperimental,
             0,
             0,
@@ -185,6 +246,7 @@ export const GET: APIRoute = async ({ url }) => {
         return toSummary(
           project,
           channelVersion,
+          dateParse.normalizedDate,
           includeExperimental,
           0,
           0,
@@ -207,6 +269,7 @@ export const GET: APIRoute = async ({ url }) => {
   return new Response(
     JSON.stringify({
       channel: channelVersion ?? null,
+      date: dateParse.normalizedDate,
       includeExperimental,
       totalDownloads,
       projects: summaries,

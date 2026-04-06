@@ -32,11 +32,18 @@
     project,
   }: Props = $props();
 
-  let selectedVersion = $state(versions[0]);
+  let selectedVersion = $state("");
   let showNewTab = $state(false);
   let contentContainer: HTMLDivElement | undefined = $state();
   let notificationElement: HTMLDivElement | undefined = $state();
   let buildsListElement: HTMLDivElement | undefined = $state();
+
+  $effect(() => {
+    const firstVersion = versions[0] ?? "";
+    if (!selectedVersion || !versions.includes(selectedVersion)) {
+      selectedVersion = firstVersion;
+    }
+  });
 
   let builds = $derived.by(() => {
     const versionBuilds = buildsByVersion[selectedVersion];
