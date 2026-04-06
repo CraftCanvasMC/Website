@@ -7,11 +7,15 @@ export {
   Settings,
   Users,
   X,
-} from "lucide-svelte";
+} from "./lucide-compat";
 
 // Social
 export { default as Github } from "@/components/icons/GithubIcon.svelte";
-export { MessageSquare as Discord, Mail, Send as Twitter } from "lucide-svelte";
+export {
+  MessageSquare as Discord,
+  Mail,
+  Send as Twitter,
+} from "./lucide-compat";
 
 // UI
 export {
@@ -24,7 +28,7 @@ export {
   ExternalLink,
   Info,
   Search,
-} from "lucide-svelte";
+} from "./lucide-compat";
 
 // Action
 export {
@@ -36,7 +40,7 @@ export {
   Share2,
   Star,
   Trash2,
-} from "lucide-svelte";
+} from "./lucide-compat";
 
 // Feature
 export {
@@ -47,7 +51,7 @@ export {
   Sparkles,
   Terminal,
   Zap,
-} from "lucide-svelte";
+} from "./lucide-compat";
 
 // Default icon size
 export const DEFAULT_ICON_SIZE = 24;

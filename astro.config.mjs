@@ -15,6 +15,12 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: [
+        { find: /^lucide-svelte$/, replacement: "/src/lib/lucide-compat.ts" },
+      ],
+      noExternal: ["lucide-svelte"],
+    },
     css: {
       transformer: "postcss",
     },

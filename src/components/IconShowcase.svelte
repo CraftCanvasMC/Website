@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { Home, Download, Github, Heart, Sparkles } from "lucide-svelte";
+  import { Home, Download, Heart, Sparkles } from "lucide-svelte";
+  import GithubIcon from "./icons/GithubIcon.svelte";
   import { gsap } from "gsap";
   import { onMount } from "svelte";
 
@@ -47,7 +48,7 @@
     <Download size={32} color="white" />
   </div>
   <div class="icon-item cursor-pointer">
-    <Github size={32} color="white" />
+    <GithubIcon class="size-8 text-white" />
   </div>
   <div class="icon-item cursor-pointer">
     <Heart size={32} color="white" />

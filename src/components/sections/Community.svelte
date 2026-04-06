@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { CircuitBoard, Github, MessageCircle } from "lucide-svelte";
+  import { CircuitBoard, MessageCircle } from "lucide-svelte";
+  import GithubIcon from "../icons/GithubIcon.svelte";
   import Button from "../ui/Button.svelte";
   import Card from "../ui/Card.svelte";
   import { jenkinsConfig } from "../../config/jenkins";
@@ -18,7 +19,7 @@
     {
       titleKey: "community.github.title",
       descriptionKey: "community.github.description",
-      icon: Github,
+      icon: GithubIcon,
       buttonTextKey: "community.github.action",
       href: siteConfig.links.github.org,
     },
