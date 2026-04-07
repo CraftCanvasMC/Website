@@ -11,6 +11,11 @@ type DownloadCountRow = {
   count: number;
 };
 
+type DownloadDailySeriesRow = {
+  day: string;
+  count: number;
+};
+
 const DEFAULT_DB_FILE = join(process.cwd(), ".cache", "download-counts.sqlite");
 
 let dbPromise: Promise<sqlite3.Database> | null = null;
@@ -44,6 +49,25 @@ const DB_FILE_PATH = resolveDbFilePath();
 
 function getTodayDayKey() {
   return new Date().toISOString().slice(0, 10);
+}
+
+function dayKeyFromDate(date: Date) {
+  return date.toISOString().slice(0, 10);
+}
+
+function parseDayKey(day: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) {
+    return null;
+  }
+
+  const parsed = new Date(`${day}T00:00:00Z`);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function addUtcDays(date: Date, days: number) {
+  const next = new Date(date.getTime());
+  next.setUTCDate(next.getUTCDate() + days);
+  return next;
 }
 
 function run(
@@ -290,4 +314,67 @@ export async function getDownloadCounts(
     total,
     byUrl,
   };
+}
+
+export async function getDownloadDailySeries(
+  downloadUrls: string[],
+  days = 90,
+  minimumDay?: string
+) {
+  const uniqueUrls = Array.from(new Set(downloadUrls));
+
+  if (uniqueUrls.length === 0) {
+    return [] as { day: string; downloads: number }[];
+  }
+
+  const safeDays = Math.max(1, Math.min(days, 730));
+  const todayDayKey = dayKeyFromDate(new Date());
+  const todayDate = parseDayKey(todayDayKey) ?? new Date();
+
+  let startDate = addUtcDays(todayDate, -(safeDays - 1));
+  const minimumDate = minimumDay ? parseDayKey(minimumDay) : null;
+
+  if (minimumDate && minimumDate.getTime() > startDate.getTime()) {
+    startDate = minimumDate;
+  }
+
+  if (startDate.getTime() > todayDate.getTime()) {
+    startDate = todayDate;
+  }
+
+  const startDayKey = dayKeyFromDate(startDate);
+
+  const connection = await getDatabase();
+  const placeholders = uniqueUrls.map(() => "?").join(", ");
+
+  const rows = await getAllRows<DownloadDailySeriesRow>(
+    connection,
+    `
+      SELECT day, SUM(count) AS count
+      FROM download_daily
+      WHERE day >= ? AND download_url IN (${placeholders})
+      GROUP BY day
+      ORDER BY day ASC
+    `,
+    [startDayKey, ...uniqueUrls]
+  );
+
+  const byDay = new Map<string, number>();
+  for (const row of rows) {
+    byDay.set(row.day, Number(row.count) || 0);
+  }
+
+  const totalDays =
+    Math.floor((todayDate.getTime() - startDate.getTime()) / 86_400_000) + 1;
+
+  const series: { day: string; downloads: number }[] = [];
+  for (let dayOffset = 0; dayOffset < totalDays; dayOffset += 1) {
+    const day = dayKeyFromDate(addUtcDays(startDate, dayOffset));
+    series.push({
+      day,
+      downloads: byDay.get(day) ?? 0,
+    });
+  }
+
+  return series;
 }

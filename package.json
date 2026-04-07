@@ -22,6 +22,7 @@
     "@tailwindcss/vite": "^4.2.2",
     "astro": "6.1.4",
     "clsx": "^2.1.1",
+    "echarts": "^6.0.0",
     "gsap": "^3.14.2",
     "lru-cache": "^11.3.2",
     "lucide-svelte": "^1.0.1",

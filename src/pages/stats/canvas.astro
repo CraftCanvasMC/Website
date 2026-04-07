@@ -1,0 +1,21 @@
+---
+import CanvasStatsDashboard from "@/components/bstats/CanvasStatsDashboard.svelte";
+import Footer from "@/components/Footer.svelte";
+import Navbar from "@/components/Navbar.svelte";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout
+  title="Canvas Stats"
+  description="Live Canvas usage statistics from bStats"
+>
+  <Navbar slot="navbar" client:load />
+
+  <main
+    class="mx-auto min-h-[70vh] w-full max-w-[1200px] px-3 py-6 sm:px-6 sm:py-10"
+  >
+    <CanvasStatsDashboard client:load pluginId={20070} />
+  </main>
+
+  <Footer slot="footer" client:load />
+</Layout>

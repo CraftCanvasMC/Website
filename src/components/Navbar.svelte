@@ -14,11 +14,17 @@
   interface NavbarItem {
     href: string;
     translationKey: string;
+    showExternalIcon?: boolean;
     icon?: any;
   }
 
   const LINKS: NavbarItem[] = [
     { href: "/downloads", translationKey: "nav.downloads" },
+    {
+      href: "/stats/canvas",
+      translationKey: "nav.stats",
+      showExternalIcon: true,
+    },
     { href: "https://docs.canvasmc.io", translationKey: "nav.documentation" },
     { href: "https://maven.canvasmc.io", translationKey: "nav.maven" },
   ];
@@ -109,6 +115,8 @@
           {#each LINKS as link (link.href)}
             {@const isActive = currentPath === link.href}
             {@const isExternal = link.href.startsWith("http")}
+            {@const showExternalIcon =
+              isExternal || Boolean(link.showExternalIcon)}
             <a
               href={link.href}
               onclick={(e) => handleClick(e, link.href)}
@@ -118,7 +126,7 @@
               aria-current={isActive ? "page" : undefined}
             >
               {$t(link.translationKey)}
-              {#if isExternal}
+              {#if showExternalIcon}
                 <ExternalLink class="size-3.5" aria-hidden />
               {/if}
             </a>
@@ -171,6 +179,9 @@
       <div class="space-y-1 px-2 pb-3">
         {#each LINKS as link (link.href)}
           {@const isActive = currentPath === link.href}
+          {@const isExternal = link.href.startsWith("http")}
+          {@const showExternalIcon =
+            isExternal || Boolean(link.showExternalIcon)}
           <a
             href={link.href}
             onclick={(e) => handleClick(e, link.href)}
@@ -180,6 +191,9 @@
             aria-current={isActive ? "page" : undefined}
           >
             {$t(link.translationKey)}
+            {#if showExternalIcon}
+              <ExternalLink class="size-3.5" aria-hidden />
+            {/if}
           </a>
         {/each}
         <div class="-mx-4 pt-3">
