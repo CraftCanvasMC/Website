@@ -66,6 +66,17 @@
 
   let serversRange = $state<TimeRangeKey>("1m");
   let playersRange = $state<TimeRangeKey>("1m");
+  let themeMode = $state<"light" | "dark">("dark");
+
+  function getThemeModeFromDom(): "light" | "dark" {
+    if (typeof document === "undefined") {
+      return "dark";
+    }
+
+    return document.documentElement.getAttribute("data-theme") === "light"
+      ? "light"
+      : "dark";
+  }
 
   function formatCount(value: number): string {
     return numberFormatter.format(Math.round(value));
@@ -126,8 +137,34 @@
   function makeLineChartOption(
     points: BStatsLinePoint[],
     lineName: string,
-    color: string
+    color: string,
+    isLightTheme = false
   ): EChartsCoreOption {
+    const tooltipBackgroundColor = isLightTheme
+      ? "rgba(255, 255, 255, 0.96)"
+      : "rgba(7, 15, 31, 0.95)";
+    const tooltipBorderColor = isLightTheme
+      ? "rgba(148, 163, 184, 0.7)"
+      : "#284062";
+    const tooltipTextColor = isLightTheme ? "#0f172a" : "#d8e6ff";
+    const axisLineColor = isLightTheme ? "rgba(148, 163, 184, 0.8)" : "#2c3f60";
+    const axisLabelColor = isLightTheme ? "#475569" : "#8da2c4";
+    const splitLineColor = isLightTheme
+      ? "rgba(148, 163, 184, 0.24)"
+      : "rgba(108, 131, 163, 0.14)";
+    const zoomBackgroundColor = isLightTheme
+      ? "rgba(241, 245, 249, 0.92)"
+      : "rgba(12, 26, 47, 0.8)";
+    const zoomFillerColor = isLightTheme
+      ? "rgba(79, 70, 229, 0.2)"
+      : "rgba(36, 227, 187, 0.24)";
+    const zoomBorderColor = isLightTheme
+      ? "rgba(148, 163, 184, 0.82)"
+      : "#2a405f";
+    const zoomHandleColor = isLightTheme ? "#4f46e5" : "#2ce4be";
+    const zoomHandleBorderColor = isLightTheme ? "#4338ca" : "#23c29f";
+    const zoomTextColor = isLightTheme ? "#475569" : "#7f95b5";
+
     return {
       animation: true,
       animationDuration: 400,
@@ -136,11 +173,11 @@
       },
       tooltip: {
         trigger: "axis",
-        backgroundColor: "rgba(7, 15, 31, 0.95)",
-        borderColor: "#284062",
+        backgroundColor: tooltipBackgroundColor,
+        borderColor: tooltipBorderColor,
         borderWidth: 1,
         textStyle: {
-          color: "#d8e6ff",
+          color: tooltipTextColor,
           fontSize: 12,
         },
         valueFormatter: (value) => formatCount(Number(value)),
@@ -170,11 +207,11 @@
         boundaryGap: false,
         axisLine: {
           lineStyle: {
-            color: "#2c3f60",
+            color: axisLineColor,
           },
         },
         axisLabel: {
-          color: "#8da2c4",
+          color: axisLabelColor,
           formatter: (value: number) =>
             axisDateFormatter.format(new Date(value)),
         },
@@ -188,12 +225,12 @@
           show: false,
         },
         axisLabel: {
-          color: "#8da2c4",
+          color: axisLabelColor,
           formatter: (value: number) => formatCount(value),
         },
         splitLine: {
           lineStyle: {
-            color: "rgba(108, 131, 163, 0.14)",
+            color: splitLineColor,
           },
         },
       },
@@ -208,15 +245,15 @@
           type: "slider",
           bottom: 16,
           height: 20,
-          backgroundColor: "rgba(12, 26, 47, 0.8)",
-          fillerColor: "rgba(36, 227, 187, 0.24)",
-          borderColor: "#2a405f",
+          backgroundColor: zoomBackgroundColor,
+          fillerColor: zoomFillerColor,
+          borderColor: zoomBorderColor,
           handleStyle: {
-            color: "#2ce4be",
-            borderColor: "#23c29f",
+            color: zoomHandleColor,
+            borderColor: zoomHandleBorderColor,
           },
           textStyle: {
-            color: "#7f95b5",
+            color: zoomTextColor,
           },
         },
       ],
@@ -256,12 +293,26 @@
     };
   }
 
-  function makePieChartOption(points: BStatsPiePoint[]): EChartsCoreOption {
+  function makePieChartOption(
+    points: BStatsPiePoint[],
+    isLightTheme = false
+  ): EChartsCoreOption {
     const collapsedPoints = collapsePieSlices(points);
     const chartData = collapsedPoints.map((point) => ({
       name: point.name,
       value: point.y,
     }));
+
+    const tooltipBackgroundColor = isLightTheme
+      ? "rgba(255, 255, 255, 0.96)"
+      : "rgba(7, 15, 31, 0.95)";
+    const tooltipBorderColor = isLightTheme
+      ? "rgba(148, 163, 184, 0.7)"
+      : "#284062";
+    const tooltipTextColor = isLightTheme ? "#0f172a" : "#d8e6ff";
+    const sliceBorderColor = isLightTheme ? "#e2e8f0" : "#0f1b32";
+    const labelColor = isLightTheme ? "#334155" : "#a8bddc";
+    const labelLineColor = isLightTheme ? "#94a3b8" : "#627a9f";
 
     return {
       animation: true,
@@ -271,11 +322,11 @@
       },
       tooltip: {
         trigger: "item",
-        backgroundColor: "rgba(7, 15, 31, 0.95)",
-        borderColor: "#284062",
+        backgroundColor: tooltipBackgroundColor,
+        borderColor: tooltipBorderColor,
         borderWidth: 1,
         textStyle: {
-          color: "#d8e6ff",
+          color: tooltipTextColor,
           fontSize: 12,
         },
         formatter: (value) => {
@@ -308,11 +359,11 @@
           avoidLabelOverlap: true,
           data: chartData,
           itemStyle: {
-            borderColor: "#0f1b32",
+            borderColor: sliceBorderColor,
             borderWidth: 1,
           },
           label: {
-            color: "#a8bddc",
+            color: labelColor,
             fontSize: 10,
             formatter: (value) => {
               const name = String((value as { name?: unknown }).name ?? "");
@@ -326,7 +377,7 @@
             length: 10,
             length2: 6,
             lineStyle: {
-              color: "#627a9f",
+              color: labelLineColor,
             },
           },
           emphasis: {
@@ -421,7 +472,12 @@
       response?.charts.servers ?? [],
       serversRange
     );
-    return makeLineChartOption(points, "Servers", accentColor);
+    return makeLineChartOption(
+      points,
+      "Servers",
+      accentColor,
+      themeMode === "light"
+    );
   });
 
   const playersOption = $derived.by(() => {
@@ -429,7 +485,12 @@
       response?.charts.players ?? [],
       playersRange
     );
-    return makeLineChartOption(points, "Players", secondaryAccentColor);
+    return makeLineChartOption(
+      points,
+      "Players",
+      secondaryAccentColor,
+      themeMode === "light"
+    );
   });
 
   const downloadsByDateOption = $derived.by(() => {
@@ -440,7 +501,12 @@
           Number.isFinite(point[0]) && Number.isFinite(point[1])
       );
 
-    return makeLineChartOption(points, "Downloads", "#f59e0b");
+    return makeLineChartOption(
+      points,
+      "Downloads",
+      "#f59e0b",
+      themeMode === "light"
+    );
   });
 
   const downloadsByVersionOption = $derived.by(() => {
@@ -450,17 +516,34 @@
         y: point.downloads,
       })) ?? [];
 
-    return makePieChartOption(points);
+    return makePieChartOption(points, themeMode === "light");
   });
 
   const bstatsMinecraftVersionOption = $derived.by(() =>
     makePieChartOption(
-      aggregateMinecraftVersions(response?.charts.canvasVersion ?? [])
+      aggregateMinecraftVersions(response?.charts.canvasVersion ?? []),
+      themeMode === "light"
     )
   );
 
   onMount(() => {
+    const updateThemeMode = () => {
+      themeMode = getThemeModeFromDom();
+    };
+
+    updateThemeMode();
+
+    const themeObserver = new MutationObserver(updateThemeMode);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
     void Promise.all([loadData(), loadDownloadsData()]);
+
+    return () => {
+      themeObserver.disconnect();
+    };
   });
 </script>
 
@@ -888,6 +971,138 @@
 
   .state-card-error {
     border-color: rgba(226, 84, 93, 0.6);
+  }
+
+  :global([data-theme="light"]) .bstats-shell {
+    color: #1e293b;
+  }
+
+  :global([data-theme="light"]) .bstats-bg-orb {
+    opacity: 0.42;
+  }
+
+  :global([data-theme="light"]) .bstats-bg-orb-top {
+    background: radial-gradient(circle, rgba(20, 184, 166, 0.45) 0%, transparent 74%);
+  }
+
+  :global([data-theme="light"]) .bstats-bg-orb-bottom {
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.34) 0%, transparent 72%);
+  }
+
+  :global([data-theme="light"]) .counter-note {
+    color: #334155;
+    border-color: rgba(148, 163, 184, 0.7);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.08);
+  }
+
+  :global([data-theme="light"]) .hero-tag {
+    background: rgba(255, 255, 255, 0.7);
+    color: #475569;
+    border-color: rgba(148, 163, 184, 0.7);
+  }
+
+  :global([data-theme="light"]) .hero-title {
+    color: #0f172a;
+  }
+
+  :global([data-theme="light"]) .hero-author {
+    color: #475569;
+  }
+
+  :global([data-theme="light"]) .hero-author a {
+    color: #4338ca;
+  }
+
+  :global([data-theme="light"]) .summary-card {
+    border-color: rgba(148, 163, 184, 0.6);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.9),
+      rgba(248, 250, 252, 0.85)
+    );
+    box-shadow: 0 16px 34px rgba(79, 70, 229, 0.1);
+  }
+
+  :global([data-theme="light"]) .summary-label {
+    color: #475569;
+  }
+
+  :global([data-theme="light"]) .summary-value {
+    color: #0f172a;
+  }
+
+  :global([data-theme="light"]) .summary-record {
+    color: #64748b;
+  }
+
+  :global([data-theme="light"]) .charts-section h2 {
+    color: #0f172a;
+  }
+
+  :global([data-theme="light"]) .charts-meta {
+    color: #475569;
+  }
+
+  :global([data-theme="light"]) .panel {
+    border-color: rgba(148, 163, 184, 0.6);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.92),
+      rgba(241, 245, 249, 0.88)
+    );
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.09);
+  }
+
+  :global([data-theme="light"]) .panel h3 {
+    color: #0f172a;
+  }
+
+  :global([data-theme="light"]) .panel-meta {
+    color: #475569;
+  }
+
+  :global([data-theme="light"]) .chart-state-inline {
+    color: #475569;
+  }
+
+  :global([data-theme="light"]) .range-pill {
+    border-color: rgba(148, 163, 184, 0.75);
+    color: #475569;
+    background: rgba(241, 245, 249, 0.9);
+  }
+
+  :global([data-theme="light"]) .range-pill:hover {
+    border-color: rgba(99, 102, 241, 0.7);
+    color: #1e293b;
+  }
+
+  :global([data-theme="light"]) .range-pill-active {
+    border-color: rgba(79, 70, 229, 0.9);
+    color: #312e81;
+    background: rgba(129, 140, 248, 0.18);
+  }
+
+  :global([data-theme="light"]) .action-button {
+    border-color: rgba(148, 163, 184, 0.78);
+    background: rgba(241, 245, 249, 0.9);
+    color: #475569;
+  }
+
+  :global([data-theme="light"]) .action-button:hover:enabled {
+    border-color: rgba(99, 102, 241, 0.72);
+    color: #1e293b;
+  }
+
+  :global([data-theme="light"]) .state-card {
+    border-color: rgba(148, 163, 184, 0.72);
+    background: rgba(255, 255, 255, 0.86);
+    color: #334155;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  }
+
+  :global([data-theme="light"]) .state-card-error {
+    border-color: rgba(239, 68, 68, 0.58);
   }
 
   @media (max-width: 900px) {
