@@ -128,6 +128,38 @@ export default {
       },
     },
   },
+  stats: {
+    heroTag: "Sunucu Uygulaması",
+    cards: {
+      servers: "SUNUCULAR",
+      players: "OYUNCULAR",
+      downloads: "İNDİRMELER",
+      record: "REKOR",
+      total: "TOPLAM",
+    },
+    counterStartedOn: "İndirme sayacı {date} tarihinde başladı.",
+    bstatsDataNote: "İndirme verileri dışındaki her şey bStats'ten alınır.",
+    chartsTitle: "Grafikler",
+    chartsMeta:
+      "Veriler her 30 dakikada bir, saat başı ve buçukta güncellenir.",
+    loadingLiveData: "Canlı bStats verileri yükleniyor...",
+    loadFailed: "bStats verileri yüklenemedi.",
+    retry: "Tekrar Dene",
+    since: "{date} tarihinden beri",
+    series: {
+      servers: "Sunucular",
+      players: "Oyuncular",
+      downloads: "İndirmeler",
+    },
+    panels: {
+      serversUsingCanvas: "Canvas kullanan sunucular",
+      playersUsingCanvas: "Canvas kullanan oyuncular",
+      downloadsByDate: "Tarihe Göre İndirmeler",
+      bstatsMinecraftVersionServerShare:
+        "bStats Minecraft Sürümü (Sunucu Payı)",
+      downloadsByMinecraftVersion: "Minecraft Sürümüne Göre İndirmeler",
+    },
+  },
   community: {
     heading: "Topluluğumuza Katılın",
     subheading:

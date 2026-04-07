@@ -9,6 +9,7 @@
     type CanvasBStatsResponse,
     type TimeRangeKey,
   } from "@/lib/bstats/types";
+  import { t } from "@/lib/i18n";
   import EChart from "./charts/EChart.svelte";
 
   interface Props {
@@ -80,6 +81,24 @@
 
   function formatCount(value: number): string {
     return numberFormatter.format(Math.round(value));
+  }
+
+  function formatTranslation(
+    key: string,
+    fallback: string,
+    replacements?: Record<string, string | number>
+  ): string {
+    let translated = $t(key, fallback);
+
+    if (!replacements) {
+      return translated;
+    }
+
+    for (const [name, value] of Object.entries(replacements)) {
+      translated = translated.replaceAll(`{${name}}`, String(value));
+    }
+
+    return translated;
   }
 
   function parseDayToTimestamp(day: string) {
@@ -474,7 +493,7 @@
     );
     return makeLineChartOption(
       points,
-      "Servers",
+      $t("stats.series.servers", "Servers"),
       accentColor,
       themeMode === "light"
     );
@@ -487,7 +506,7 @@
     );
     return makeLineChartOption(
       points,
-      "Players",
+      $t("stats.series.players", "Players"),
       secondaryAccentColor,
       themeMode === "light"
     );
@@ -503,7 +522,7 @@
 
     return makeLineChartOption(
       points,
-      "Downloads",
+      $t("stats.series.downloads", "Downloads"),
       "#f59e0b",
       themeMode === "light"
     );
@@ -552,10 +571,10 @@
   <div class="bstats-bg-orb bstats-bg-orb-bottom"></div>
 
   <header class="hero">
-    <p class="hero-tag">Server Implementation</p>
+    <p class="hero-tag">{$t("stats.heroTag", "Server Implementation")}</p>
     <h1 class="hero-title">{response?.plugin.name ?? "Canvas"}</h1>
     <p class="hero-author">
-      by
+      {$t("common.by")}
       <a
         href="https://bstats.org/author/Dueris"
         target="_blank"
@@ -565,64 +584,86 @@
 
     <div class="summary-grid">
       <article class="summary-card" use:hoverScale={"small"}>
-        <p class="summary-label">SERVERS</p>
+        <p class="summary-label">{$t("stats.cards.servers", "SERVERS")}</p>
         <p class="summary-value">
           {response ? formatCount(response.summary.servers.current) : "--"}
         </p>
         <p class="summary-record">
           {response ? formatCount(response.summary.servers.record) : "--"}
-          RECORD
+          {$t("stats.cards.record", "RECORD")}
         </p>
       </article>
 
       <article class="summary-card" use:hoverScale={"small"}>
-        <p class="summary-label">PLAYERS</p>
+        <p class="summary-label">{$t("stats.cards.players", "PLAYERS")}</p>
         <p class="summary-value">
           {response ? formatCount(response.summary.players.current) : "--"}
         </p>
         <p class="summary-record">
           {response ? formatCount(response.summary.players.record) : "--"}
-          RECORD
+          {$t("stats.cards.record", "RECORD")}
         </p>
       </article>
 
       <article class="summary-card" use:hoverScale={"small"}>
-        <p class="summary-label">DOWNLOADS</p>
+        <p class="summary-label">
+          {$t("stats.cards.downloads", "DOWNLOADS")}
+        </p>
         <p class="summary-value">
           {downloadsStats ? formatCount(downloadsStats.totalDownloads) : "--"}
         </p>
-        <p class="summary-record">TOTAL</p>
+        <p class="summary-record">{$t("stats.cards.total", "TOTAL")}</p>
       </article>
     </div>
 
     <p class="counter-note">
-      Downloads counter started on {downloadsStats
-        ? formatUtcDay(downloadsStats.trackingStartedDay)
-        : "Apr 6, 2026"}.
+      {formatTranslation(
+        "stats.counterStartedOn",
+        "Downloads counter started on {date}.",
+        {
+          date: downloadsStats
+            ? formatUtcDay(downloadsStats.trackingStartedDay)
+            : "Apr 6, 2026",
+        }
+      )}
+    </p>
+
+    <p class="counter-note counter-note-secondary">
+      {$t(
+        "stats.bstatsDataNote",
+        "Everything except downloads data is pulled from bStats."
+      )}
     </p>
   </header>
 
   <section class="charts-section">
-    <h2>Charts</h2>
+    <h2>{$t("stats.chartsTitle", "Charts")}</h2>
     <p class="charts-meta">
-      Data updates every 30 minutes, on the hour and half hour.
+      {$t(
+        "stats.chartsMeta",
+        "Data updates every 30 minutes, on the hour and half hour."
+      )}
     </p>
 
     {#if loading}
-      <div class="state-card">Loading live bStats data...</div>
+      <div class="state-card">
+        {$t("stats.loadingLiveData", "Loading live bStats data...")}
+      </div>
     {:else if errorMessage}
       <div class="state-card state-card-error">
-        <p>Failed to load bStats data.</p>
+        <p>{$t("stats.loadFailed", "Failed to load bStats data.")}</p>
         <p>{errorMessage}</p>
         <button class="action-button" onclick={() => void loadData()}
-          >Retry</button
+          >{$t("stats.retry", "Retry")}</button
         >
       </div>
     {:else if response}
       <div class="panel-stack">
         <article class="panel line-panel" use:hoverScale={"small"}>
           <div class="panel-header">
-            <h3>Servers using Canvas</h3>
+            <h3>
+              {$t("stats.panels.serversUsingCanvas", "Servers using Canvas")}
+            </h3>
           </div>
 
           <div class="range-row">
@@ -641,7 +682,9 @@
 
         <article class="panel line-panel" use:hoverScale={"small"}>
           <div class="panel-header">
-            <h3>Players using Canvas</h3>
+            <h3>
+              {$t("stats.panels.playersUsingCanvas", "Players using Canvas")}
+            </h3>
           </div>
 
           <div class="range-row">
@@ -660,11 +703,13 @@
 
         <article class="panel line-panel" use:hoverScale={"small"}>
           <div class="panel-header">
-            <h3>Downloads by Date</h3>
+            <h3>{$t("stats.panels.downloadsByDate", "Downloads by Date")}</h3>
             <span class="panel-meta"
-              >Since {downloadsStats
-                ? formatUtcDay(downloadsStats.trackingStartedDay)
-                : "Apr 6, 2026"}</span
+              >{formatTranslation("stats.since", "Since {date}", {
+                date: downloadsStats
+                  ? formatUtcDay(downloadsStats.trackingStartedDay)
+                  : "Apr 6, 2026",
+              })}</span
             >
           </div>
 
@@ -677,12 +722,22 @@
 
         <div class="panel-grid-two">
           <article class="panel pie-panel" use:hoverScale={"small"}>
-            <h3>bStats Minecraft Version (Server Share)</h3>
+            <h3>
+              {$t(
+                "stats.panels.bstatsMinecraftVersionServerShare",
+                "bStats Minecraft Version (Server Share)"
+              )}
+            </h3>
             <EChart option={bstatsMinecraftVersionOption} class="pie-chart" />
           </article>
 
           <article class="panel pie-panel" use:hoverScale={"small"}>
-            <h3>Downloads by Minecraft Version</h3>
+            <h3>
+              {$t(
+                "stats.panels.downloadsByMinecraftVersion",
+                "Downloads by Minecraft Version"
+              )}
+            </h3>
 
             {#if downloadsError}
               <p class="chart-state-inline">{downloadsError}</p>
@@ -702,6 +757,7 @@
     max-width: 1080px;
     margin: 0 auto;
     padding: 2.5rem 1rem 4rem;
+    overflow-x: clip;
     color: #d9e5fb;
   }
 
@@ -742,6 +798,10 @@
     border-radius: 10px;
     padding: 0.62rem 0.8rem;
     margin-top: 0.85rem;
+  }
+
+  .counter-note-secondary {
+    margin-top: 0.5rem;
   }
 
   .hero-tag {
@@ -982,11 +1042,19 @@
   }
 
   :global([data-theme="light"]) .bstats-bg-orb-top {
-    background: radial-gradient(circle, rgba(20, 184, 166, 0.45) 0%, transparent 74%);
+    background: radial-gradient(
+      circle,
+      rgba(20, 184, 166, 0.45) 0%,
+      transparent 74%
+    );
   }
 
   :global([data-theme="light"]) .bstats-bg-orb-bottom {
-    background: radial-gradient(circle, rgba(79, 70, 229, 0.34) 0%, transparent 72%);
+    background: radial-gradient(
+      circle,
+      rgba(79, 70, 229, 0.34) 0%,
+      transparent 72%
+    );
   }
 
   :global([data-theme="light"]) .counter-note {

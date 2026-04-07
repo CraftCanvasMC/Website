@@ -126,6 +126,37 @@ export default {
       },
     },
   },
+  stats: {
+    heroTag: "Implementacja serwera",
+    cards: {
+      servers: "SERWERY",
+      players: "GRACZE",
+      downloads: "POBRANIA",
+      record: "REKORD",
+      total: "ŁĄCZNIE",
+    },
+    counterStartedOn: "Licznik pobrań działa od {date}.",
+    bstatsDataNote: "Wszystko poza danymi o pobraniach pochodzi z bStats.",
+    chartsTitle: "Wykresy",
+    chartsMeta: "Dane aktualizują się co 30 minut, o pełnej i w pół godziny.",
+    loadingLiveData: "Ładowanie danych bStats...",
+    loadFailed: "Nie udało się załadować danych bStats.",
+    retry: "Spróbuj ponownie",
+    since: "Od {date}",
+    series: {
+      servers: "Serwery",
+      players: "Gracze",
+      downloads: "Pobrania",
+    },
+    panels: {
+      serversUsingCanvas: "Serwery używające Canvas",
+      playersUsingCanvas: "Gracze używający Canvas",
+      downloadsByDate: "Pobrania według daty",
+      bstatsMinecraftVersionServerShare:
+        "Wersje Minecraft wg bStats (udział serwerów)",
+      downloadsByMinecraftVersion: "Pobrania według wersji Minecraft",
+    },
+  },
   community: {
     heading: "Dołącz do naszej społeczności",
     subheading:
