@@ -2,6 +2,7 @@ export default {
   nav: {
     home: "Ana Sayfa",
     downloads: "İndirilenler",
+    stats: "İstatistikler",
     documentation: "Dokümantasyon",
     maven: "Maven",
     github: "GitHub",
