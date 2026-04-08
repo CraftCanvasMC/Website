@@ -4,7 +4,7 @@ export const siteConfig = {
   description:
     "CanvasMC is a fork of the Folia Minecraft server software that fixes gameplay inconsistencies, bugs, and introduces further performance enhancements to the dedicated server",
   links: {
-    discord: "https://discord.gg/ySfW4QZsRV",
+    discord: "https://discord.gg/uM7eC7rBrW",
     github: {
       org: "https://github.com/CraftCanvasMC",
       repo: "https://github.com/CraftCanvasMC/Canvas",
