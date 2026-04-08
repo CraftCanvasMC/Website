@@ -57,7 +57,7 @@
   </header>
 
   <div
-    class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 place-items-center"
+    class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 items-stretch justify-items-center"
   >
     {#each FEATURES as { titleKey, descriptionKey, icon: Icon }, index (titleKey)}
       <div
@@ -66,19 +66,17 @@
           start: "top 85%",
           delay: index * 0.12,
         }}
-        class="w-full sm:w-[95%] max-w-sm"
+        class="w-full sm:w-[95%] max-w-sm h-full"
       >
         <Card
           enableHover={true}
-          class="p-5 border border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-colors"
+          class="feature-card h-full p-5 border border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-colors"
         >
           <div class="sm:hidden">
             <div class="flex items-center gap-4">
               <div class="shrink-0">
-                <div class="rounded-lg bg-neutral-700/50 p-2.5">
-                  <Icon
-                    class="size-5 text-neutral-100 drop-shadow-[0_0_4px_rgba(255,255,255,0.2)]"
-                  />
+                <div class="feature-icon-badge rounded-lg p-2.5">
+                  <Icon class="size-5" />
                 </div>
               </div>
               <h3 class="font-medium text-neutral-100">{$t(titleKey)}</h3>
@@ -86,15 +84,13 @@
             <p class="mt-3 text-neutral-400 text-sm">{$t(descriptionKey)}</p>
           </div>
 
-          <div class="hidden sm:flex gap-4">
+          <div class="hidden h-full sm:flex gap-4">
             <div class="shrink-0">
-              <div class="rounded-lg bg-neutral-700/50 p-2.5">
-                <Icon
-                  class="size-5 text-neutral-100 drop-shadow-[0_0_4px_rgba(255,255,255,0.2)]"
-                />
+              <div class="feature-icon-badge rounded-lg p-2.5">
+                <Icon class="size-5" />
               </div>
             </div>
-            <div>
+            <div class="flex min-h-0 flex-col">
               <h3 class="font-medium text-neutral-100">{$t(titleKey)}</h3>
               <p class="mt-1.5 text-neutral-400 text-sm">
                 {$t(descriptionKey)}
@@ -106,3 +102,33 @@
     {/each}
   </div>
 </section>
+
+<style>
+  :global(.feature-card) {
+    min-height: 100%;
+  }
+
+  :global(.feature-icon-badge) {
+    background: rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(15, 23, 42, 0.1);
+  }
+
+  :global(.feature-icon-badge svg) {
+    color: rgba(15, 23, 42, 0.62);
+  }
+
+  :global([data-theme="dark"]) .feature-icon-badge {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  :global([data-theme="dark"] .feature-icon-badge svg) {
+    color: rgba(241, 245, 249, 0.86);
+  }
+
+  @media (min-width: 640px) {
+    :global(.feature-card) {
+      min-height: 172px;
+    }
+  }
+</style>

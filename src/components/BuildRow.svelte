@@ -109,9 +109,9 @@
       {/if}
     </div>
   </div>
-  <div class="hidden sm:flex min-w-0 flex-1 sm:flex-row sm:items-center">
+  <div class="hidden sm:flex min-w-0 flex-1 sm:flex-row sm:items-stretch">
     <div
-      class="flex flex-col justify-center pr-6 sm:pr-8 border-r border-white/10 min-w-[120px] sm:min-w-[140px]"
+      class="flex w-[168px] shrink-0 flex-col justify-center border-r border-white/10 pr-4 sm:pr-4"
     >
       <div class="flex items-center gap-2">
         <span class="text-lg font-semibold text-neutral-100"
@@ -127,7 +127,9 @@
       </span>
     </div>
 
-    <div class="flex-1 min-w-0 pl-6 sm:pl-8 mt-3 sm:mt-0 space-y-2">
+    <div
+      class="mt-3 min-w-0 flex-1 space-y-2 pl-4 sm:mt-0 sm:flex sm:flex-col sm:justify-center sm:pl-5"
+    >
       {#if build.commits.length === 0}
         <span class="text-neutral-300 text-sm">{$t("downloads.noChanges")}</span
         >
