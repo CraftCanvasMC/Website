@@ -757,7 +757,6 @@
     max-width: 1080px;
     margin: 0 auto;
     padding: 2.5rem 1rem 4rem;
-    overflow-x: clip;
     color: #d9e5fb;
   }
 

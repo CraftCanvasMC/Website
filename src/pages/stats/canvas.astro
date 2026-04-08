@@ -11,11 +11,13 @@ import Layout from "@/layouts/Layout.astro";
 >
   <Navbar slot="navbar" client:load />
 
-  <main
-    class="mx-auto min-h-[70vh] w-full max-w-[1200px] overflow-x-clip px-3 py-6 sm:px-6 sm:py-10"
-  >
-    <CanvasStatsDashboard client:load pluginId={20070} />
-  </main>
+  <section class="w-full overflow-x-hidden">
+    <main
+      class="mx-auto min-h-[70vh] w-full max-w-[1200px] px-3 py-6 sm:px-6 sm:py-10"
+    >
+      <CanvasStatsDashboard client:load pluginId={20070} />
+    </main>
+  </section>
 
   <Footer slot="footer" client:load />
 </Layout>
