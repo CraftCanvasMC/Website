@@ -4,7 +4,6 @@
   import GithubIcon from "./icons/GithubIcon.svelte";
   import DiscordIcon from "./icons/DiscordIcon.svelte";
   import DonateIcon from "./icons/DonateIcon.svelte";
-  import Redirecting from "./Redirecting.svelte";
   import ThemeToggle from "./ThemeToggle.svelte";
   import LanguageSelector from "./LanguageSelector.svelte";
   import gsap from "gsap";
@@ -48,8 +47,6 @@
   ];
 
   let isOpen = $state(false);
-  let redirecting = $state(false);
-  let redirectTarget = $state<string | undefined>(undefined);
   let mobileMenuElement = $state<HTMLDivElement | undefined>(undefined);
 
   let currentPath = $state("");
@@ -71,12 +68,7 @@
   });
 
   function handleExternalRedirect(url: string) {
-    const urlObj = new URL(url);
-    redirectTarget = urlObj.hostname.replace(/^www\./, "");
-    redirecting = true;
-    setTimeout(() => {
-      window.location.href = url;
-    }, 1300);
+    window.location.href = url;
   }
 
   function handleClick(e: MouseEvent, href: string) {
@@ -216,5 +208,3 @@
     </div>
   {/if}
 </nav>
-
-<Redirecting bind:show={redirecting} target={redirectTarget} />

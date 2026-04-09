@@ -1,6 +1,5 @@
 <script lang="ts">
   import DownloadsPageWrapper from "./DownloadsPageWrapper.svelte";
-  import Redirecting from "./Redirecting.svelte";
   import type { Project } from "@/config/jenkins";
   interface Props {
     project: Project;
@@ -13,4 +12,3 @@
 </script>
 
 <DownloadsPageWrapper bind:redirecting {project} {hideSculptor} />
-<Redirecting bind:show={redirecting} target="Javadocs" />
