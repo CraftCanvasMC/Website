@@ -5,7 +5,7 @@ export const jenkinsConfig = {
 } as const;
 
 const javadocConfig = {
-  baseUrl: import.meta.env.JAVADOC_BASE_URL || "https://maven.canvasmc.io/javadoc/public/",
+  baseUrl: import.meta.env.JAVADOC_BASE_URL || "https://maven.canvasmc.io",
 };
 
 export const projects = {
@@ -14,7 +14,7 @@ export const projects = {
     ciJob: "Canvas",
     ciJobUrl: jenkinsConfig.baseUrl + "/job/Canvas/",
     javadocBaseUrl:
-      javadocConfig.baseUrl + "io/canvasmc/canvas/canvas-api",
+      javadocConfig.baseUrl + "/javadoc/releases/io/canvasmc/canvas/canvas-api",
     versionSuffix: "",
   },
   horizon: {
@@ -22,7 +22,7 @@ export const projects = {
     ciJob: "Horizon",
     ciJobUrl: jenkinsConfig.baseUrl + "/job/Horizon/",
     javadocBaseUrl:
-      javadocConfig.baseUrl + "io/canvasmc/horizon/core",
+      javadocConfig.baseUrl + "/javadoc/releases/io/canvasmc/horizon/core",
     versionSuffix: "",
   },
   sculptor: {
