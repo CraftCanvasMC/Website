@@ -12,13 +12,12 @@ import type { APIRoute } from "astro";
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ params, url, redirect }) => {
+export const GET: APIRoute = async ({ url, redirect }) => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
 
-  const defaultProject = getProjectConfig(params.project);
-  const project = defaultProject || extractProjectFromUrl(url);
+  const project = extractProjectFromUrl(url);
   if (!project) {
     return new Response(JSON.stringify({ error: "Unknown project" }), {
       status: 404,

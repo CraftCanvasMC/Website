@@ -1,20 +1,15 @@
-import {
-  extractChannelFromUrl,
-  extractProjectFromUrl,
-  getProjectConfig,
-} from "@/config/jenkins";
+import { extractChannelFromUrl, extractProjectFromUrl } from "@/config/jenkins";
 import { getCachedBuilds } from "@/lib/cache";
 import { JenkinsError, getAllBuilds } from "@/lib/jenkins";
 import type { APIRoute } from "astro";
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ params, url }) => {
+export const GET: APIRoute = async ({ url }) => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
-  const defaultProject = getProjectConfig(params.project);
-  const project = defaultProject || extractProjectFromUrl(url);
+  const project = extractProjectFromUrl(url);
   if (!project) {
     return new Response(JSON.stringify({ error: "Unknown project" }), {
       status: 404,
