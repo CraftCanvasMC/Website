@@ -62,7 +62,7 @@
   function handleJavadocRedirect() {
     redirecting = true;
     setTimeout(() => {
-      window.location.href = `/api/v2/jd/?channel=${selectedVersion.replace(/\s*\(.*?\)$/, "")}&experimental=true&project=${project.slug}`;
+      window.location.href = `/api/v2/jd/?channel=${encodeURIComponent(selectedVersion)}&experimental=true&project=${encodeURIComponent(project.slug)}`;
     }, 150);
   }
 
