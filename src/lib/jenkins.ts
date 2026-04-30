@@ -160,7 +160,7 @@ export function getProjectJavadocUrl(
   }
   // pre 26.1
   if (project.slug === "canvas" && major < 2) {
-    return `${baseUrl.replace("/releases/", "/snapshots/")}/${version}-R0.1-SNAPSHOT${redirectUrl}`;
+    return `${baseUrl}/${version}-R0.1-SNAPSHOT${redirectUrl}`;
   }
   return `${baseUrl}/${version}${project.versionSuffix}${redirectUrl}`;
 }
