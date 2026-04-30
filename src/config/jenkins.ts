@@ -16,7 +16,7 @@ export const projects = {
     javadocBaseUrl:
       javadocConfig.baseUrl +
       "/javadoc/snapshots/io/canvasmc/canvas/canvas-api",
-    versionSuffix: "-R0.1-SNAPSHOT",
+    versionSuffix: "",
   },
   horizon: {
     slug: "horizon",
