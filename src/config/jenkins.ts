@@ -14,8 +14,7 @@ export const projects = {
     ciJob: "Canvas",
     ciJobUrl: jenkinsConfig.baseUrl + "/job/Canvas/",
     javadocBaseUrl:
-      javadocConfig.baseUrl +
-      "/javadoc/snapshots/io/canvasmc/canvas/canvas-api",
+      javadocConfig.baseUrl + "/javadoc/releases/io/canvasmc/canvas/canvas-api",
     versionSuffix: "",
   },
   horizon: {
