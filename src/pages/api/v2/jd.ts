@@ -51,7 +51,7 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
     const build = await getLatestBuild(
       project,
       channelVersion,
-      !experimentalParam
+      experimentalParam
     );
 
     responseHeaders = applyDeprecationHeaders(
