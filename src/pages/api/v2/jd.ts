@@ -1,9 +1,6 @@
 import {
-  applyDeprecationHeaders,
   extractChannelFromUrl,
-  extractProjectFromJobOrFallback,
   extractProjectFromUrl,
-  extractVersionFromUrl,
   getProjectConfig,
 } from "@/config/jenkins";
 import {
@@ -19,18 +16,9 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
-  let responseHeaders: Record<string, string> = { ...headers };
-  let fallbackUsed = false;
-  let fallbackVersionUsed = false;
 
   const defaultProject = getProjectConfig(params.project);
-  const project =
-    defaultProject ||
-    extractProjectFromUrl(url) ||
-    (() => {
-      fallbackUsed = true;
-      return extractProjectFromJobOrFallback(url);
-    })();
+  const project = defaultProject || extractProjectFromUrl(url);
   if (!project) {
     return new Response(JSON.stringify({ error: "Unknown project" }), {
       status: 404,
@@ -39,25 +27,13 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
   }
 
   try {
-    const channelVersion =
-      extractChannelFromUrl(url) ||
-      (() => {
-        const v = extractVersionFromUrl(url);
-        if (v) fallbackVersionUsed = true;
-        return v;
-      })();
+    const channelVersion = extractChannelFromUrl(url);
     const experimentalParam = url.searchParams.get("experimental") === "true";
 
     const build = await getLatestBuild(
       project,
       channelVersion,
       experimentalParam
-    );
-
-    responseHeaders = applyDeprecationHeaders(
-      headers,
-      fallbackUsed,
-      fallbackVersionUsed
     );
 
     const projectChannel = channelVersion ?? build?.channelVersion;
@@ -67,7 +43,7 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
         JSON.stringify({ error: "No channel version found" }),
         {
           status: 404,
-          headers: { ...responseHeaders },
+          headers: { ...headers },
         }
       );
     }
@@ -84,7 +60,7 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
       if (error instanceof JenkinsError) {
         return new Response(JSON.stringify({ error: error.message }), {
           status: 404,
-          headers: { ...responseHeaders },
+          headers: { ...headers },
         });
       }
     }
@@ -94,14 +70,14 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
     if (error instanceof JenkinsError) {
       return new Response(JSON.stringify({ error: error.message }), {
         status: 400,
-        headers: { ...responseHeaders },
+        headers: { ...headers },
       });
     }
 
     console.error(error);
     return new Response(JSON.stringify({ error: "Internal server error" }), {
       status: 500,
-      headers: { ...responseHeaders },
+      headers: { ...headers },
     });
   }
 };

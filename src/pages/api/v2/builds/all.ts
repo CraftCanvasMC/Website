@@ -1,10 +1,4 @@
-import {
-  applyDeprecationHeaders,
-  extractChannelFromUrl,
-  extractProjectFromJobOrFallback,
-  extractProjectFromUrl,
-  extractVersionFromUrl,
-} from "@/config/jenkins";
+import { extractChannelFromUrl, extractProjectFromUrl } from "@/config/jenkins";
 import { getCachedBuilds } from "@/lib/cache";
 import { JenkinsError, getAllBuilds } from "@/lib/jenkins";
 import type { APIRoute } from "astro";
@@ -15,15 +9,7 @@ export const GET: APIRoute = async ({ url }) => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
-  let responseHeaders: Record<string, string> = { ...headers };
-  let fallbackUsed = false;
-  let fallbackVersionUsed = false;
-  const project =
-    extractProjectFromUrl(url) ||
-    (() => {
-      fallbackUsed = true;
-      return extractProjectFromJobOrFallback(url);
-    })();
+  const project = extractProjectFromUrl(url);
   if (!project) {
     return new Response(JSON.stringify({ error: "Unknown project" }), {
       status: 404,
@@ -32,13 +18,7 @@ export const GET: APIRoute = async ({ url }) => {
   }
 
   try {
-    const channelVersion =
-      extractChannelFromUrl(url) ||
-      (() => {
-        const v = extractVersionFromUrl(url);
-        if (v) fallbackVersionUsed = true;
-        return v;
-      })();
+    const channelVersion = extractChannelFromUrl(url);
     const includeExperimental = url.searchParams.get("experimental") === "true";
 
     const builds = await getAllBuilds({
@@ -46,12 +26,6 @@ export const GET: APIRoute = async ({ url }) => {
       channelVersion,
       includeExperimental,
     });
-
-    responseHeaders = applyDeprecationHeaders(
-      headers,
-      fallbackUsed,
-      fallbackVersionUsed
-    );
 
     return new Response(
       JSON.stringify({
@@ -62,7 +36,7 @@ export const GET: APIRoute = async ({ url }) => {
       {
         status: 200,
         headers: {
-          ...responseHeaders,
+          ...headers,
           "Cache-Control": "public, s-maxage=600, stale-while-revalidate=300",
         },
       }
@@ -90,7 +64,7 @@ export const GET: APIRoute = async ({ url }) => {
         {
           status: 200,
           headers: {
-            ...responseHeaders,
+            ...headers,
             "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30",
             "X-Cache-Status": "HIT",
           },
@@ -107,7 +81,7 @@ export const GET: APIRoute = async ({ url }) => {
         }),
         {
           status: 503,
-          headers: { ...responseHeaders },
+          headers: { ...headers },
         }
       );
     }
@@ -121,7 +95,7 @@ export const GET: APIRoute = async ({ url }) => {
       }),
       {
         status: 500,
-        headers: { ...responseHeaders },
+        headers: { ...headers },
       }
     );
   }
