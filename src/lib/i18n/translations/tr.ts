@@ -91,9 +91,9 @@ export default {
     configMigrationWarning: {
       title: "Yapılandırma geçişi gerekli",
       messageBeforeLink:
-        "Yapılandırma sistemi değişti. 1.21.11 sürümünden güncelliyorsanız, lütfen yapılandırmanızı",
+        "Yapılandırma sistemi değişti. 1.21.11 sürümünden güncelliyorsanız, lütfen yapılandırmanızı ",
       linkText: "dönüştürücü sayfasını",
-      messageAfterLink: "kullanarak geçirin.",
+      messageAfterLink: " kullanarak geçirin.",
     },
     sculptor: {
       title: "Sculptor Başlatıcısı",

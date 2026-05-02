@@ -89,7 +89,7 @@ export default {
     configMigrationWarning: {
       title: "Wymagana migracja konfiguracji",
       messageBeforeLink:
-        "System konfiguracji został zmieniony. Jeśli aktualizujesz z wersji 1.21.11, zmigruj konfigurację za pomocą",
+        "System konfiguracji został zmieniony. Jeśli aktualizujesz z wersji 1.21.11, zmigruj konfigurację za pomocą ",
       linkText: "strony konwertera",
       messageAfterLink: ".",
     },

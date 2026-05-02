@@ -179,18 +179,26 @@
 
   {#if showConfigMigrationWarning}
     <div use:scrollReveal={{ type: "slideUp", start: "top 90%" }} class="mb-6">
-      <div class="config-migration-warning rounded-xl px-5 py-4">
+      <div
+        class="rounded-xl border px-5 py-4 backdrop-blur-sm"
+        style="border-color: color-mix(in srgb, #ef4444 36%, var(--border) 64%); background: linear-gradient(135deg, color-mix(in srgb, #ef4444 12%, var(--card) 88%), color-mix(in srgb, #ef4444 4%, var(--card) 96%)); box-shadow: 0 14px 32px rgba(15, 23, 42, 0.14);"
+      >
         <p
-          class="config-migration-warning-title text-sm font-semibold uppercase tracking-[0.18em]"
+          class="text-sm font-semibold uppercase tracking-[0.18em]"
+          style="color: color-mix(in srgb, #ef4444 68%, var(--card-foreground) 32%);"
         >
           {$t("downloads.configMigrationWarning.title")}
         </p>
-        <p class="mt-2 text-sm leading-6 text-neutral-200 sm:text-[15px]">
-          {$t("downloads.configMigrationWarning.messageBeforeLink")}
-          <a href="/converter" class="config-migration-warning-link ml-1">
-            {$t("downloads.configMigrationWarning.linkText")}
-          </a>
-          {$t("downloads.configMigrationWarning.messageAfterLink")}
+        <p
+          class="mt-2 text-sm leading-6 sm:text-[15px]"
+          style="color: var(--card-foreground);"
+        >
+          {$t("downloads.configMigrationWarning.messageBeforeLink")}<a
+            href="/converter"
+            class="font-semibold underline decoration-[1.5px] underline-offset-2 transition-opacity hover:opacity-80"
+            style="color: color-mix(in srgb, #ef4444 68%, var(--card-foreground) 32%);"
+            >{$t("downloads.configMigrationWarning.linkText")}</a
+          >{$t("downloads.configMigrationWarning.messageAfterLink")}
         </p>
       </div>
     </div>
@@ -314,38 +322,3 @@
     </Card>
   </div>
 </section>
-
-<style>
-  .config-migration-warning {
-    border: 1px solid rgba(239, 68, 68, 0.34);
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--card-foreground);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  .config-migration-warning-title,
-  .config-migration-warning-link {
-    color: #fecaca;
-  }
-
-  .config-migration-warning-link {
-    font-weight: 600;
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
-  }
-
-  .config-migration-warning-link:hover {
-    color: #fee2e2;
-  }
-
-  :global([data-theme="light"]) .config-migration-warning-title,
-  :global([data-theme="light"]) .config-migration-warning-link {
-    color: #b91c1c;
-  }
-
-  :global([data-theme="light"]) .config-migration-warning-link:hover {
-    color: #991b1b;
-  }
-</style>

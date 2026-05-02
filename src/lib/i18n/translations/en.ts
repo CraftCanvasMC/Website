@@ -89,7 +89,7 @@ export default {
     configMigrationWarning: {
       title: "Config migration required",
       messageBeforeLink:
-        "The config system has changed. If you are updating from 1.21.11, please migrate your config using the",
+        "The config system has changed. If you are updating from 1.21.11, please migrate your config using the ",
       linkText: "converter page",
       messageAfterLink: ".",
     },
