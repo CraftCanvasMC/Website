@@ -2,6 +2,7 @@ export default {
   nav: {
     home: "Ana Sayfa",
     downloads: "İndirilenler",
+    converter: "Dönüştürücü",
     stats: "İstatistikler",
     documentation: "Dokümantasyon",
     maven: "Maven",
@@ -86,6 +87,13 @@ export default {
       title: "Önbelleğe Alınmış Yapılar Gösteriliyor",
       message:
         "Jenkins şu anda derleme yapıyor. En son yapılar önbellekten gösteriliyor. İndirmeler hâlâ kullanılabilir.",
+    },
+    configMigrationWarning: {
+      title: "Yapılandırma geçişi gerekli",
+      messageBeforeLink:
+        "Yapılandırma sistemi değişti. 1.21.11 sürümünden güncelliyorsanız, lütfen yapılandırmanızı",
+      linkText: "dönüştürücü sayfasını",
+      messageAfterLink: "kullanarak geçirin.",
     },
     sculptor: {
       title: "Sculptor Başlatıcısı",

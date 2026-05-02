@@ -2,6 +2,7 @@ export default {
   nav: {
     home: "Strona główna",
     downloads: "Pobieranie",
+    converter: "Konwerter",
     stats: "Statystyki",
     documentation: "Dokumentacja",
     maven: "Maven",
@@ -84,6 +85,13 @@ export default {
       title: "Pokazywanie buildów z pamięci",
       message:
         "Jenkins obecnie kompiluje nowy build. Pokazywane są tylko ostatnie buildy z pamięci. Wciąż można pobierać.",
+    },
+    configMigrationWarning: {
+      title: "Wymagana migracja konfiguracji",
+      messageBeforeLink:
+        "System konfiguracji został zmieniony. Jeśli aktualizujesz z wersji 1.21.11, zmigruj konfigurację za pomocą",
+      linkText: "strony konwertera",
+      messageAfterLink: ".",
     },
     sculptor: {
       title: "Launcher Sculptor",

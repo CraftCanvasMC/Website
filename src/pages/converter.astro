@@ -1,0 +1,19 @@
+---
+import ConverterPage from "@/components/ConverterPage.svelte";
+import Footer from "@/components/Footer.svelte";
+import Navbar from "@/components/Navbar.svelte";
+import GradientBackground from "@/components/ui/GradientBackground.svelte";
+import Layout from "@/layouts/Layout.astro";
+
+export const prerender = true;
+---
+
+<Layout
+  title="Config Converter"
+  description="Convert legacy Canvas JSON5 configs into the new split canvas-server.yml and canvas-worlds.yml files."
+>
+  <Navbar slot="navbar" client:load />
+  <GradientBackground client:load />
+  <ConverterPage client:load />
+  <Footer slot="footer" client:idle />
+</Layout>
