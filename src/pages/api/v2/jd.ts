@@ -78,7 +78,8 @@ export const GET: APIRoute = async ({ params, url, redirect }) => {
         project,
         projectChannel,
         build?.buildNumber.toString(),
-        redirect
+        redirect,
+        build?.isExperimental ?? false
       );
     } catch (error) {
       if (error instanceof JenkinsError) {

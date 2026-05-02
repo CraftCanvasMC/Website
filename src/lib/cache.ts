@@ -9,6 +9,30 @@ interface CacheEntry {
   timestamp: number;
 }
 
+function normalizeCachedChannelVersion(channelVersion: string) {
+  return channelVersion.replace(/\s*\(experimental\)$/i, "").trim();
+}
+
+function normalizeCachedBuild(build: Build): Build {
+  const channelVersion = normalizeCachedChannelVersion(build.channelVersion);
+
+  if (channelVersion === build.channelVersion) {
+    return build;
+  }
+
+  return {
+    ...build,
+    channelVersion,
+  };
+}
+
+function normalizeCacheEntry(cache: CacheEntry): CacheEntry {
+  return {
+    ...cache,
+    data: cache.data.map(normalizeCachedBuild),
+  };
+}
+
 const buildCache = new Map<Project, CacheEntry | null>();
 
 const CACHE_DURATION = 5 * 60 * 1000;
@@ -23,7 +47,7 @@ async function loadCacheFromDisk(project: Project): Promise<CacheEntry | null> {
     const cacheFile = getCacheFile(project);
     if (!existsSync(cacheFile)) return null;
     const data = await readFile(cacheFile, "utf-8");
-    return JSON.parse(data) as CacheEntry;
+    return normalizeCacheEntry(JSON.parse(data) as CacheEntry);
   } catch {
     return null;
   }
@@ -62,7 +86,7 @@ export async function getCachedBuilds(
     return null;
   }
 
-  return cache.data;
+  return cache.data.map(normalizeCachedBuild);
 }
 
 export async function setCachedBuilds(

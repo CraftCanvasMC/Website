@@ -14,6 +14,10 @@ export class JenkinsError extends Error {
   }
 }
 
+export function normalizeChannelVersion(channelVersion: string): string {
+  return channelVersion.replace(/\s*\(experimental\)$/i, "").trim();
+}
+
 function extractExtraDescription(
   msg?: string | null,
   comment?: string | null
@@ -39,6 +43,8 @@ function extractExtraDescription(
 function parseBuild(build: JenkinsBuild): Build {
   const isExperimental = build.displayName.endsWith("(Experimental)");
   const versionMatch = build.displayName.match(/\s*-\s*([\d.]+)/);
+  const rawChannelVersion =
+    versionMatch?.input?.replace(/^#\d+\s*-\s*/, "") || "unknown";
 
   const commits =
     build.changeSet?.items
@@ -61,8 +67,7 @@ function parseBuild(build: JenkinsBuild): Build {
     downloadUrl: build.artifacts?.[0]
       ? `${build.url}artifact/${build.artifacts[0].relativePath}`
       : null,
-    channelVersion:
-      versionMatch?.input?.replace(/^#\d+\s*-\s*/, "") || "unknown",
+    channelVersion: normalizeChannelVersion(rawChannelVersion),
     timestamp: build.timestamp,
     isExperimental,
     commits,
@@ -77,6 +82,9 @@ type BuildOptions = {
 
 export async function getAllBuilds(options: BuildOptions): Promise<Build[]> {
   const project = options.project;
+  const requestedChannel = options.channelVersion
+    ? normalizeChannelVersion(options.channelVersion)
+    : undefined;
 
   const url = new URL(
     `api/json?tree=${encodeURIComponent(jenkinsConfig.treeQuery)}`,
@@ -113,10 +121,8 @@ export async function getAllBuilds(options: BuildOptions): Promise<Build[]> {
 
   return allBuilds.filter((b) => {
     const matchesChannel =
-      !options.channelVersion ||
-      b.channelVersion === options.channelVersion ||
-      (options.includeExperimental &&
-        b.channelVersion === `${options.channelVersion} (Experimental)`);
+      !requestedChannel ||
+      normalizeChannelVersion(b.channelVersion) === requestedChannel;
 
     const matchesExperimental =
       !b.isExperimental || options.includeExperimental === true;
@@ -143,12 +149,19 @@ export function getProjectJavadocUrl(
   project: Project,
   channelVersion: string,
   build?: string | undefined | null,
-  redirect?: string | null
+  redirect?: string | null,
+  isExperimental = false
 ) {
   const baseUrl = project.javadocBaseUrl;
   const redirectUrl = redirect ? `/.cache/unpack/${redirect}` : ``;
-  const version = channelVersion.replace(/\s*\(.*?\)$/, "");
-  const channel = channelVersion.match(/\((.*?)\)/)?.[1] ?? "stable";
+  const version = normalizeChannelVersion(channelVersion).replace(
+    /\s*\(.*?\)$/,
+    ""
+  );
+  const channel =
+    (isExperimental
+      ? "experimental"
+      : channelVersion.match(/\((.*?)\)/)?.[1]) ?? "stable";
   const major = parseInt(version.split(".")[0], 10);
   // account for horizon's special versioning scheme
   if (project.slug === "horizon" && build) {
