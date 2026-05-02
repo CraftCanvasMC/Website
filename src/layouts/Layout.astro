@@ -81,11 +81,11 @@ const fullTitle =
     </script>
   </head>
   <body
-    class="relative bg-[var(--background)] min-h-screen font-sans antialiased text-[var(--foreground)]"
+    class="relative flex min-h-screen flex-col bg-[var(--background)] font-sans antialiased text-[var(--foreground)]"
   >
     <slot name="navbar" />
-    <div>
-      <main class="mt-15">
+    <div class="flex flex-1 flex-col">
+      <main class="mt-15 flex-1">
         <slot />
       </main>
       <slot name="footer" />

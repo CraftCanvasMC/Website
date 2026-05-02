@@ -1,0 +1,132 @@
+# Worlds default configuration file for CanvasMC
+#
+# This is the defaults for the per-world configuration file
+# for CanvasMC. Each option can be overridden by the patch
+# variant in each world folder. You are free to modify, add,
+# or remove comments as you please.
+#
+# You may refresh this configuration at runtime using the
+# "/canvas reload" command, however it is not recommended to
+# do this during production, as this can cause issues like
+# unexpected crashes or unintended behavior.
+#
+# All defaults for the options provided in this configuration
+# are configured for upstream compatibility over performance.
+# You must do some manual configuration to get some of the
+# performance benefits Canvas provides.
+#
+# If you have questions about certain configuration options
+# please reach out in our discord
+# https://canvasmc.io/discord
+
+# Enables a regionized TPS-Bar implementation for Canvas. To enable the tps-bar, use the
+# "/tpsbar" command
+enable-tps-bar: true
+# MiniMessage-formatted line for the TPS bar. Placeholders are <tps>, <mspt>, <util>, and
+# <players>. Legacy tokens(%tps%, %mspt%, %util%, %players%) are also accepted and
+# auto-converted.
+tps-bar-format: "<gradient:blue:aqua><b>TPS:</b></gradient> <tps>  <dark_gray>-</dark_gray>\
+   \  <gradient:blue:aqua><b>MSPT:</b></gradient> <mspt>  <dark_gray>-</dark_gray>\
+   \  <gradient:blue:aqua><b>Util:</b></gradient> <util>  <dark_gray>-</dark_gray>\
+   \  <gradient:blue:aqua><b>Players:</b></gradient> <players>"
+visuals:
+   hide-flames-on-entities-with-fire-resistance: false
+   hide-flames-on-entities-with-invisibility: false
+   # All options unless explicitly specified otherwise are unnecessary packets sent to the
+   # client and can be safely disabled without Vanilla deviation
+   particles:
+      disable-sprint-particles: false
+      # Note that when enabled this option breaks Vanilla visual compatibility
+      disable-fall-particles: false
+      disable-death-particles: false
+      disable-effect-particles: false
+      disable-water-splash-particles: false
+      disable-bubble-column-particles: false
+      # Note that when enabled this option breaks Vanilla visual compatibility
+      disable-new-combat-particles: false
+# When enabled, this chains end crystal explosions instead of executing them all in 1 tick
+chain-end-crystal-explosions: false
+# Disables snow light checks, so snow layers never melt
+disable-snow-light-checks: false
+# Disables grass light checks, so grass always spreads despite being in darkness
+disable-grass-light-checks: false
+farming:
+   farmland-always-moist: false
+   disable-leaf-decay: false
+   # Makes crops ignore sunlight requirements when planting
+   crops-ignore-light-check: false
+   # Makes falling on farmland not turn it back to dirt
+   disable-farmland-trampling: false
+entities:
+   # Removes the XP pickup delay and uses a faster merging system. Can be very useful for heavy
+   # XP farms. This changes how orbs are merged, allowing 1 orb to contain an infinite amount
+   # of merged experience and then be collected instantly, much faster than the Vanilla
+   # equivalent. This also fixes "ghost orbs", since instead of increasing the count, this
+   # increases the value of the orb
+   fast-orbs: false
+   item-entities-immune-to-explosions: false
+   item-entities-immune-to-lightning: false
+   # A multiplied value for the velocity of item entities dropped on death. The smaller the
+   # value, the less it spreads out. The larger the value, the more it spreads out
+   item-entity-velocity-on-death-factor: 1.0
+   # The entity collision mode for the server
+   # Possible values(can be lowercase):
+   #  - VANILLA - Default, all entities have collisions
+   #  - ONLY_PUSHABLE_PLAYERS_LARGE - Only players are pushable by entities, searching in the normal radius
+   #  - ONLY_PUSHABLE_PLAYERS_SMALL - Only players are pushable by entities, searching in a small radius
+   #  - NO_COLLISIONS - Disables entity collisions entirely
+   entity-collision-mode: "VANILLA"
+   projectiles:
+      max-projectile-chunk-loads-per-tick: 10
+      max-projectile-chunk-loads-per-projectile-before-removal: 10
+      # Specify which projectiles should load chunks when moving. Only works when thrown by
+      # players
+      load-chunks: [
+         ]
+      # Restores Vanilla redirect behavior for arrow hits on redirectable projectiles like wind
+      # charges and fireballs across region threads.
+      #
+      # It is recommended to set "max-arrow-despawn-invulnerability: disabled" in
+      # paper-world-defaults.yml to prevent arrows from despawning
+      cross-region-redirectable-projectile-deflection: false
+   # Defines the inaccuracy of skeleton bow shots. 14 is Vanilla, higher is more inaccurate and
+   # lower is more accurate
+   skeleton-aim-accuracy: 14.0
+combat:
+   # Restores 1.8 attack delay mechanics
+   restore-old-attack-delay-mechanics: false
+   # Restores 1.8 sword blocking mechanics. Might not work for <1.21.4 clients
+   imitate-sword-blocking: false
+   mace:
+      # Removes the fall distance amplifier from maces
+      ignore-fall-distance: false
+      # The limit before fall distance scaling stops working for mace damage bonuses
+      fall-distance-limit: -1.0
+   disable-sweeping-edge: false
+   disable-netherite-knockback-resistance: false
+   disable-crits-while-sprinting: false
+   allow-fishing-rods-to-pull-entities: true
+   # Configures the damage modifier per critical hit
+   critical-hit-multiplier: 1.5
+   # Removes the red death animation seen on entities when killed
+   remove-red-death-animation: false
+   # Restores the blast protection logic from before 1.21
+   use-legacy-blast-protection: false
+   snowball-can-knockback-players: false
+   egg-can-knockback-players: false
+spawner:
+   # Disables the spawner max nearby entities check
+   disable-max-nearby-entities-check: false
+   # Disables collisions for entities spawned by spawners
+   spawned-entities-have-no-collision: false
+# Controls how quickly Canvas' waypoints system falls off with distance between players. You
+# can read more about how this new system works and play around with this configuration
+# here: https://docs.canvasmc.io/canvas/info/waypoints/
+waypoint-update-scale: 4000.0
+# Disables all criterion triggers. Advancements will not work!
+disable-criterion-trigger: false
+# Check if a cactus can survive before growing. Heavily optimizes cacti farms
+cactus-check-survival-before-growth: false
+# Optimizes the suffocation check by selectively skipping the check in a way that still
+# appears Vanilla
+enable-suffocation-optimization: false

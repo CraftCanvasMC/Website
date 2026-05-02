@@ -2,6 +2,7 @@ export default {
   nav: {
     home: "Home",
     downloads: "Downloads",
+    converter: "Converter",
     stats: "Stats",
     documentation: "Documentation",
     maven: "Maven",
@@ -84,6 +85,13 @@ export default {
       title: "Showing Cached Builds",
       message:
         "Jenkins is currently building. Showing recent builds from cache. Downloads are still available.",
+    },
+    configMigrationWarning: {
+      title: "Config migration required",
+      messageBeforeLink:
+        "The config system has changed. If you are updating from 1.21.11, please migrate your config using the",
+      linkText: "converter page",
+      messageAfterLink: ".",
     },
     sculptor: {
       title: "Sculptor Launcher",

@@ -24,6 +24,8 @@
     "clsx": "^2.1.1",
     "echarts": "^6.0.0",
     "gsap": "^3.14.2",
+    "json5": "^2.2.3",
+    "jszip": "^3.10.1",
     "lru-cache": "^11.3.2",
     "lucide-svelte": "^1.0.1",
     "sqlite3": "^6.0.1",
@@ -31,6 +33,7 @@
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2",
+    "yaml": "^2.8.4",
     "zod": "^4.3.6"
   },
   "devDependencies": {

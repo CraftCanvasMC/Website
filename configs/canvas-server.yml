@@ -1,0 +1,183 @@
+# Global Configuration for CanvasMC
+#
+# This is the server-wide configuration file provided by
+# CanvasMC. This config holds options that are set across the
+# entire server, and cannot be overridden per-world. You are
+# free to modify, add, or remove comments as you please.
+#
+# You may refresh this configuration at runtime using the
+# "/canvas reload" command, however it is not recommended to
+# do this during production, as this can cause issues like
+# unexpected crashes or unintended behavior.
+#
+# All defaults for the options provided in this configuration
+# are configured for upstream compatibility over performance.
+# You must do some manual configuration to get some of the
+# performance benefits Canvas provides.
+#
+# If you have questions about certain configuration options
+# please reach out in our discord
+# https://canvasmc.io/discord
+
+region-scheduler:
+   # Configurations for the AFFINITY scheduler provided by Canvas. For these options to take
+   # effect, change the 'threaded-regions.scheduler' option in 'paper-global.yml' to 'AFFINITY'
+   affinity-scheduler:
+      # The maximum amount of time, in milliseconds, a thread will delay the execution of a
+      # scheduled task before allowing other threads to steal it for execution.
+      #
+      # Note: A smaller value reduces task deadline delays but increases potential task stealing between threads
+      steal-threshold-millis: 3
+      # Buffer time (in milliseconds) before tick deadline to stop executing intermediate tasks.
+      # Ensures runTick() can start on time, at the deadline.
+      #
+      # Default: 0.1ms, Higher is safer, lower means more work is done
+      run-tasks-buffer-millis: 0.1
+      # Enables work stealing/task-thread affinity. This will try and attempt to keep tasks on the
+      # same tick thread to improve performance. If this is enabled, and the task misses its
+      # deadline by 'stealThresholdMillis', it can be taken by another tick thread to be run.
+      enable-work-stealing: true
+      # Enables the affinity scheduler to run intermediate tasks while waiting for the deadline of
+      # the currently owned tick
+      enable-mid-tick-tasks: true
+      # Thread affinity for the AFFINITY scheduler provided by Canvas. By using this, you could
+      # pin the threads of region scheduler to cpu cores
+      tick-region-affinity: [
+         ]
+      # Enables pinning threads of the AFFINITY region scheduler to cpu cores
+      enable-affinity-scheduler-cpu-affinity: false
+   # Amount of time between the end and next start of a region tick where the server will log a
+   # warning that the scheduler is overloaded. Can help catch if you need to allocate more
+   # threads or help identify deadline missing issues
+   overloaded-log-millis: 5000
+   # The default tick rate for the scheduler. Vanilla is 20, the game will run faster or slower
+   # depending on how you adjust this value. Note this should really only be used for debugging
+   # purposes and for custom environments that require this change
+   default-tick-rate: 20.0
+chunk-system:
+   thread-priority: 5
+   # The worldgen processes creates a lot of unnecessary fluid post-processing tasks, which can
+   # overload the server and cause stuttering when generating new chunks. Depending on the
+   # algorithm chosen, this can help reduce stutter and improve performance when generating
+   # chunks
+   # Possible values(can be lowercase):
+   #  - VANILLA - Normal post processing algorithm, everything is processed
+   #  - DISABLED - Disables fluid post processing entirely
+   #  - FILTERED - C2MEs algorithm to filter unnecessary post processing tasks
+   fluid-post-processing-algorithm: "VANILLA"
+   # Enabling this turns fluid post processing into a scheduled tick, which hopefully helps to
+   # mitigate MSPT spiking issues during chunk generation
+   make-fluid-post-process-scheduled-tick: false
+   optimize-aquifer: false
+   use-end-biome-cache: false
+   end-biome-cache-size: 1024
+   optimize-beardifier: false
+   optimize-noise-generation: false
+   # These options are ported from the mod StructureLayoutOptimizer,
+   # https://modrinth.com/mod/structure-layout-optimizer which optimizes the generation of
+   # Jigsaw Structures and NBT pieces
+   structure-optimizations:
+      # Whether to use an alternative strategy to make structure layouts generate slightly faster
+      # than the default optimization has for template pool weights. This alternative strategy
+      # works by changing the list of pieces that structures collect from the template pool to not
+      # have duplicate entries.
+      #
+      # By enabling this option you can get a bit more performance from high weight Template Pool
+      # Structures, but you lose parity with Vanilla seeds on the layout of the structure
+      deduplicate-shuffled-template-pool-element-list: false
+      enable: false
+vanilla-fixes:
+   mc298464: false
+   mc223153: false
+   mc200418: false
+   mc94054: false
+   mc245394: false
+   mc227337: false
+   mc221257: false
+   mc206922: false
+   mc155509: false
+   mc132878: false
+   mc121706: false
+   mc119754: false
+   mc100991: false
+   mc30391: false
+   mc183990: false
+   mc136249: false
+   # There is a Vanilla bug where in-flight pearls are duplicated at shutdown. This fixes that
+   # when the option "restoreVanillaEnderPearlBehavior" is enabled alongside this.
+   pearl-duplication: false
+networking:
+   # The ClientboundSetEntityMotionPacket, also known as the entity velocity packet, can often
+   # consume major amounts of network usage, often being up to 60% on large production servers
+   # This option filters the unnecessary packets sent, while still maintaining Vanilla visual
+   # effects
+   filter-velocity-packet: false
+   # Filters useless move packets that dont need to be sent
+   filter-move-packets: false
+   # Splits players into buckets to be spread evenly across the playerlist tick
+   alternative-player-list-tick: false
+   # If alternative playerlist tick is enabled, this is the interval in ticks for how often
+   # each bucket will be ticked
+   player-info-send-interval: 600
+   # This makes protocol switching asynchronous during login, which reduces global region
+   # blocking and can improve login and configuration phase performance during player join
+   async-protocol-switch: false
+   # The maximum bytes that can be sent by the server in a single packet to a player before
+   # kicking them
+   maximum-packet-bytes: 8388608
+   # This disables Papers overflow fallback for large container packets being sent to the
+   # client. This means that if the container data is too large, it will kick the player if
+   # they attempt to open a container with contents larger than the max packet byte size
+   disable-paper-packet-overflow-container-fix: false
+   # The disconnect reason sent to the client when the server attempted to send a packet that
+   # exceeded the max packet size
+   packet-too-large-disconnect-reason: "Clientbound packet exceeded max packet bytes"
+# The server mod name displayed in server listings and client info
+server-mod-name: "Canvas"
+# Restores and fixes Vanilla Ender Pearl behavior, broken by Folia
+restore-vanilla-ender-pearl-behavior: false
+# Folia's portaling rewrite makes the world loading screen not display on the client
+# properly, and instead shows an empty void. With this enabled, Canvas will display the
+# proper world loading screen
+display-world-load-screen-for-portaling: true
+# Whether to cache expensive CraftEntityType#minecraftToBukkit call
+cache-minecraft2-bukkit-entity-type-conversion: false
+# Enables creation of tile entity snapshots on retrieving blockstates
+tile-entity-snapshot-creation: false
+# The default respawn dimension for the server. This can assist servers needing to change
+# this to a different world due to setup reasoning, like needing to send players to the
+# "spawn" world or something. This also applies to the end portal and nether portal, in
+# replacement of the overworld, meaning the target dimension for entities going from the
+# nether for example will be sent here
+default-respawn-dimension-key: "minecraft:overworld"
+purpur-containers:
+   # The amount of rows for the barrel block
+   barrel-rows: 3
+   # Whether to use 6 rows for the player ender chest, rather than the normal 3
+   ender-chest-six-rows: false
+   # Whether to use a permission based system for defining the size of ender chests per player
+   # Valid permissions
+   #  - purpur.enderchest.rows.six
+   #  - purpur.enderchest.rows.five
+   #  - purpur.enderchest.rows.four
+   #  - purpur.enderchest.rows.three
+   #  - purpur.enderchest.rows.two
+   #  - purpur.enderchest.rows.one
+   ender-chest-permission-rows: false
+blacklist-non-player-entities-from-entering-nether-portals: false
+blacklist-non-player-entities-from-entering-end-portals: false
+blacklist-non-player-entities-from-entering-gateway-portals: false
+chat:
+   # Disables Minecraft chat signing to prevent player chat reporting
+   disable-chat-reporting: false
+   # Disables Minecraft chat verification ordering
+   disable-chat-verification-order: false
+# Canvas adds extra thread checks to the Spigot/Paper API. This config controls how severe
+# these thread checks are
+# - 0: All extra thread checks are ignored
+# - 1: All extra thread checks log a warning, but don't throw
+# - 2: All extra thread checks throw as if like normal checks
+# It is recommended that if you see a stacktrace or crash, to check with the relevant plugin
+# authors, or check with CanvasMC if you need help identifying which plugin, or you want
+# them to help out with a fix
+extra-thread-checks-level: 2
