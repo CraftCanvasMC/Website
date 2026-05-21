@@ -410,7 +410,7 @@
 
   function extractMinecraftVersion(rawLabel: string) {
     const trimmedLabel = rawLabel.trim();
-    const match = trimmedLabel.match(/\b1\.\d+(?:\.\d+)?\b/);
+    const match = trimmedLabel.match(/\b\d+\.\d+(?:\.\d+)?\b/);
 
     if (match) {
       return match[0];

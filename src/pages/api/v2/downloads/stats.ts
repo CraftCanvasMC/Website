@@ -33,7 +33,7 @@ function parseDays(value: string | null) {
 }
 
 function extractMinecraftVersion(channelVersion: string) {
-  const match = channelVersion.match(/\b1\.\d+(?:\.\d+)?\b/);
+  const match = channelVersion.match(/\b\d+\.\d+(?:\.\d+)?\b/);
   return match?.[0] ?? "Unknown";
 }
 
