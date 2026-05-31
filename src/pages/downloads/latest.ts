@@ -1,7 +1,4 @@
-import {
-  extractProjectFromJobOrFallback,
-  extractProjectFromUrl,
-} from "@/config/jenkins";
+import { extractProjectFromUrl } from "@/config/jenkins";
 import { getCachedBuilds } from "@/lib/cache";
 import { incrementDownloadCount } from "@/lib/download-counts";
 import { getLatestBuild } from "@/lib/jenkins";
@@ -9,8 +6,7 @@ import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async ({ url }) => {
   try {
-    const project =
-      extractProjectFromUrl(url) || extractProjectFromJobOrFallback(url);
+    const project = extractProjectFromUrl(url);
     if (!project) {
       return new Response(JSON.stringify({ error: "Unknown project" }), {
         status: 404,
