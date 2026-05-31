@@ -168,11 +168,11 @@ export function getProjectJavadocUrl(
   const major = parseInt(version.split(".")[0], 10);
   // account for horizon's special versioning scheme
   // pre version scheme change
-  if (project.slug === "horizon" && build && !build.contains("+")) {
+  if (project.slug === "horizon" && build && version == "1.0.0" && parseInt(build, 10) < 71) {
     return `${baseUrl}/${version}.${build}${redirectUrl}`;
   }
   // post version scheme change
-  if (project.slug === "horizon" && build && build.contains("+")) {
+  if (project.slug === "horizon" && build) {
     return `${baseUrl}/${version}+${build}${redirectUrl}`;
   }
 
