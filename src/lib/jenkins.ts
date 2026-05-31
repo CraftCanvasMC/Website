@@ -171,6 +171,9 @@ export function getProjectJavadocUrl(
   if (project.slug === "horizon" && build && version == "1.0.0" && parseInt(build, 10) < 71) {
     return `${baseUrl}/${version}.${build}${redirectUrl}`;
   }
+  if (project.slug === "horizon" && build && version == "1.0.0-rc1") {
+    return `${baseUrl}/${version}.${build}${redirectUrl}`;
+  }
   // post version scheme change
   if (project.slug === "horizon" && build) {
     return `${baseUrl}/${version}+${build}${redirectUrl}`;
