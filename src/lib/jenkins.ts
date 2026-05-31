@@ -153,7 +153,10 @@ export function getProjectJavadocUrl(
   isExperimental = false
 ) {
   const baseUrl = project.javadocBaseUrl;
-  const redirectUrl = redirect ? `/.cache/unpack/${redirect}` : ``;
+  const normalizedRedirect = redirect?.startsWith('/')
+      ? redirect
+      : `/${redirect}`;
+  const redirectUrl = redirect ? `/.cache/unpack${normalizedRedirect}` : ``;
   const version = normalizeChannelVersion(channelVersion).replace(
     /\s*\(.*?\)$/,
     ""
@@ -164,9 +167,15 @@ export function getProjectJavadocUrl(
       : channelVersion.match(/\((.*?)\)/)?.[1]) ?? "stable";
   const major = parseInt(version.split(".")[0], 10);
   // account for horizon's special versioning scheme
-  if (project.slug === "horizon" && build) {
+  // pre version scheme change
+  if (project.slug === "horizon" && build && !build.contains("+")) {
     return `${baseUrl}/${version}.${build}${redirectUrl}`;
   }
+  // post version scheme change
+  if (project.slug === "horizon" && build && build.contains("+")) {
+    return `${baseUrl}/${version}+${build}${redirectUrl}`;
+  }
+
   // post 26.1
   if (project.slug === "canvas" && major >= 2 && build) {
     return `${baseUrl}/${version}.build.${build}-${channel.toLowerCase()}${redirectUrl}`;
