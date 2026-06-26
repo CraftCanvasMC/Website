@@ -1,7 +1,8 @@
 import { derived, writable } from "svelte/store";
 import enTranslations from "./translations/en";
-import plTranslations from "./translations/pl";
-import trTranslations from "./translations/tr";
+// TODO - outdated, need updating
+// import plTranslations from "./translations/pl";
+// import trTranslations from "./translations/tr";
 
 export type Language = "en" | "pl" | "tr";
 
@@ -15,16 +16,16 @@ export interface Translations {
 
 export const LANGUAGES: { code: Language; name: string; flag: string }[] = [
   { code: "en", name: "English", flag: "🇬🇧" },
-  { code: "pl", name: "Polski", flag: "🇵🇱" },
-  { code: "tr", name: "Türkçe", flag: "🇹🇷" },
+  // { code: "pl", name: "Polski", flag: "🇵🇱" },
+  // { code: "tr", name: "Türkçe", flag: "🇹🇷" },
 ];
 
 const STORAGE_KEY = "language-preference";
 
 const allTranslations: Translations = {
   en: enTranslations,
-  pl: plTranslations,
-  tr: trTranslations,
+  // pl: plTranslations,
+  // tr: trTranslations,
 };
 
 function getBrowserLanguage(): Language {

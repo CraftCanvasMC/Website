@@ -14,7 +14,7 @@ export default {
   hero: {
     title: "High performance Minecraft server software",
     subtitle:
-      "CanvasMC is a fork of the Folia Minecraft server software that fixes gameplay inconsistencies, bugs, and introduces further performance enhancements to the dedicated server",
+      "Canvas is a fork of Folia introducing over 80 fixes to region threading including crashes, exploits, gameplay inconsistencies, and offering powerful optimizations bundled with it",
     downloadCanvas: "Download Canvas",
   },
   features: {
@@ -22,34 +22,34 @@ export default {
     subheading:
       "Find out what makes Canvas different from other Minecraft server software.",
     scheduler: {
-      title: "Rewritten Scheduler",
+      title: "Stability",
       description:
-        "Canvas is primarily based on a rewritten scheduler for Folia, which makes Canvas one of the fastest Folia forks out there.",
+        "Folia has a ton of bugs, leaving most people to need to fork Folia to resolve crashes they may encounter. Canvas bundles over 80 fixes to just region threading alone to make sure your server runs consistently and with stability.",
     },
     chunkGeneration: {
-      title: "Optimized Chunk Generation",
+      title: "Knowledgeable Team",
       description:
-        "With fixed linear scaling by rewriting the chunk system executor, chunk performance is unparalleled compared to other forks.",
+        "Our development team is comprised of skilled developers, some who have specifically dedicated time to study Folia to learn it's internals and inner-workings and understand it on a deeper level.",
+    },
+    community: {
+      title: "Faster Updates",
+      description:
+        "Canvas is a fork of Folia, but upstreams from Paper, meaning we can update Minecraft before Folia even starts updating.",
     },
     configuration: {
       title: "Extensive Configuration",
       description:
-        "Fine-tune every aspect of your server with documented configuration options and performance settings.",
-    },
-    community: {
-      title: "Your Ideas, Our Code",
-      description:
-        "Canvas grows with its community — share the features you'd love to see, and we'll work to bring them to life.",
+        "Canvas has large configurations that are documented in the config files to help fine-tune all of Canvas' features and performance option to your liking.",
     },
     profiling: {
       title: "Proper Region Profiling",
       description:
-        "Canvas introduces a genuine Spark profiler compatible with region threading, replacing the Folia profiling engine.",
+        "Canvas introduces a modified Spark profiler that allows profiling specific regions via Spark, replacing the Folia region profiler.",
     },
     powerful: {
       title: "Powerful and Optimized",
       description:
-        "Fixing multiple Folia bugs and crashes, Canvas is both fast and stable",
+        "Canvas not only fixes Folia bugs. We also introduce numerous performance optimizations to the server, ensuring the server runs smoothly in high player counts.",
     },
   },
   downloads: {
