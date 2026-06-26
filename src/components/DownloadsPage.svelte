@@ -4,7 +4,6 @@
   import Card from "./ui/Card.svelte";
   import Select from "./ui/Select.svelte";
   import BuildRow from "./BuildRow.svelte";
-  import SculptorContent from "./SculptorContent.svelte";
   import type { Build } from "@/lib/schemas/jenkins";
   import gsap from "gsap";
   import { onMount } from "svelte";
@@ -18,7 +17,6 @@
     usingCache?: boolean;
     jenkinsDown?: boolean;
     redirecting?: boolean;
-    hideSculptor?: boolean;
     project: Project;
   }
 
@@ -28,7 +26,6 @@
     usingCache = false,
     jenkinsDown = false,
     redirecting = $bindable(false),
-    hideSculptor = false,
     project,
   }: Props = $props();
 
@@ -235,30 +232,10 @@
             </span>
           </button>
         </div>
-
-        {#if !hideSculptor}
-          <div class="flex items-center gap-2 w-full sm:w-auto">
-            <Button
-              variant={showNewTab ? "default" : "secondary"}
-              onclick={toggleTab}
-              class="flex items-center justify-center gap-2 transition-transform duration-200 hover:scale-105 w-full sm:w-auto"
-            >
-              {#if showNewTab}
-                <LayoutList class="size-4" />
-                {$t("downloads.showBuilds")}
-              {:else}
-                <PanelsTopLeft class="size-4" />
-                {$t("downloads.showSculptor")}
-              {/if}
-            </Button>
-          </div>
-        {/if}
       </div>
 
       <div bind:this={contentContainer}>
-        {#if showNewTab}
-          <SculptorContent {selectedVersion} {jenkinsDown} />
-        {:else if jenkinsDown && builds.length === 0}
+        {#if jenkinsDown && builds.length === 0}
           <div class="text-center py-16">
             <div
               class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 mb-4"
