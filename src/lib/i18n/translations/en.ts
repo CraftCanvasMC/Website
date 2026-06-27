@@ -29,7 +29,7 @@ export default {
     chunkGeneration: {
       title: "Knowledgeable Team",
       description:
-        "Our development team is comprised of skilled developers, some who have specifically dedicated time to study Folia to learn it's internals and inner-workings and understand it on a deeper level.",
+        "Our development team is comprised of skilled developers, some who have specifically dedicated hours and hours of time to study Folia to learn it's internals and inner-workings and understand it on a deeper level.",
     },
     community: {
       title: "Faster Updates",
@@ -39,7 +39,7 @@ export default {
     configuration: {
       title: "Extensive Configuration",
       description:
-        "Canvas has large configurations that are documented in the config files to help fine-tune all of Canvas' features and performance option to your liking.",
+        "Canvas has large configurations that are documented in the config files to help fine-tune all of Canvas' features and performance options to your liking.",
     },
     profiling: {
       title: "Proper Region Profiling",
