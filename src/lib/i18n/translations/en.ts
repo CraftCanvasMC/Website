@@ -14,7 +14,7 @@ export default {
   hero: {
     title: "High performance Minecraft server software",
     subtitle:
-      "Canvas is a fork of Folia introducing over 80 fixes to region threading including crashes, exploits, gameplay inconsistencies, and offering powerful optimizations bundled with it",
+      "Canvas is a fork of Folia introducing over 80 fixes to region threading as of 26.2 including crashes, exploits, gameplay inconsistencies, and offering powerful optimizations bundled with it",
     downloadCanvas: "Download Canvas",
   },
   features: {
