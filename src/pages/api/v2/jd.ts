@@ -1,8 +1,4 @@
-import {
-  extractChannelFromUrl,
-  extractProjectFromUrl,
-  getProjectConfig,
-} from "@/config/jenkins";
+import { extractChannelFromUrl, extractProjectFromUrl } from "@/config/jenkins";
 import {
   JenkinsError,
   getLatestBuild,

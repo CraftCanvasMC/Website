@@ -10,7 +10,7 @@ interface CacheEntry {
 }
 
 function normalizeCachedChannelVersion(channelVersion: string) {
-  return channelVersion.replace(/\s*\(experimental\)$/i, "").trim();
+  return channelVersion.replace(/\s*\([^)]*\)$/, "").trim();
 }
 
 function normalizeCachedBuild(build: Build): Build {

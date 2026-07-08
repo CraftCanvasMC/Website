@@ -15,7 +15,7 @@ export class JenkinsError extends Error {
 }
 
 export function normalizeChannelVersion(channelVersion: string): string {
-  return channelVersion.replace(/\s*\(experimental\)$/i, "").trim();
+  return channelVersion.replace(/\s*\([^)]*\)$/, "").trim();
 }
 
 function extractExtraDescription(
@@ -41,7 +41,7 @@ function extractExtraDescription(
 }
 
 function parseBuild(build: JenkinsBuild): Build {
-  const isExperimental = build.displayName.endsWith("(Experimental)");
+  const isExperimental = build.displayName.endsWith(")");
   const versionMatch = build.displayName.match(/\s*-\s*([\d.]+)/);
   const rawChannelVersion =
     versionMatch?.input?.replace(/^#\d+\s*-\s*/, "") || "unknown";
@@ -153,22 +153,26 @@ export function getProjectJavadocUrl(
   isExperimental = false
 ) {
   const baseUrl = project.javadocBaseUrl;
-  const normalizedRedirect = redirect?.startsWith('/')
-      ? redirect
-      : `/${redirect}`;
+  const normalizedRedirect = redirect?.startsWith("/")
+    ? redirect
+    : `/${redirect}`;
   const redirectUrl = redirect ? `/.cache/unpack${normalizedRedirect}` : ``;
   const version = normalizeChannelVersion(channelVersion).replace(
     /\s*\(.*?\)$/,
     ""
   );
-  const channel =
-    (isExperimental
-      ? "experimental"
-      : channelVersion.match(/\((.*?)\)/)?.[1]) ?? "stable";
+  const channel: String = isExperimental
+    ? (channelVersion.match(/\((.*?)\)/)?.[1] ?? "experimental")
+    : "stable";
   const major = parseInt(version.split(".")[0], 10);
   // account for horizon's special versioning scheme
   // pre version scheme change
-  if (project.slug === "horizon" && build && version == "1.0.0" && parseInt(build, 10) < 71) {
+  if (
+    project.slug === "horizon" &&
+    build &&
+    version == "1.0.0" &&
+    parseInt(build, 10) < 71
+  ) {
     return `${baseUrl}/${version}.${build}${redirectUrl}`;
   }
   if (project.slug === "horizon" && build && version == "1.0.0-rc1") {
