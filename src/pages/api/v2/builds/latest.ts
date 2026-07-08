@@ -1,6 +1,7 @@
 import { extractChannelFromUrl, extractProjectFromUrl } from "@/config/jenkins";
 import { JenkinsError, getLatestBuild } from "@/lib/jenkins";
 import type { APIRoute } from "astro";
+import {getCachedBuilds} from "@/lib/cache.ts";
 
 export const prerender = false;
 
@@ -8,16 +9,16 @@ export const GET: APIRoute = async ({ url }) => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
+  const project = extractProjectFromUrl(url);
+  if (!project) {
+    return new Response(JSON.stringify({ error: "Unknown project" }), {
+      status: 404,
+      headers: { ...headers },
+    });
+  }
+
   try {
     const includeExperimental = url.searchParams.get("experimental") === "true";
-    const project = extractProjectFromUrl(url);
-    if (!project) {
-      return new Response(JSON.stringify({ error: "Unknown project" }), {
-        status: 404,
-        headers: { ...headers },
-      });
-    }
-
     const channelVersion = extractChannelFromUrl(url);
     const build = await getLatestBuild(
       project,
@@ -33,17 +34,61 @@ export const GET: APIRoute = async ({ url }) => {
       },
     });
   } catch (error) {
+    const cachedBuilds = await getCachedBuilds(project, true);
+
+    if (cachedBuilds && cachedBuilds.length > 0) {
+      const isBuilding =
+          error instanceof JenkinsError &&
+          error.message.toLowerCase().includes("building");
+
+      const isUnreachable =
+          error instanceof JenkinsError &&
+          (error.message.toLowerCase().includes("failed to connect") ||
+              error.message.toLowerCase().includes("unreachable"));
+
+      return new Response(
+          JSON.stringify({
+            builds: cachedBuilds,
+            cached: true,
+            jenkinsDown: isUnreachable,
+            jenkinsBuilding: isBuilding,
+          }),
+          {
+            status: 200,
+            headers: {
+              ...headers,
+              "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30",
+              "X-Cache-Status": "HIT",
+            },
+          }
+      );
+    }
+
     if (error instanceof JenkinsError) {
-      return new Response(JSON.stringify({ error: error.message }), {
-        status: 400,
-        headers: { ...headers },
-      });
+      return new Response(
+          JSON.stringify({
+            error: error.message,
+            cached: false,
+            jenkinsDown: true,
+          }),
+          {
+            status: 503,
+            headers: { ...headers },
+          }
+      );
     }
 
     console.error(error);
-    return new Response(JSON.stringify({ error: "Internal server error" }), {
-      status: 500,
-      headers: { ...headers },
-    });
+    return new Response(
+        JSON.stringify({
+          error: "Internal server error",
+          cached: false,
+          jenkinsDown: false,
+        }),
+        {
+          status: 500,
+          headers: { ...headers },
+        }
+    );
   }
 };
