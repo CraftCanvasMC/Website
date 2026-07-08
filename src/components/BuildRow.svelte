@@ -90,7 +90,7 @@
         >
         <StatusBadge
           result={build.result}
-          isExperimental={build.isExperimental}
+          channel={build.channelName}
         />
       </div>
       <span class="text-[11px] text-neutral-500 mt-1">
@@ -119,7 +119,7 @@
         >
         <StatusBadge
           result={build.result}
-          isExperimental={build.isExperimental}
+          channel={build.channelName}
         />
       </div>
       <span class="text-[11px] text-neutral-500 mt-1">

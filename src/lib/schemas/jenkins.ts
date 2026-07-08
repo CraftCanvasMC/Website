@@ -38,6 +38,7 @@ export const BuildSchema = z.object({
   channelVersion: z.string(),
   timestamp: z.number(),
   isExperimental: z.boolean(),
+  channelName: z.string(),
   commits: z.array(
     z.object({
       message: z.string().nullable(),

@@ -60,6 +60,9 @@ function parseBuild(build: JenkinsBuild): Build {
       })
       ?.reverse() || [];
 
+  const match = build.displayName.match(/\(([^)]+)\)$/);
+  const channelString = match ? match[1].toLowerCase() : "stable";
+
   return {
     result: build.result,
     buildNumber: build.number,
@@ -70,6 +73,7 @@ function parseBuild(build: JenkinsBuild): Build {
     channelVersion: normalizeChannelVersion(rawChannelVersion),
     timestamp: build.timestamp,
     isExperimental,
+    channelName: channelString,
     commits,
   };
 }

@@ -63,6 +63,8 @@ export default {
     build: "Build",
     latest: "Latest",
     experimental: "Experimental",
+    beta: "Beta",
+    alpha: "Alpha",
     download: "Download",
     unavailable: "Unavailable",
     noChanges: "No changes",
