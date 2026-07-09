@@ -1,25 +1,25 @@
 <script lang="ts">
   import {
     Cpu,
-    Lightbulb,
     CircleGauge,
     FileSliders,
     Zap,
     ChevronsUp,
-  } from "lucide-svelte";
+    GitPullRequest,
+  } from "@lucide/svelte";
   import Card from "../ui/Card.svelte";
   import { scrollReveal, scrollStagger } from "../../lib/animations";
   import { t } from "../../lib/i18n";
 
   const FEATURES = [
     {
-      titleKey: "features.scheduler.title",
-      descriptionKey: "features.scheduler.description",
+      titleKey: "features.stability.title",
+      descriptionKey: "features.stability.description",
       icon: Cpu,
     },
     {
-      titleKey: "features.chunkGeneration.title",
-      descriptionKey: "features.chunkGeneration.description",
+      titleKey: "features.optimizations.title",
+      descriptionKey: "features.optimizations.description",
       icon: Zap,
     },
     {
@@ -28,9 +28,9 @@
       icon: FileSliders,
     },
     {
-      titleKey: "features.community.title",
-      descriptionKey: "features.community.description",
-      icon: Lightbulb,
+      titleKey: "features.updates.title",
+      descriptionKey: "features.updates.description",
+      icon: GitPullRequest,
     },
     {
       titleKey: "features.profiling.title",
@@ -38,8 +38,8 @@
       icon: CircleGauge,
     },
     {
-      titleKey: "features.powerful.title",
-      descriptionKey: "features.powerful.description",
+      titleKey: "features.team.title",
+      descriptionKey: "features.team.description",
       icon: ChevronsUp,
     },
   ] as const;
@@ -70,7 +70,7 @@
       >
         <Card
           enableHover={true}
-          class="feature-card h-full p-5 border border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-colors"
+          class="glass-card feature-card h-full p-5 border border-white/10 backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-colors"
         >
           <div class="sm:hidden">
             <div class="flex items-center gap-4">

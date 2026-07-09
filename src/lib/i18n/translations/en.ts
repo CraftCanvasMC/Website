@@ -14,42 +14,42 @@ export default {
   hero: {
     title: "High performance Minecraft server software",
     subtitle:
-      "Canvas is a fork of Folia introducing over 80 fixes to region threading as of 26.2 including crashes, exploits, gameplay inconsistencies, and offering powerful optimizations bundled with it",
+      "Canvas is a fork of Folia introducing numerous fixes to region threading to improve stability, whilst also adding various performance enhancements to the dedicated server",
     downloadCanvas: "Download Canvas",
   },
   features: {
-    heading: "What makes Canvas special?",
+    heading: "Why Canvas?",
     subheading:
-      "Find out what makes Canvas different from other Minecraft server software.",
-    scheduler: {
+      "Learn some of the core features Canvas offers over other forks",
+    stability: {
       title: "Stability",
       description:
-        "Folia has a ton of bugs, leaving most people to need to fork Folia to resolve crashes they may encounter. Canvas bundles over 80 fixes to just region threading alone to make sure your server runs consistently and with stability.",
+        "SpottedLeaf authored Folia, and his code is downright incredible, however there are a lot of unresolved bugs still in Folia. Canvas comes packaged with over 80 fixes to region threading to try and fix these issues, and eventually upstream them to Folia.",
     },
-    chunkGeneration: {
+    team: {
       title: "Knowledgeable Team",
       description:
-        "Our development team is comprised of skilled developers, some who have specifically dedicated hours and hours of time to study Folia to learn it's internals and inner-workings and understand it on a deeper level.",
+        "Our development team is comprised of skilled developers, dedicating hundreds of hours working on Canvas and our other projects.",
     },
-    community: {
+    updates: {
       title: "Faster Updates",
       description:
-        "Canvas is a fork of Folia, but upstreams from Paper, meaning we can update Minecraft before Folia even starts updating.",
+        "While Canvas is a fork of Folia, Canvas upstreams from Paper, meaning we can update the region threading patch ourselves to get builds out before Folia updates.",
     },
     configuration: {
       title: "Extensive Configuration",
       description:
-        "Canvas has large configurations that are documented in the config files to help fine-tune all of Canvas' features and performance options to your liking.",
+        "Canvas has a wide array of customization and performance options that you can tweak to fit your server perfectly. The default configurations provided by Canvas are aimed for upstream Vanilla compatibility first, performance second.",
     },
     profiling: {
-      title: "Proper Region Profiling",
+      title: "Spark Region Profiling",
       description:
-        "Canvas introduces a modified Spark profiler that allows profiling specific regions via Spark, replacing the Folia region profiler.",
+        "Canvas includes a modified version of the Spark profiler allowing you to profile specific regions rather than the whole server with Spark, replacing the Folia profiler.",
     },
-    powerful: {
-      title: "Powerful and Optimized",
+    optimizations: {
+      title: "Numerous Optimizations",
       description:
-        "Canvas not only fixes Folia bugs. We also introduce numerous performance optimizations to the server, ensuring the server runs smoothly in high player counts.",
+        "Canvas is not only focused on trying to stabilize and complete region threading. Canvas also comes with numerous performance enhancements to help ensure your sever not only is stable, but also smooth and fast at high player counts.",
     },
   },
   downloads: {

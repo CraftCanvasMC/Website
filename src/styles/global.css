@@ -266,9 +266,9 @@ html {
   border-radius: 1.5rem;
 
   background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.04)
+          135deg,
+          rgba(255, 255, 255, 0.1),
+          rgba(255, 255, 255, 0.04)
   );
 
   backdrop-filter: blur(18px) saturate(150%);
@@ -277,6 +277,22 @@ html {
   border: 1px solid rgba(255, 255, 255, 0.14);
 
   box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          0 10px 40px rgba(0, 0, 0, 0.25),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-card-dark {
+  position: relative;
+  border-radius: 1.5rem;
+  background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.45),
+          rgba(0, 0, 0, 0.25)
+  );
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+          0 10px 40px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }

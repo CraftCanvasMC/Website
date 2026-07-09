@@ -3,7 +3,6 @@ import Layout from "@/layouts/Layout.astro";
 import Navbar from "@/components/Navbar.svelte";
 import Footer from "@/components/Footer.svelte";
 import GradientBackground from "@/components/ui/GradientBackground.svelte";
-import DownloadsHeading from "@/components/DownloadsHeading.svelte";
 import DownloadsPageHeader from "@/components/DownloadsPageHeader.svelte";
 import DownloadsSelection from "@/components/DownloadsSelection.svelte";
 ---
@@ -13,35 +12,14 @@ import DownloadsSelection from "@/components/DownloadsSelection.svelte";
   <GradientBackground client:load />
 
   <main class="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
-    <DownloadsPageHeader client:load />
-
-    <DownloadsHeading client:load />
-
+    <div
+      class="glass-card max-w-2xl mx-auto py-8 px-2.5 mb-12"
+      data-focus-target="header"
+    >
+      <DownloadsPageHeader client:load />
+    </div>
     <DownloadsSelection client:load />
   </main>
 
   <Footer slot="footer" client:load />
 </Layout>
-
-<script>
-  import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  const header = document.querySelector(".scroll-animate-header");
-  if (header) {
-    gsap.set(header, { opacity: 0, y: 20 });
-    gsap.to(header, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: header,
-        start: "top 90%",
-        once: true,
-      },
-    });
-  }
-</script>

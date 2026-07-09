@@ -2,13 +2,12 @@
   import { t } from "@/lib/i18n";
   import { hoverScale } from "@/lib/animations";
 </script>
-
 <section class="max-w-5xl mx-auto">
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
     <a
       href="/downloads/canvas"
       use:hoverScale={"small"}
-      class="group border border-neutral-800 rounded-lg p-6 transition-all duration-300 bg-neutral-900/30 hover:shadow-lg hover:border-neutral-700"
+      class="glass-card group border border-neutral-800 rounded-lg p-6 transition-all duration-300 bg-neutral-900/30 hover:shadow-lg hover:border-neutral-700"
     >
       <div class="flex items-start gap-4">
         <div
@@ -38,7 +37,7 @@
     <a
       href="/downloads/horizon"
       use:hoverScale={"small"}
-      class="group border border-neutral-800 rounded-lg p-6 transition-all duration-300 bg-neutral-900/30 hover:shadow-lg hover:border-neutral-700"
+      class="glass-card group border border-neutral-800 rounded-lg p-6 transition-all duration-300 bg-neutral-900/30 hover:shadow-lg hover:border-neutral-700"
     >
       <div class="flex items-start gap-4">
         <div
@@ -66,6 +65,3 @@
     </a>
   </div>
 </section>
-
-<style>
-</style>
