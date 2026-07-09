@@ -3,7 +3,7 @@
   import { hoverScale } from "../../lib/animations";
 
   interface Props {
-    variant?: "default" | "secondary" | "ghost";
+    variant?: "primary" | "secondary" | "ghost";
     size?: "default" | "sm" | "lg" | "icon";
     href?: string;
     type?: "button" | "submit" | "reset";
@@ -16,7 +16,7 @@
   }
 
   let {
-    variant = "default",
+    variant = "primary",
     size = "default",
     href,
     type = "button",
@@ -32,8 +32,10 @@
     "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 will-change-transform";
 
   const variantClasses = {
-    default: "bg-white text-neutral-900 hover:bg-neutral-100/90",
-    secondary: "bg-neutral-800 text-neutral-50 hover:bg-neutral-800/80",
+    primary: "bg-white text-neutral-900 hover:bg-neutral-100/90",
+    secondary:
+      "bg-neutral-800 text-neutral-50 hover:bg-neutral-800/80 " +
+      "group-hover:bg-white group-hover:text-neutral-900 group-hover:hover:bg-neutral-100/90",
     ghost: "text-neutral-100 hover:bg-neutral-800/80",
   };
 

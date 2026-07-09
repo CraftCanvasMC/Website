@@ -6,6 +6,7 @@
   import type { Build } from "../lib/schemas/jenkins";
   import gsap from "gsap";
   import { t } from "../lib/i18n";
+  import { getStatusColor } from "@/lib/statusColor";
 
   interface Props {
     build: Build;
@@ -51,6 +52,27 @@
   });
 
   const displayCommits = $derived(build.commits.slice(0, 100));
+  const glassGlow = $derived.by(() => {
+    const color = getStatusColor(build.result, build.channelName);
+    if (color === "red") {
+      return "group-hover:bg-red-500/10 group-hover:border-red-400/30 " +
+        "group-hover:shadow-[inset_0_0_16px_rgba(248,113,113,0.1)]";
+    }
+    if (color === "gray") {
+      return "group-hover:bg-gray-500/10 group-hover:border-gray-400/30 " +
+        "group-hover:shadow-[inset_0_0_16px_rgba(156,163,175,0.1)]";
+    }
+    if (color === "yellow") {
+      return "group-hover:bg-yellow-500/10 group-hover:border-yellow-400/30 " +
+        "group-hover:shadow-[inset_0_0_16px_rgba(250,204,21,0.1)]";
+    }
+    if (color === "blue") {
+      return "group-hover:bg-blue-500/10 group-hover:border-blue-400/30 " +
+        "group-hover:shadow-[inset_0_0_16px_rgba(50,204,21,0.1)]";
+    }
+    return "group-hover:bg-white/5 group-hover:border-white/15 " +
+      "group-hover:shadow-[inset_0_0_16px_rgba(255,255,255,0.08)]";
+  });
 
   function handleMouseEnter() {
     if (rowElement) {
@@ -111,20 +133,24 @@
   </div>
   <div class="hidden sm:flex min-w-0 flex-1 sm:flex-row sm:items-stretch">
     <div
-      class="flex w-[168px] shrink-0 flex-col justify-center border-r border-white/10 pr-4 sm:pr-4"
+      class="flex w-42 shrink-0 flex-col justify-center border-r border-white/10 pr-4 sm:pr-4"
     >
-      <div class="flex items-center gap-2">
-        <span class="text-lg font-semibold text-neutral-100"
+      <div
+        class="rounded-lg border-2 border-transparent -ml-3 -mr-2 -my-1 pl-3 pr-2 py-1.5 transition-all duration-300 {glassGlow}"
+      >
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-semibold text-neutral-100"
           >#{build.buildNumber}</span
-        >
-        <StatusBadge
-          result={build.result}
-          channel={build.channelName}
-        />
+          >
+          <StatusBadge
+            result={build.result}
+            channel={build.channelName}
+          />
+        </div>
+        <span class="text-[11px] text-neutral-500 mt-1">
+          {formattedDate} <span class="text-neutral-600">({relativeTime})</span>
+        </span>
       </div>
-      <span class="text-[11px] text-neutral-500 mt-1">
-        {formattedDate} <span class="text-neutral-600">({relativeTime})</span>
-      </span>
     </div>
 
     <div
@@ -141,24 +167,28 @@
     </div>
   </div>
 
-  <Button
-    variant={isLatest ? "default" : "secondary"}
-    disabled={!build.downloadUrl}
-    class="w-full shrink-0 sm:w-auto"
+  <div
+    class="rounded-lg border-2 border-transparent -mx-2 -my-1 px-2 py-1.5 transition-all duration-300 {glassGlow}"
   >
-    {#if build.downloadUrl}
-      <a
-        href={trackedDownloadUrl || "#"}
-        class="inline-flex items-center gap-2"
-      >
-        <Download class="size-4" />
-        {$t("downloads.download")}
-      </a>
-    {:else}
-      <span class="inline-flex items-center gap-2">
-        <Download class="size-4" />
-        {$t("downloads.unavailable")}
-      </span>
-    {/if}
-  </Button>
+    <Button
+      variant="secondary"
+      disabled={!build.downloadUrl}
+      class="w-full shrink-0 sm:w-auto"
+    >
+      {#if build.downloadUrl}
+        <a
+          href={trackedDownloadUrl || "#"}
+          class="inline-flex items-center gap-2"
+        >
+          <Download class="size-4" />
+          {$t("downloads.download")}
+        </a>
+      {:else}
+        <span class="inline-flex items-center gap-2">
+          <Download class="size-4" />
+          {$t("downloads.unavailable")}
+        </span>
+      {/if}
+    </Button>
+  </div>
 </div>

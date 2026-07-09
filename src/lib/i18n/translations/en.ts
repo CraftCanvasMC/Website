@@ -65,6 +65,7 @@ export default {
     experimental: "Experimental",
     beta: "Beta",
     alpha: "Alpha",
+    stable: "Stable",
     download: "Download",
     unavailable: "Unavailable",
     noChanges: "No changes",

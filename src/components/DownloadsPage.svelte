@@ -44,7 +44,7 @@
 
   let builds = $derived.by(() => {
     const versionBuilds = buildsByVersion[selectedVersion];
-    return versionBuilds?.slice(0, 12) ?? [];
+    return versionBuilds?.slice(0, 11) ?? [];
   });
 
   const showConfigMigrationWarning = $derived(
