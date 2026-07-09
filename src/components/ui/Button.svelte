@@ -1,6 +1,6 @@
 <script lang="ts">
   import { type Snippet } from "svelte";
-  import { hoverScale } from "../../lib/animations";
+  import { hoverScale } from "@/lib/animations.ts";
 
   interface Props {
     variant?: "primary" | "secondary" | "ghost";

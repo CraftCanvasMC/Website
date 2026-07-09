@@ -25,7 +25,7 @@
 
     <div class="mt-6 flex flex-col gap-3 sm:flex-row justify-center">
       {#if downloadHref && downloadHref !== "#"}
-        <Button variant="default" size="lg" href={downloadHref}>
+        <Button variant="primary" size="lg" href={downloadHref}>
           <Download class="size-4" />
           {$t("downloads.downloadLatest")}
         </Button>
