@@ -1,4 +1,4 @@
-export { default as AlertCircle } from "lucide-svelte/icons/alert-circle";
+export { CircleAlert as AlertCircle } from "@lucide/svelte";
 export { default as ArrowRight } from "lucide-svelte/icons/arrow-right";
 export { default as BookOpen } from "lucide-svelte/icons/book-open";
 export { default as BookOpenText } from "lucide-svelte/icons/book-open-text";

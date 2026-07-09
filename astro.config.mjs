@@ -19,7 +19,7 @@ export default defineConfig({
       alias: [
         { find: /^lucide-svelte$/, replacement: "/src/lib/lucide-compat.ts" },
       ],
-      noExternal: ["lucide-svelte"],
+      noExternal: ["@lucide/svelte", "lucide-svelte"],
     },
     css: {
       transformer: "postcss",
