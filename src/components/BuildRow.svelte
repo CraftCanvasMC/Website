@@ -55,23 +55,33 @@
   const glassGlow = $derived.by(() => {
     const color = getStatusColor(build.result, build.channelName);
     if (color === "red") {
-      return "group-hover:bg-red-500/10 group-hover:border-red-400/30 " +
-        "group-hover:shadow-[inset_0_0_16px_rgba(248,113,113,0.1)]";
+      return (
+        "group-hover:bg-red-500/10 group-hover:border-red-400/30 " +
+        "group-hover:shadow-[inset_0_0_16px_rgba(248,113,113,0.1)]"
+      );
     }
     if (color === "gray") {
-      return "group-hover:bg-gray-500/10 group-hover:border-gray-400/30 " +
-        "group-hover:shadow-[inset_0_0_16px_rgba(156,163,175,0.1)]";
+      return (
+        "group-hover:bg-gray-500/10 group-hover:border-gray-400/30 " +
+        "group-hover:shadow-[inset_0_0_16px_rgba(156,163,175,0.1)]"
+      );
     }
     if (color === "yellow") {
-      return "group-hover:bg-yellow-500/10 group-hover:border-yellow-400/30 " +
-        "group-hover:shadow-[inset_0_0_16px_rgba(250,204,21,0.1)]";
+      return (
+        "group-hover:bg-yellow-500/10 group-hover:border-yellow-400/30 " +
+        "group-hover:shadow-[inset_0_0_16px_rgba(250,204,21,0.1)]"
+      );
     }
     if (color === "blue") {
-      return "group-hover:bg-blue-500/10 group-hover:border-blue-400/30 " +
-        "group-hover:shadow-[inset_0_0_16px_rgba(50,204,21,0.1)]";
+      return (
+        "group-hover:bg-blue-500/10 group-hover:border-blue-400/30 " +
+        "group-hover:shadow-[inset_0_0_16px_rgba(50,204,21,0.1)]"
+      );
     }
-    return "group-hover:bg-white/5 group-hover:border-white/15 " +
-      "group-hover:shadow-[inset_0_0_16px_rgba(255,255,255,0.08)]";
+    return (
+      "group-hover:bg-white/5 group-hover:border-white/15 " +
+      "group-hover:shadow-[inset_0_0_16px_rgba(255,255,255,0.08)]"
+    );
   });
 
   function handleMouseEnter() {
@@ -110,10 +120,7 @@
         <span class="text-lg font-semibold text-neutral-100"
           >#{build.buildNumber}</span
         >
-        <StatusBadge
-          result={build.result}
-          channel={build.channelName}
-        />
+        <StatusBadge result={build.result} channel={build.channelName} />
       </div>
       <span class="text-[11px] text-neutral-500 mt-1">
         {formattedDate} <span class="text-neutral-600">({relativeTime})</span>
@@ -140,12 +147,9 @@
       >
         <div class="flex items-center gap-2">
           <span class="text-lg font-semibold text-neutral-100"
-          >#{build.buildNumber}</span
+            >#{build.buildNumber}</span
           >
-          <StatusBadge
-            result={build.result}
-            channel={build.channelName}
-          />
+          <StatusBadge result={build.result} channel={build.channelName} />
         </div>
         <span class="text-[11px] text-neutral-500 mt-1">
           {formattedDate} <span class="text-neutral-600">({relativeTime})</span>

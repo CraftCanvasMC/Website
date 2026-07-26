@@ -17,7 +17,7 @@
     if (channel === "alpha") return $t("downloads.alpha");
     if (channel === "beta") return $t("downloads.beta");
     if (channel === "experimental") return $t("downloads.experimental");
-    return $t("downloads.stable")
+    return $t("downloads.stable");
   });
 
   const badgeClass = $derived.by(() => {
@@ -30,6 +30,6 @@
 
 {#if label}
   <span class="rounded-full px-2 py-0.5 text-xs font-semibold {badgeClass}"
-  >{label}</span
+    >{label}</span
   >
 {/if}

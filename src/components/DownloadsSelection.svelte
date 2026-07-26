@@ -2,6 +2,7 @@
   import { t } from "@/lib/i18n";
   import { hoverScale } from "@/lib/animations";
 </script>
+
 <section class="max-w-5xl mx-auto">
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
     <a

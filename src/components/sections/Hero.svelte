@@ -50,9 +50,7 @@
         </Card>
       </div>
 
-      <div
-        class="hidden xl:flex justify-center relative shrink-0"
-      >
+      <div class="hidden xl:flex justify-center relative shrink-0">
         <div class="absolute inset-0 flex justify-center items-center">
           <img
             src="/logo_big.webp"

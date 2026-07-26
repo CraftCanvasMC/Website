@@ -1,7 +1,7 @@
 import { extractChannelFromUrl, extractProjectFromUrl } from "@/config/jenkins";
+import { getCachedBuilds } from "@/lib/cache.ts";
 import { JenkinsError, getLatestBuild } from "@/lib/jenkins";
 import type { APIRoute } from "astro";
-import {getCachedBuilds} from "@/lib/cache.ts";
 
 export const prerender = false;
 
@@ -38,57 +38,57 @@ export const GET: APIRoute = async ({ url }) => {
 
     if (cachedBuilds && cachedBuilds.length > 0) {
       const isBuilding =
-          error instanceof JenkinsError &&
-          error.message.toLowerCase().includes("building");
+        error instanceof JenkinsError &&
+        error.message.toLowerCase().includes("building");
 
       const isUnreachable =
-          error instanceof JenkinsError &&
-          (error.message.toLowerCase().includes("failed to connect") ||
-              error.message.toLowerCase().includes("unreachable"));
+        error instanceof JenkinsError &&
+        (error.message.toLowerCase().includes("failed to connect") ||
+          error.message.toLowerCase().includes("unreachable"));
 
       return new Response(
-          JSON.stringify({
-            builds: cachedBuilds,
-            cached: true,
-            jenkinsDown: isUnreachable,
-            jenkinsBuilding: isBuilding,
-          }),
-          {
-            status: 200,
-            headers: {
-              ...headers,
-              "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30",
-              "X-Cache-Status": "HIT",
-            },
-          }
+        JSON.stringify({
+          builds: cachedBuilds,
+          cached: true,
+          jenkinsDown: isUnreachable,
+          jenkinsBuilding: isBuilding,
+        }),
+        {
+          status: 200,
+          headers: {
+            ...headers,
+            "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30",
+            "X-Cache-Status": "HIT",
+          },
+        }
       );
     }
 
     if (error instanceof JenkinsError) {
       return new Response(
-          JSON.stringify({
-            error: error.message,
-            cached: false,
-            jenkinsDown: true,
-          }),
-          {
-            status: 503,
-            headers: { ...headers },
-          }
+        JSON.stringify({
+          error: error.message,
+          cached: false,
+          jenkinsDown: true,
+        }),
+        {
+          status: 503,
+          headers: { ...headers },
+        }
       );
     }
 
     console.error(error);
     return new Response(
-        JSON.stringify({
-          error: "Internal server error",
-          cached: false,
-          jenkinsDown: false,
-        }),
-        {
-          status: 500,
-          headers: { ...headers },
-        }
+      JSON.stringify({
+        error: "Internal server error",
+        cached: false,
+        jenkinsDown: false,
+      }),
+      {
+        status: 500,
+        headers: { ...headers },
+      }
     );
   }
 };
