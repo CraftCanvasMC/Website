@@ -6,7 +6,7 @@ import {
 } from "@/config/jenkins";
 import { getCachedBuilds } from "@/lib/cache";
 import { getDownloadCounts } from "@/lib/download-counts";
-import { getAllBuilds, JenkinsError } from "@/lib/jenkins";
+import {getAllBuilds, JenkinsError, normalizeChannelVersion} from "@/lib/jenkins";
 import type { Build } from "@/lib/schemas/jenkins";
 import type { APIRoute } from "astro";
 
@@ -195,7 +195,7 @@ export const GET: APIRoute = async ({ url }) => {
               !channelVersion ||
               build.channelVersion === channelVersion ||
               (includeExperimental &&
-                build.channelVersion === `${channelVersion} (Experimental)`);
+                  normalizeChannelVersion(build.channelVersion) === normalizeChannelVersion(channelVersion));
 
             const matchesExperimental =
               !build.isExperimental || includeExperimental;
