@@ -464,7 +464,7 @@
 
     try {
       const downloadsResponse = await fetch(
-        "/api/v2/downloads/stats?project=canvas&days=180"
+        "/api/v2/downloads/stats?project=canvas&days=180&experimental=true"
       );
 
       if (!downloadsResponse.ok) {
