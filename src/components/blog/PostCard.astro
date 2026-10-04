@@ -1,0 +1,85 @@
+---
+import { formatDate, type BlogPost } from "@/lib/blog";
+import { Image } from "astro:assets";
+
+interface Props {
+  post: BlogPost;
+  eager?: boolean;
+  featured?: boolean;
+}
+
+const { post, eager = false, featured = false } = Astro.props;
+const { title, description, date, author, image, imageAlt, tags, draft } =
+  post.data;
+---
+
+<a
+  href={`/blog/${post.id}`}
+  class:list={["blog-card no-style", featured && "blog-card--featured"]}
+  data-spotlight
+>
+  <div class="blog-card__media">
+    {
+      image ? (
+        <Image
+          src={image}
+          inferSize={typeof image === "string"}
+          alt={imageAlt ?? ""}
+          widths={[480, 720, 960, 1280]}
+          sizes="(min-width: 1024px) 1024px, 100vw"
+          loading={eager ? "eager" : "lazy"}
+          class="blog-card__img"
+        />
+      ) : (
+        <div class="blog-card__fallback">
+          <img src="/logo.png" alt="" />
+        </div>
+      )
+    }
+  </div>
+
+  <div class="blog-card__body">
+    {
+      (tags.length > 0 || draft) && (
+        <div class="blog-card__tags">
+          {draft && <span class="blog-tag blog-tag--draft">Draft</span>}
+          {tags.map((tag) => (
+            <span class="blog-tag">{tag}</span>
+          ))}
+        </div>
+      )
+    }
+    <h2 class="blog-card__title">{title}</h2>
+    <p class="blog-card__desc">{description}</p>
+    <div class="blog-card__meta">
+      <span>
+        <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        <span aria-hidden="true"> · </span>
+        {author}
+      </span>
+      <span class="blog-card__read" aria-hidden="true">
+        Read
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          ><path
+            d="M5 12h14M13 6l6 6-6 6"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path></svg
+        >
+      </span>
+    </div>
+  </div>
+
+  <span class="blog-card__spotlight" aria-hidden="true"></span>
+</a>
+
+<script>
+  const cards = document.querySelectorAll<HTMLElement>("[data-spotlight]");
+  for (const card of cards) {
+    card.addEventListener("pointermove", (event) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${event.clientX - rect.left}px`);
+      card.style.setProperty("--my", `${event.clientY - rect.top}px`);
+    });
+  }
+</script>

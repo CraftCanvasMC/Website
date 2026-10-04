@@ -2,6 +2,7 @@ export default {
   nav: {
     home: "Ana Sayfa",
     downloads: "İndirilenler",
+    blog: "Blog",
     converter: "Dönüştürücü",
     stats: "İstatistikler",
     documentation: "Dokümantasyon",

@@ -18,7 +18,7 @@
 
   const LINKS: NavbarItem[] = [
     { href: "/downloads", translationKey: "nav.downloads" },
-    { href: "/converter", translationKey: "nav.converter" },
+    { href: "/blog", translationKey: "nav.blog" },
     { href: "/stats/canvas", translationKey: "nav.stats" },
     { href: "https://docs.canvasmc.io", translationKey: "nav.documentation" },
     { href: "https://maven.canvasmc.io", translationKey: "nav.maven" },

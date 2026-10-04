@@ -2,6 +2,7 @@ export default {
   nav: {
     home: "Home",
     downloads: "Downloads",
+    blog: "Blog",
     converter: "Converter",
     stats: "Stats",
     documentation: "Documentation",

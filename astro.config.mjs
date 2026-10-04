@@ -9,6 +9,9 @@ export default defineConfig({
     mode: "standalone",
   }),
   integrations: [svelte()],
+  image: {
+    domains: ["raw.githubusercontent.com"],
+  },
   server: {
     port: 3000,
     host: true,
