@@ -39,30 +39,30 @@
 <div class="language-selector relative {className}">
   <button
     onclick={() => (isOpen = !isOpen)}
-    class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+    class="inline-flex h-9 items-center gap-1.5 rounded-md px-2 text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-neutral-100"
     title="Change language"
     aria-label="Change language"
     aria-expanded={isOpen}
   >
     {#if mounted}
-      <span class="text-lg" aria-hidden="true">{selectedLanguage.flag}</span>
-      <Languages class="size-4 text-neutral-300" />
-    {:else}
-      <Languages class="size-4 text-neutral-300" />
+      <span class="text-base leading-none" aria-hidden="true"
+        >{selectedLanguage.flag}</span
+      >
     {/if}
+    <Languages class="size-4" />
   </button>
 
   {#if isOpen}
     <div
-      class="absolute right-0 mt-2 w-48 rounded-lg border border-neutral-800 bg-neutral-900 shadow-lg z-50 overflow-hidden"
+      class="absolute right-0 mt-2 w-48 rounded-md border border-neutral-800 bg-neutral-900 shadow-lg z-50 overflow-hidden"
     >
-      <div class="py-1">
+      <div class="p-1">
         {#each LANGUAGES as lang (lang.code)}
           <button
             onclick={() => handleLanguageChange(lang.code)}
-            class="flex items-center gap-3 w-full px-4 py-2 text-sm text-left hover:bg-white/10 transition-colors {lang.code ===
+            class="flex items-center gap-3 w-full rounded-md px-3 py-2 text-sm text-left transition-colors hover:bg-neutral-800 {lang.code ===
             $currentLanguage
-              ? 'bg-white/5 text-white'
+              ? 'text-white'
               : 'text-neutral-300'}"
           >
             <span class="text-lg" aria-hidden="true">{lang.flag}</span>

@@ -136,32 +136,11 @@
   @import "https://unpkg.com/open-props/easings.min.css";
 
   .theme-toggle {
-    background: none;
     border: none;
-    padding: 0;
     cursor: pointer;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
-    outline-offset: 5px;
-    color: rgb(212 212 212);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-  }
-
-  .theme-toggle:hover {
-    color: rgb(245 245 245);
-    transform: scale(1.1);
-  }
-
-  :global([data-theme="light"]) .theme-toggle {
-    color: #4f46e5;
-  }
-
-  :global([data-theme="light"]) .theme-toggle:hover {
-    color: #6366f1;
-    transform: scale(1.1);
+    outline-offset: 2px;
   }
 
   .sun-and-moon > :is(.moon, .sun, .sun-beams) {

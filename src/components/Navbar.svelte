@@ -7,7 +7,6 @@
   import ThemeToggle from "./ThemeToggle.svelte";
   import LanguageSelector from "./LanguageSelector.svelte";
   import gsap from "gsap";
-  import { hoverLift } from "@/lib/animations";
   import { t } from "@/lib/i18n";
 
   interface NavbarItem {
@@ -20,11 +19,7 @@
   const LINKS: NavbarItem[] = [
     { href: "/downloads", translationKey: "nav.downloads" },
     { href: "/converter", translationKey: "nav.converter" },
-    {
-      href: "/stats/canvas",
-      translationKey: "nav.stats",
-      showExternalIcon: true,
-    },
+    { href: "/stats/canvas", translationKey: "nav.stats" },
     { href: "https://docs.canvasmc.io", translationKey: "nav.documentation" },
     { href: "https://maven.canvasmc.io", translationKey: "nav.maven" },
   ];
@@ -68,6 +63,19 @@
     }
   });
 
+  function isActiveLink(href: string) {
+    if (href.startsWith("http")) return false;
+    return currentPath === href || currentPath.startsWith(`${href}/`);
+  }
+
+  const linkBase =
+    "flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors";
+  const linkIdle =
+    "text-neutral-400 hover:bg-neutral-800 hover:text-neutral-100";
+  const linkActive = "bg-neutral-800 text-white";
+  const iconButton =
+    "inline-flex size-9 items-center justify-center rounded-md text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-neutral-100";
+
   function handleExternalRedirect(url: string) {
     window.location.href = url;
   }
@@ -82,82 +90,74 @@
 </script>
 
 <nav
-  class="fixed inset-x-0 top-0 z-50 w-[calc(100%-var(--removed-body-scroll-bar-size,0px))] border-neutral-800 border-b bg-[var(--background)]/90 backdrop-blur-sm"
+  class="fixed inset-x-0 top-0 z-50 w-[calc(100%-var(--removed-body-scroll-bar-size,0px))] border-neutral-800 border-b bg-[var(--background)]/80 backdrop-blur-md"
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="flex h-16 items-center justify-between">
-      <div class="flex items-center space-x-4 sm:space-x-6">
+    <div class="flex h-16 items-center justify-between gap-4">
+      <div class="flex items-center gap-6">
         <a
           href="/"
-          class="flex items-center space-x-2"
+          class="flex shrink-0 items-center gap-2"
           aria-label={$t("nav.home")}
         >
-          <img
-            src="/logo.png"
-            alt=""
-            width="32"
-            height="32"
-            class="w-6 h-6 sm:w-8 sm:h-8"
-          />
-          <span class="font-semibold text-base sm:text-lg"
+          <img src="/logo.png" alt="" width="32" height="32" class="size-7" />
+          <span class="font-semibold text-lg tracking-tight"
             >{siteConfig.name}</span
           >
         </a>
 
-        <div class="hidden md:flex md:space-x-6">
+        <div class="hidden items-center gap-1 md:flex">
           {#each LINKS as link (link.href)}
-            {@const isActive = currentPath === link.href}
-            {@const isExternal = link.href.startsWith("http")}
+            {@const isActive = isActiveLink(link.href)}
             {@const showExternalIcon =
-              isExternal || Boolean(link.showExternalIcon)}
+              link.href.startsWith("http") || Boolean(link.showExternalIcon)}
             <a
               href={link.href}
               onclick={(e) => handleClick(e, link.href)}
-              class="flex items-center gap-1.5 text-base transition-colors {isActive
-                ? 'text-white'
-                : 'text-neutral-300 hover:text-neutral-100'}"
+              class="{linkBase} {isActive ? linkActive : linkIdle}"
               aria-current={isActive ? "page" : undefined}
             >
               {$t(link.translationKey)}
               {#if showExternalIcon}
-                <ExternalLink class="size-3.5" aria-hidden />
+                <ExternalLink class="size-3 opacity-60" aria-hidden />
               {/if}
             </a>
           {/each}
         </div>
       </div>
 
-      <div class="hidden md:flex md:items-center md:space-x-4">
-        {#each SOCIAL as link (link.icon)}
+      <div class="hidden items-center gap-1 md:flex">
+        {#each SOCIAL as link (link.href)}
           {@const IconComponent = link.icon}
           <a
-            use:hoverLift={"small"}
             href={link.href}
             onclick={(e) => handleClick(e, link.href)}
-            class="flex items-center gap-1.5 text-base transition-colors text-neutral-300 hover:text-neutral-100 will-change-transform"
+            class={iconButton}
+            aria-label={$t(link.translationKey)}
+            title={$t(link.translationKey)}
           >
-            <IconComponent class="size-6" />
+            <IconComponent class="size-5" />
           </a>
         {/each}
-        <div class="w-px h-6 bg-neutral-700"></div>
+        <div class="mx-2 h-5 w-px bg-[var(--border)]" aria-hidden="true"></div>
         <LanguageSelector />
-        <ThemeToggle size={24} />
+        <ThemeToggle class={iconButton} size={20} />
       </div>
 
-      <div class="flex items-center gap-3 md:hidden">
+      <div class="flex items-center gap-1 md:hidden">
         <LanguageSelector />
-        <ThemeToggle size={24} />
+        <ThemeToggle class={iconButton} size={20} />
         <button
           type="button"
           onclick={() => (isOpen = !isOpen)}
-          class="rounded-md p-2.5 text-neutral-300 hover:bg-neutral-800"
+          class={iconButton}
           aria-label={`${isOpen ? $t("common.close") : $t("common.open")} ${$t("nav.menu")}`}
           aria-expanded={isOpen}
         >
           {#if isOpen}
-            <X class="size-6" aria-hidden />
+            <X class="size-5" aria-hidden />
           {:else}
-            <Menu class="size-6" aria-hidden />
+            <Menu class="size-5" aria-hidden />
           {/if}
         </button>
       </div>
@@ -167,44 +167,39 @@
   {#if isOpen}
     <div
       bind:this={mobileMenuElement}
-      class="absolute top-16 right-0 left-0 border-neutral-800 border-y bg-[var(--background)] pt-5 md:hidden"
+      class="absolute top-16 right-0 left-0 border-neutral-800 border-b bg-[var(--background)] md:hidden"
     >
-      <div class="space-y-1 px-2 pb-3">
+      <div class="space-y-1 px-4 py-3">
         {#each LINKS as link (link.href)}
-          {@const isActive = currentPath === link.href}
-          {@const isExternal = link.href.startsWith("http")}
+          {@const isActive = isActiveLink(link.href)}
           {@const showExternalIcon =
-            isExternal || Boolean(link.showExternalIcon)}
+            link.href.startsWith("http") || Boolean(link.showExternalIcon)}
           <a
             href={link.href}
             onclick={(e) => handleClick(e, link.href)}
-            class="rounded-md px-3 py-2 hover:bg-neutral-800 flex items-center gap-1.5 text-base transition-colors {isActive
-              ? 'text-white'
-              : 'text-neutral-300 hover:text-neutral-100'}"
+            class="{linkBase} text-base {isActive ? linkActive : linkIdle}"
             aria-current={isActive ? "page" : undefined}
           >
             {$t(link.translationKey)}
             {#if showExternalIcon}
-              <ExternalLink class="size-3.5" aria-hidden />
+              <ExternalLink class="size-3 opacity-60" aria-hidden />
             {/if}
           </a>
         {/each}
-        <div class="-mx-4 pt-3">
-          <div class="border-neutral-800 border-t">
-            <div class="flex gap-2 px-6 pt-3">
-              {#each SOCIAL as link (link.icon)}
-                {@const IconComponent = link.icon}
-                <a
-                  href={link.href}
-                  onclick={(e) => handleClick(e, link.href)}
-                  class="rounded-md p-1.5 hover:bg-neutral-800 flex items-center gap-1.5 text-base transition-colors text-neutral-300 hover:text-neutral-100"
-                >
-                  <IconComponent class="size-6" />
-                </a>
-              {/each}
-            </div>
-          </div>
-        </div>
+      </div>
+      <div class="flex gap-1 border-neutral-800 border-t px-4 py-3">
+        {#each SOCIAL as link (link.href)}
+          {@const IconComponent = link.icon}
+          <a
+            href={link.href}
+            onclick={(e) => handleClick(e, link.href)}
+            class={iconButton}
+            aria-label={$t(link.translationKey)}
+            title={$t(link.translationKey)}
+          >
+            <IconComponent class="size-5" />
+          </a>
+        {/each}
       </div>
     </div>
   {/if}
