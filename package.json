@@ -29,11 +29,13 @@
     "jszip": "^3.10.1",
     "lru-cache": "^11.3.5",
     "lucide-svelte": "^1.0.1",
+    "remark-directive": "^4.0.0",
     "sqlite3": "^6.0.1",
     "svelte": "^5.55.5",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.4",
     "typescript": "^5.9.3",
+    "unist-util-visit": "^5.1.0",
     "yaml": "^2.8.4",
     "zod": "^4.4.2"
   },

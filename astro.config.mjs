@@ -2,6 +2,8 @@ import node from "@astrojs/node";
 import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+import remarkDirective from "remark-directive";
+import remarkCallouts from "./src/lib/remark-callouts";
 
 export default defineConfig({
   output: "server",
@@ -9,6 +11,9 @@ export default defineConfig({
     mode: "standalone",
   }),
   integrations: [svelte()],
+  markdown: {
+    remarkPlugins: [remarkDirective, remarkCallouts],
+  },
   image: {
     domains: ["raw.githubusercontent.com"],
   },

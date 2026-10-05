@@ -561,3 +561,65 @@
   color: var(--foreground);
   font-weight: 600;
 }
+
+.prose-blog .callout {
+  --callout-color: var(--blog-accent-2);
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--callout-color) 35%, var(--border));
+  background: color-mix(in srgb, var(--callout-color) 8%, transparent);
+  padding: 1rem 1.25rem 1rem 1.5rem;
+  color: var(--foreground);
+}
+
+.prose-blog .callout::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--callout-color);
+}
+
+.prose-blog .callout > * + * {
+  margin-top: 0.75em;
+}
+
+.prose-blog .callout .callout__title {
+  color: var(--callout-color);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.prose-blog .callout--info,
+.prose-blog .callout--tip {
+  --callout-color: var(--blog-accent-1);
+}
+
+.prose-blog .callout--tip {
+  --callout-color: #22c55e;
+}
+
+.prose-blog .callout--warning {
+  --callout-color: #f59e0b;
+}
+
+.prose-blog .callout--danger,
+.prose-blog .callout--severe {
+  --callout-color: #ef4444;
+}
+
+[data-theme="light"] .prose-blog .callout--tip {
+  --callout-color: #15803d;
+}
+
+[data-theme="light"] .prose-blog .callout--warning {
+  --callout-color: #b45309;
+}
+
+[data-theme="light"] .prose-blog .callout--danger,
+[data-theme="light"] .prose-blog .callout--severe {
+  --callout-color: #dc2626;
+}
