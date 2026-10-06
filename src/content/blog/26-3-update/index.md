@@ -58,7 +58,7 @@ abstract.
 Canvas 26.3 introduces a **ton** of bug fixes for *both* Folia and Canvas:
 - General 26.3 update fixes. Dueris did research prior to the update to discern what
   needed changing. This helped reduce the number of bugs found by a *TON*. Includes:
-  - Thread check post effects implementation
+  - Thread check post effects implementation & new API
   - Move the randomstate garbage collection to the global tick
   - Add `CommandResponseTracker` types to the `ACE` command framework we built
     - We also modified the `CommandResponseTracker` class to be thread-safe for
@@ -71,6 +71,8 @@ Canvas 26.3 introduces a **ton** of bug fixes for *both* Folia and Canvas:
   - Properly handle `canRandomlyTeleportTo` to prevent ever randomly teleporting out
     of region
   - Regionize the `posteffects` command
+  - Update the player placement logic for placing in a new region to include resending
+    post effects, matching Vanilla
   - Replace the `Entity#teleportToPortalDestination` body with a `USO` throw
     - This is a newly added method that extracts some code already replaced in Folia,
       letting spectators click portals to go through them. The caller that handles
